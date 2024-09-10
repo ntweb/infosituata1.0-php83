@@ -1,0 +1,40 @@
+version: "3.2"
+services:
+  php:
+    container_name: 'php-laravel'
+    build: './php'
+    volumes:
+      - ./html:/var/www/html
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  apache:
+    container_name: 'apache-laravel'
+    build: './apache'
+    depends_on:
+      - php
+    networks:
+      - app-network
+    ports:
+      - "8080:80"
+    volumes:
+      - ./html:/var/www/html
+
+  db:
+    container_name: 'db-laravel'
+    build: './mysql'
+    restart: always
+    environment:
+        MYSQL_ROOT_PASSWORD: 'root'
+    ports:
+      - '3306:3306'
+    volumes:
+     - ./mysql/database:/var/lib/mysql
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
