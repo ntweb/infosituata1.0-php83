@@ -1,0 +1,3 @@
+Estintori a Polvere:Collaudo;72;D.P.R. 547 del 27.04.1955 art.34 punto c;
+Estintori a CO2:Collaudo;120; D.M. n°64 del 10.03.1998;
+Estintori a Schiuma-Acqua:Collaudo;72;Norma UNI 9994:2003;
