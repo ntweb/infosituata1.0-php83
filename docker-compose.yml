@@ -1,7 +1,7 @@
 version: "3.2"
 services:
   php:
-    container_name: 'php-laravel'
+    container_name: 'php-is-83'
     build: './php'
     volumes:
       - ./html:/var/www/html
@@ -11,7 +11,7 @@ services:
       - app-network
 
   apache:
-    container_name: 'apache-laravel'
+    container_name: 'apache-is-83'
     build: './apache'
     depends_on:
       - php
@@ -23,7 +23,7 @@ services:
       - ./html:/var/www/html
 
   db:
-    container_name: 'db-laravel'
+    container_name: 'db-is-83'
     build: './mysql'
     restart: always
     environment:
