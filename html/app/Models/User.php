@@ -44,4 +44,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function utente() {
+        return $this->belongsTo('App\Models\Utente', 'utente_id')->withTrashed();
+    }
+
+    public function azienda() {
+        return $this->belongsTo('App\Models\Azienda', 'azienda_id');
+    }
 }
