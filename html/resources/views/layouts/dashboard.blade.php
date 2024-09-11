@@ -1116,42 +1116,42 @@
                                 <li class="">
                                     <a href="javascript:void(0);" tabindex="1"
                                        class="rapportini-autorizzazioni"
-                                       data-route="{{ route('modulo-azienda-autorizzazioni.index') }}">
+                                       data-route="{{ route('mod-azi-aut.index') }}">
                                         Azienda
                                     </a>
                                 </li>
                                 <li class="">
                                     <a href="javascript:void(0);" tabindex="1"
                                        class="rapportini-autorizzazioni"
-                                       data-route="{{ route('modulo-infosituata-autorizzazioni.index') }}">
+                                       data-route="{{ route('mod-inf-aut.index') }}">
                                         Infosituata
                                     </a>
                                 </li>
                                 <li class="">
                                     <a href="javascript:void(0);" tabindex="1"
                                        class="rapportini-autorizzazioni"
-                                       data-route="{{ route('modulo-timbrature-autorizzazioni.index') }}">
+                                       data-route="{{ route('mod-tim-aut.index') }}">
                                         Rilevazione presenze
                                     </a>
                                 </li>
                                 <li class="">
                                     <a href="javascript:void(0);" tabindex="1"
                                        class="rapportini-autorizzazioni"
-                                       data-route="{{ route('modulo-comunicazioni-autorizzazioni.index') }}">
+                                       data-route="{{ route('mod-com-aut.index') }}">
                                         Comunicazioni
                                     </a>
                                 </li>
                                 <li class="">
                                     <a href="javascript:void(0);" tabindex="1"
                                        class="rapportini-autorizzazioni"
-                                       data-route="{{ route('modulo-rapportini-autorizzazioni.index') }}">
+                                       data-route="{{ route('mod-rap-aut.index') }}">
                                         Rapportini
                                     </a>
                                 </li>
                                 <li class="">
                                     <a href="javascript:void(0);" tabindex="1"
                                        class="rapportini-autorizzazioni"
-                                       data-route="{{ route('modulo-checklist-autorizzazioni.index') }}">
+                                       data-route="{{ route('mod-che-aut.index') }}">
                                         Checklist
                                     </a>
                                 </li>
@@ -1159,7 +1159,7 @@
                                 <li class="">
                                     <a href="javascript:void(0);" tabindex="1"
                                        class="rapportini-autorizzazioni"
-                                       data-route="{{ route('modulo-tasks-autorizzazioni.index') }}">
+                                       data-route="{{ route('mod-tas-aut.index') }}">
                                         Task manager
                                     </a>
                                 </li>
@@ -1167,28 +1167,28 @@
                                 <li class="">
                                     <a href="javascript:void(0);" tabindex="1"
                                        class="rapportini-autorizzazioni"
-                                       data-route="{{ route('modulo-commesse-autorizzazioni.index') }}">
+                                       data-route="{{ route('mod-com-aut.index') }}">
                                         Commesse
                                     </a>
                                 </li>
                                 <li class="">
                                     <a href="javascript:void(0);" tabindex="1"
                                        class="rapportini-autorizzazioni"
-                                       data-route="{{ route('modulo-ham-autorizzazioni.index') }}">
+                                       data-route="{{ route('mod-ham-aut.index') }}">
                                         Human activity
                                     </a>
                                 </li>
                                 <li class="">
                                     <a href="javascript:void(0);" tabindex="1"
                                        class="rapportini-autorizzazioni"
-                                       data-route="{{ route('modulo-prevenzione-autorizzazioni.index') }}">
+                                       data-route="{{ route('mod-pre-aut.index') }}">
                                         Prevenzione
                                     </a>
                                 </li>
                                 <li class="">
                                     <a href="javascript:void(0);" tabindex="1"
                                        class="rapportini-autorizzazioni"
-                                       data-route="{{ route('modulo-cliente-autorizzazioni.index') }}">
+                                       data-route="{{ route('mod-cli-aut.index') }}">
                                         Clienti e fornitori
                                     </a>
                                 </li>
@@ -1196,7 +1196,7 @@
                                 <li class="">
                                     <a href="javascript:void(0);" tabindex="1"
                                        class="rapportini-autorizzazioni"
-                                       data-route="{{ route('modulo-fattura-autorizzazioni.index') }}">
+                                       data-route="{{ route('mod-fat-aut.index') }}">
                                         Fatture
                                     </a>
                                 </li>

@@ -398,18 +398,18 @@ Route::resource('timbrature-permessi', TimbraturePermessiController::class)->mid
 Route::resource('privacy', PrivacyController::class)->middleware(['auth']);
 
 // Autorizzazioni
-Route::resource('modulo-azienda-autorizzazioni', ModuloAziendaAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
-Route::resource('modulo-infosituata-autorizzazioni', ModuloInfosituataAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
-Route::resource('modulo-timbrature-autorizzazioni', ModuloTimbratureAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
-Route::resource('modulo-comunicazioni-autorizzazioni', ModuloComunicazioniAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
-Route::resource('modulo-rapportini-autorizzazioni', ModuloRapportiniAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
-Route::resource('modulo-checklist-autorizzazioni', ModuloChecklistAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
-Route::resource('modulo-tasks-autorizzazioni', ModuloTasksAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
-Route::resource('modulo-commesse-autorizzazioni', ModuloCommesseAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
-Route::resource('modulo-ham-autorizzazioni', ModuloHAMAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
-Route::resource('modulo-prevenzione-autorizzazioni', ModuloPrevenzioneAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
-Route::resource('modulo-clienti-autorizzazioni', ModuloClienteAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
-Route::resource('modulo-fatture-autorizzazioni', ModuloFatturaAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
+Route::resource('mod-azi-aut', ModuloAziendaAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
+Route::resource('mod-inf-aut', ModuloInfosituataAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
+Route::resource('mod-tim-aut', ModuloTimbratureAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
+Route::resource('mod-com-aut', ModuloComunicazioniAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
+Route::resource('mod-rap-aut', ModuloRapportiniAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
+Route::resource('mod-che-aut', ModuloChecklistAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
+Route::resource('mod-tas-aut', ModuloTasksAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
+Route::resource('mod-com-aut', ModuloCommesseAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
+Route::resource('mod-ham-aut', ModuloHAMAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
+Route::resource('mod-pre-aut', ModuloPrevenzioneAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
+Route::resource('mod-cli-aut', ModuloClienteAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
+Route::resource('mod-fat-aut', ModuloFatturaAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
 
 // Microformazione
 Route::get('/microformazione', [MicroformazioneController::class, 'index'])->name('microformazione.index');
