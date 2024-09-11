@@ -1,0 +1,177 @@
+table.scheduler {
+    white-space: nowrap;
+    margin: 0;
+    border: none;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+
+table.scheduler th, table.scheduler td {
+    font-weight: normal;
+}
+
+table.scheduler tr {
+    height: 50px;
+    min-height: 50px;
+}
+
+table.scheduler thead th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    width: 25vw;
+}
+
+table.scheduler td {
+}
+
+table.scheduler tbody th {
+    position: relative;
+}
+table.scheduler thead th:first-child {
+    position: sticky;
+    left: 0;
+    z-index: 2;
+}
+table.scheduler tbody th {
+    position: sticky;
+    left: 0;
+    z-index: 1;
+}
+caption {
+    text-align: left;
+    position: sticky;
+    left: 0;
+}
+
+table.scheduler th.day, table.scheduler td.day {
+    font-size: 12px;
+    width: 80px !important;
+    min-width: 80px !important;
+    max-width: 80px !important;
+    text-align: center;
+    border-right: solid 1px #bababa;
+    border-bottom: solid 1px #bababa;
+}
+
+th.day {
+    background: white;
+}
+
+table.scheduler tbody td.day {
+    text-align: left;
+    vertical-align: top;
+}
+
+table.scheduler th.label, table.scheduler td.label {
+    font-size: 13px;
+    min-width: 200px;
+    max-width: 200px;
+    border-right: solid 1px #bababa;
+    border-bottom: solid 1px #bababa;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: white;
+    padding-left: 8px;
+}
+
+[role="region"][aria-labelledby][tabindex] {
+    width: 100%;
+    max-height: 98vh;
+    overflow: auto;
+}
+[role="region"][aria-labelledby][tabindex]:focus {
+    outline: 0;
+}
+
+.event-line {
+    position: relative;
+    height: 22px;
+    top: 0;
+    color: white;
+    border-radius: 100px;
+    display: flex;
+
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    margin-top: 2px;
+}
+
+.event-line div {
+    padding-left: 12px;
+    padding-right: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    position: sticky;
+    left: 190px;
+}
+
+.event-line.event {
+    background-color: orange;
+    color: black;
+    border: solid 1px black;
+}
+
+.event-line.commessa {
+    background-color: #0b5885;
+    border: solid 1px #2a6680;
+}
+
+.event-line.stripe {
+    background-image: linear-gradient(45deg, #ededed 25%, #ffffff 25%, #ffffff 50%, #ededed 50%, #ededed 75%, #ffffff 75%, #ffffff 100%);
+    background-size: 16.97px 16.97px;
+    color: black;
+}
+
+span.gantt-type {
+    text-transform: uppercase;
+    margin-right: 4px;
+    background-color: white;
+    color: black;
+    display: inline-block;
+    border-radius: 50px;
+    width: 18px;
+    height: 18px;
+    text-align: center;
+    margin-top: 2px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.event-line .gantt {
+    padding-left: 2px;
+}
+
+.event-line.stripe .gantt-type {
+    background-color: #9d9d9d;
+    color: white
+}
+
+.event-line div.gantt {
+    left: 200px;
+}
+
+
+@media (max-width: 575.98px) {
+    .event-line div.gantt {
+        left: 140px;
+    }
+}
+
+
+@media (max-width: 767.98px) {
+
+}
+
+
+@media (max-width: 991.98px) {
+
+}
+
+
+@media (max-width: 1199.98px) {
+
+}

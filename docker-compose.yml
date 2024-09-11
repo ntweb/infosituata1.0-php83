@@ -26,6 +26,7 @@ services:
     container_name: 'db-is-83'
     build: './mysql'
     restart: always
+    command: --max_allowed_packet=67108864
     environment:
         MYSQL_ROOT_PASSWORD: 'root'
     ports:
