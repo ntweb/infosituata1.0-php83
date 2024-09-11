@@ -34,6 +34,7 @@ class TimbratureController extends Controller
 
         $data['date'] = $request->input('dateTimbrature', \Carbon\Carbon::yesterday()->toDateString());
 
+
         $timbrature = Timbratura::whereDate('marked_at',  $data['date'])
             ->orderBy('users_id')
             ->orderBy('marked_at')
