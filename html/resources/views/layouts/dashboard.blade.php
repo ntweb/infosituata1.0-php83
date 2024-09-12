@@ -952,7 +952,7 @@
                             </ul>
                         </li>
 
-                        <li class="{{ isActive(['commessa.*', 'commessa-tpl.*', 'commessa-utils.*', 'squadra.*']) }}">
+                        <li class="{{ isActive(['commessa.*', 'commessa-template.*', 'commessa-utils.*', 'squadra.*']) }}">
                             <a href="#">
                                 <i class="metismenu-icon bx bx-objects-horizontal-left"></i>
                                 Commesse
@@ -967,7 +967,7 @@
                                 </li>
 
                                 @can('can_create_commesse_template')
-                                <li class="{{ isActive('commessa-tpl.index') }}">
+                                <li class="{{ isActive('commessa-template.index') }}">
                                     <a href="{{ route('commessa-template.index') }}">
                                         <i class="metismenu-icon"></i>
                                         Template
@@ -1491,7 +1491,7 @@
     <script src="{{ url('js/task-tpl.js?v=').time() }}"></script>
 @endif
 
-@if(isActive(['commessa-tpl.*', 'commessa.*']))
+@if(isActive(['commessa-template.*', 'commessa.*']))
     <script src="{{ url('js/commessa-tpl.js?v=').time() }}"></script>
 @endif
 

@@ -53,7 +53,7 @@
                 <li class="nav-item">
                     <a id="refreshAllegati"
                         data-toggle="tab" href="#tab-allegati" class="nav-link get-html d-flex align-items-center"
-                        data-route="{{ route('commessa.allegati', ['commesse_root_id' => $el->id]) }}"
+                        data-route="{{ route('commessa.allegati', ['id' => $el->id, 'commesse_root_id' => $el->id]) }}"
                         data-container="#tab-allegati" data-callback="renderDataTableAllegati()">
                         <i class="bx bx-paperclip mx-1"></i>
                         <span class="d-none d-lg-block">Allegati</span>

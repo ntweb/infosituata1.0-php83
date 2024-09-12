@@ -158,6 +158,8 @@ class ScadenzeRepo
     }
 
     private function addExtraProperties ($scadenza) {
+        if (!$scadenza) return null;
+
         $scadenza->scaduto = !$scadenza->checked_at && $scadenza->end_at < date('Y-m-d');
         $scadenza->can_save = Gate::allows('can-create');
         return $scadenza;

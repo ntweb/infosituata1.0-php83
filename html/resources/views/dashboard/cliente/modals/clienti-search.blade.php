@@ -1,5 +1,5 @@
 @php
-    $action = route('client.index');
+    $action = route('cliente.index');
 @endphp
 
 <form class="ns-html" id="frmSearch" action="{{ $action }}" autocomplete="none" method="get" data-container="#div-list-clienti" data-callback="clienteSearchCallback();">

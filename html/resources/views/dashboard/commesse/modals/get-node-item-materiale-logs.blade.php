@@ -30,6 +30,10 @@
                                     Costo aziendale
                                 @endcomponent
 
+                                @component('layouts.components.forms.date-native', ['name' => 'data_attribuzione', 'value' => null, 'class' => 'col-md-12'])
+                                    Data attribuzione carico
+                                @endcomponent
+
                                 @component('layouts.components.forms.textarea', ['name' => 'note', 'value' => null, 'class' => 'col-md-12'])
                                     Note
                                 @endcomponent

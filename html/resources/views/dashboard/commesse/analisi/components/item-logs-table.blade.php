@@ -78,6 +78,7 @@
                 <tr>
                     <th>Costi</th>
                     <th>Quantità</th>
+                    <th>Data attr. carico</th>
                     <th>Note</th>
                     <th class="text-right">Creato</th>
                 </tr>
@@ -98,6 +99,9 @@
                         </td>
                         <td>
                             <small>{{ $log->item_qty }}</small>
+                        </td>
+                        <td>
+                            <small>{{ $log->data_attribuzione ? data($log->data_attribuzione) : '-' }}</small>
                         </td>
                         <td style="font-size: 10px">{{ $log->note }}</td>
                         <td class="text-right" style="font-size: 10px">

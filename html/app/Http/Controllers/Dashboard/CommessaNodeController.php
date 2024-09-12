@@ -694,6 +694,8 @@ class CommessaNodeController extends Controller
         $log->item_costo = $request->input('item_costo', 0);
         $log->username = auth()->user()->name;
 
+        $log->data_attribuzione = $request->input('data_attribuzione', null);
+
         try {
 
             $log->save();

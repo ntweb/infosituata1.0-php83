@@ -260,16 +260,16 @@ Route::post('/dashboard/commessa-utils/scheduler', [CommessaUtilsController::cla
 Route::get('/dashboard/commessa-utils/scheduler', [CommessaUtilsController::class, 'scheduler'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa-utils.scheduler');
 Route::get('/dashboard/commessa-utils/fasi/select2', [CommessaUtilsController::class, 'fasiSelect2'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa-utils.fasi-select2');
 Route::get('/dashboard/commessa-utils/sovrapposizioni', [CommessaUtilsController::class, 'sovrapposizioni'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa-utils.sovrapposizioni');
-Route::post('/dashboard/commessa-utils/sovrapposizioni', [CommessaUtilsController::class, 'sovrapposizioniGantt'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa-utils')->name('commessa-utils.sovrapposizioni-gantt');
+Route::post('/dashboard/commessa-utils/sovrapposizioni', [CommessaUtilsController::class, 'sovrapposizioniGantt'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa-utils.sovrapposizioni-gantt');
 
 // Commessa Template
-Route::get('/dashboard/commessa-tpl/select2', [CommessaTemplateController::class, 'select2'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa-template.select2');
-Route::get('/dashboard/commessa-tpl/{id}/duplicate', [CommessaTemplateController::class, 'duplicate'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa-template.duplicate');
-Route::get('/dashboard/commessa-tpl/{id}/tree/refresh', [CommessaTemplateController::class, 'refreshTree'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa-template.refresh-tree');
+Route::get('/dashboard/commessa-template/select2', [CommessaTemplateController::class, 'select2'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa-template.select2');
+Route::get('/dashboard/commessa-template/{id}/duplicate', [CommessaTemplateController::class, 'duplicate'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa-template.duplicate');
+Route::get('/dashboard/commessa-template/{id}/tree/refresh', [CommessaTemplateController::class, 'refreshTree'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa-template.refresh-tree');
 Route::resource('commessa-template', CommessaTemplateController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
 
 // Commessa Template Fase
-Route::get('/dashboard/commessa-tpl-node/{id}/move/{versus}', [CommessaTemplateNodeController::class, 'move'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa-template-node.move');
+Route::get('/dashboard/commessa-template-node/{id}/move/{versus}', [CommessaTemplateNodeController::class, 'move'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa-template-node.move');
 Route::resource('commessa-template-node', CommessaTemplateNodeController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
 
 // Squadre
@@ -495,6 +495,10 @@ Route::get('/test', function(){
 
 Route::get('/ssh', function(){
     \Illuminate\Support\Facades\Artisan::call('migrate');
+})->middleware(['auth']);
+
+Route::get('/ssh/test', function(){
+    \Illuminate\Support\Facades\Artisan::call('test:run');
 })->middleware(['auth']);
 
 Route::get('/whoiam', function(){

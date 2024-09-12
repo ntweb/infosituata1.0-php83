@@ -156,7 +156,7 @@ function initUI() {
         finally {
             $(el).select2({
                 ajax: {
-                    url: url+'/dashboard/commessa-tpl/select2',
+                    url: url+'/dashboard/commessa-template/select2',
                     dataType: 'json'
                 }
             });
