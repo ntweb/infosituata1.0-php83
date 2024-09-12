@@ -4,6 +4,9 @@ namespace App\Listeners;
 
 use App\Events\Illuminate\Events\TimbraturaModified;
 use App\Exceptions\TimbraturaException;
+use App\Models\CommessaLog;
+use App\Models\Timbratura;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -35,7 +38,7 @@ class InsertTimbraturaCommessa
         $utente = null;
         if ($t->commesse_id) {
 
-            $user = App\Models\User::with('utente')->find($t->users_id);
+            $user = User::with('utente')->find($t->users_id);
             if (!$user->utente) {
                 // squadrato
                 // Log::info('Utente non trovato');
@@ -46,7 +49,7 @@ class InsertTimbraturaCommessa
 
             /** controllo che le timbrature quadrino **/
             $day = new \Carbon\Carbon($t->marked_at);
-            $timbrature = \App\Models\Timbratura::where('users_id', $t->users_id)
+            $timbrature = Timbratura::where('users_id', $t->users_id)
                                                     ->whereDate('marked_at', $day->toDateString())
                                                     ->orderBy('marked_at')
                                                     ->get();
@@ -118,13 +121,13 @@ class InsertTimbraturaCommessa
 
                             // Log::info($data);
 
-                            $c = \App\Models\CommessaLog::where('in_timbrature_id', $data['in_timbrature_id'])
+                            $c = CommessaLog::where('in_timbrature_id', $data['in_timbrature_id'])
                                 ->where('out_timbrature_id', $data['out_timbrature_id'])
                                 ->first();
 
                             if (!$c) {
                                 // Log::info('CommessaLog creating');
-                                $c = new \App\Models\CommessaLog;
+                                $c = new CommessaLog;
                                 $c->id = Str::uuid();
                             }
 

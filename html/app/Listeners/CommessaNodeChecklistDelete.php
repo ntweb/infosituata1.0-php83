@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\Illuminate\Events\CommessaNodeDeleted;
+use App\Models\Commessa;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
@@ -31,10 +32,10 @@ class CommessaNodeChecklistDelete
 
         if (!$commessa->root_id) {
             /** è il root **/
-            $idsChildren = \App\Models\Commessa::where('root_id', $commessa->id)->get()->pluck('id');
+            $idsChildren = Commessa::where('root_id', $commessa->id)->get()->pluck('id');
         }
         else {
-            $idsChildren = \App\Models\Commessa::where('parent_id', $commessa->id)->get()->pluck('id');
+            $idsChildren = Commessa::where('parent_id', $commessa->id)->get()->pluck('id');
         }
 
         /** Checklist **/

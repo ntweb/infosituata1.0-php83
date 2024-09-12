@@ -30,7 +30,6 @@ class RecalculateParent
         $node = $event->node;
         // Log::info($node);
         if ($node->type == 'fase_lv_2') {
-            // $parent = \App\Models\Commessa::find($node->parent_id);
             $parent = $node->parent;
             $siblings = $node->siblings()->get();
 

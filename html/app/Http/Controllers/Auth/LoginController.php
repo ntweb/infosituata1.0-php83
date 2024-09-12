@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -36,5 +37,26 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
         $this->middleware('auth')->only('logout');
+    }
+
+    protected function credentials(Request $request) {
+        $credentials = $request->only($this->username(), 'password');
+        $credentials['active'] = '1';
+
+        return $credentials;
+    }
+
+    protected function authenticated(Request $request, $user)
+    {
+        if ($user->_2fa) {
+            if (!$user->_2fa_code) {
+                $user->_2fa_code = rand(100000, 999999);
+                $user->_2fa_code_expiration = date('Y-m-d H:i:s', strtotime('+10 minutes'));
+                $user->save();
+            }
+            return redirect('2fa');
+        }
+
+        return redirect()->intended($this->redirectPath());
     }
 }

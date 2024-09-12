@@ -4,6 +4,8 @@ namespace App\Listeners;
 
 use App\Events\Illuminate\Events\CommessaNodeChangedStatus;
 use App\Exceptions\CommessaNodeException;
+use App\Models\CommessaLog;
+use App\Models\User;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
@@ -57,7 +59,7 @@ class ChangeNodeParentStatus
             $parent->save();
 
             /** Log del cambiamento **/
-            $cl = new \App\Models\CommessaLog;
+            $cl = new CommessaLog;
             $cl->id = Str::uuid();
             $cl->commesse_id = $parent->id;
             $cl->stato = $parent->stato;
@@ -70,11 +72,11 @@ class ChangeNodeParentStatus
         $root = $node->root;
         $bcc = [];
         if ($root->notification_users_ids) {
-            $bcc = App\Models\User::whereIn('id', json_decode($root->notification_users_ids))->get()->pluck('email', 'email');
+            $bcc = User::whereIn('id', json_decode($root->notification_users_ids))->get()->pluck('email', 'email');
         }
 
         if (count($bcc)) {
-            $link = action('Dashboard\CommessaController@show', $root->id);
+            $link = route('commessa.show', $root->id);
             $subject = 'Cambio stato lavorazione - Commessa: '. $root->label .' fase: ' . $node->label;
             $message = 'La fase / sottofase : ' . $node->label . ' è passata allo stato di lavorazione ' . $node->stato;
             $message .= '<br>';

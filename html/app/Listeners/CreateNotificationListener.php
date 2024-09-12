@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\Illuminate\Events\CreateNotification;
+use App\Models\Notification;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Str;
@@ -33,7 +34,7 @@ class CreateNotificationListener
         $uuid = Str::uuid();
         $azienda_id = getAziendaId();
 
-        $n = new \App\Models\Notification;
+        $n = new Notification;
         $n->id = $uuid;
         $n->azienda_id = $azienda_id;
         $n->users_id = $users_id;

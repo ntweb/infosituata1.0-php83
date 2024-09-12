@@ -3,6 +3,8 @@
 namespace App\Listeners;
 
 use App\Events\Illuminate\Events\TimbraturaPermessoUpdated;
+use App\Models\Evento;
+use App\Models\User;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
@@ -31,9 +33,9 @@ class EventTimbraturaPermessoSet
         if ($permesso->status) {
             if ($permesso->status == 'accettato') {
 
-                $u = App\Models\User::find($permesso->users_id);
+                $u = User::find($permesso->users_id);
 
-                $event = \App\Models\Evento::firstOrNew(['timbrature_permessi_id' => $permesso->id]);
+                $event = Evento::firstOrNew(['timbrature_permessi_id' => $permesso->id]);
                 $event->azienda_id = $permesso->azienda_id;
                 $event->items_id = $u->utente_id;
                 $event->titolo = $permesso->type;

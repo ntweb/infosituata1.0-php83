@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\Illuminate\Events\CommessaNodeSottoFaseChangedDateEffettive;
+use App\Models\Commessa;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +27,7 @@ class CheckNodeRitardo
         // Log::info($node->id);
         // $node->save();
 
-        $nodes = \App\Models\Commessa::where(function ($query) use ($node) {
+        $nodes = Commessa::where(function ($query) use ($node) {
                 $query
                     ->where('id', $node->root_id)
                     ->orWhere('root_id', $node->root_id);

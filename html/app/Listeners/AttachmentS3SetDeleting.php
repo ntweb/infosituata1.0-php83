@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\Illuminate\Events\AttachmentS3ParentDeleted;
+use App\Models\Commessa;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\DB;
@@ -38,14 +39,14 @@ class AttachmentS3SetDeleting
         if ($event->reference_table == 'commesse') {
 
             /** ricavo gli allegati di eventuali rapportini o checklist associate **/
-            $commessa = \App\Models\Commessa::find($event->reference_id);
+            $commessa = Commessa::find($event->reference_id);
 
             if (!$commessa->root_id) {
                 /** è il root **/
-                $idsChildren = \App\Models\Commessa::where('root_id', $commessa->id)->get()->pluck('id');
+                $idsChildren = Commessa::where('root_id', $commessa->id)->get()->pluck('id');
             }
             else {
-                $idsChildren = \App\Models\Commessa::where('parent_id', $commessa->id)->get()->pluck('id');
+                $idsChildren = Commessa::where('parent_id', $commessa->id)->get()->pluck('id');
             }
 
             DB::table('attachmentss3')->whereIn('reference_id', $idsChildren)

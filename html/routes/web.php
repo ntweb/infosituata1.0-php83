@@ -510,3 +510,5 @@ Route::get('/super/login/{id}', function($id){
         return redirect()->to('/');
     }
 })->middleware(['auth']);
+
+

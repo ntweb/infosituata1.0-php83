@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\Illuminate\Events\RapportinoCommessaStored;
+use App\Models\User;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
@@ -29,9 +30,9 @@ class InviaRapportinoCommessaUsers
         $rapportino = $event->rapportino;
         $fase = $event->fase;
 
-        $link = action('Dashboard\CommessaRapportinoController@show', $rapportino->id);
+        $link = route('commessa-rapportino.show', $rapportino->id);
 
-        $bcc = App\Models\User::whereIn('id', json_decode($rapportino->send_to_ids))->get()->pluck('email', 'email');
+        $bcc = User::whereIn('id', json_decode($rapportino->send_to_ids))->get()->pluck('email', 'email');
 
         $subject = 'Rapportino Commessa: '. $fase->root->label .' fase: ' . $fase->label;
 

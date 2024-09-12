@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\Illuminate\Events\CreateNotification;
 use App\Events\Illuminate\Events\TaskAddedUser;
+use App\Models\User;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
@@ -41,13 +42,13 @@ class TaskSendUserAddedEmail
         $bcc = [];
         foreach ($users_ids as $user_id) {
             if (!in_array($user_id, $old_ids)) {
-                $user = App\Models\User::find($user_id);
+                $user = User::find($user_id);
                 $bcc[] = $user->email;
 
                 event(new CreateNotification($user->id, [
                     'module' => 'task',
                     'label' => $subject,
-                    'route' => action('Dashboard\TaskController@assegnati')
+                    'route' => route('task.assegnati')
                 ]));
             }
         }
@@ -55,7 +56,7 @@ class TaskSendUserAddedEmail
         if (count($bcc)) {
             // Log::info('Inviooooo');
 
-            $link = action('Dashboard\TaskController@assegnati');
+            $link = route('task.assegnati');
 
             $message = 'Avvenuta associazione al task : ' . $event->task->label;
             $message .= '<br>';

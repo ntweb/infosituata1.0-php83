@@ -238,6 +238,7 @@ class RapportiniController extends Controller
 
             if ($request->has('reopenForm')) {
                 $payload = route('rapportini.show', $el->id);
+                // Log::info($payload);
                 return response()->json($payload);
             }
 

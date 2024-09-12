@@ -4,6 +4,7 @@ namespace App\Listeners;
 
 use App\Events\Illuminate\Events\CommessaNodeInserted;
 use App\Events\Illuminate\Events\CreateNotification;
+use App\Models\User;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
@@ -100,7 +101,7 @@ class ChangeNodeParentFlags
 
         if ($node->type == 'utente') {
             $root = $node->root;
-            $user = App\Models\User::where('utente_id', $node->item_id)->first();
+            $user = User::where('utente_id', $node->item_id)->first();
 
             if ($user) {
 
@@ -108,7 +109,7 @@ class ChangeNodeParentFlags
 
                 if ($root->fl_send_email_association) {
                     $bcc = [$user->email];
-                    $link = action('Dashboard\CommessaController@show', $root->id);
+                    $link = route('commessa.show', $root->id);
 
                     $message = 'È stato associato alla fase '. $parent->label;
                     $message .= ' della commessa '. $root->label;
@@ -122,7 +123,7 @@ class ChangeNodeParentFlags
                 event(new CreateNotification($user->id, [
                     'module' => 'commessa',
                     'label' => $subject,
-                    'route' => action('Dashboard\CommessaController@edit', [$root->id])
+                    'route' => route('commessa.edit', [$root->id])
                 ]));
             }
 
