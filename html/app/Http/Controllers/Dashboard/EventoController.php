@@ -81,7 +81,7 @@ class EventoController extends Controller
             $el->username = auth()->user()->name;
             $el->save();
 
-            return redirect()->action('Dashboard\EventoController@index', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('evento.index', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
 
             Log::info($e->getMessage());

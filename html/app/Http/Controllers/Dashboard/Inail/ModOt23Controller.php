@@ -20,7 +20,7 @@ class ModOt23Controller extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function index(Request $request)
     {
@@ -31,7 +31,7 @@ class ModOt23Controller extends Controller
 
         if($request->has('anno')) {
             if ($request->get('anno') > 2023) {
-                return redirect()->action("Dashboard\Inail\ModOt23_2024Controller@index", $request->all());
+                return redirect()->route('mod-ot23_2024.index', $request->all());
             }
         }
 
@@ -217,7 +217,7 @@ class ModOt23Controller extends Controller
 
             DB::commit();
 
-            return redirect()->action('Dashboard\Inail\ModOt23Controller@edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('mod-ot23.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
@@ -258,11 +258,11 @@ class ModOt23Controller extends Controller
         if (!$el) abort('404');
 
         if ($el->verision == '2024') {
-            return redirect()->action('Dashboard\Inail\ModOt23_2024Controller@edit', $id);
+            return redirect()->route('mod-ot23_2024.edit', $id);
         }
 
         if(!Gate::allows('can-create'))
-            return redirect()->action('Dashboard\Inail\ModOt23Controller@show', $id);
+            return redirect()->route('mod-ot23.show', $id);
 
         $data['el'] = $el;
         $data['_read_only'] = false;

@@ -37,7 +37,7 @@ class TaskTemplateNodeController extends Controller
 
         $data['title'] = 'Crea task';
         $data['sub_title'] = null;
-        $data['action'] = action('Dashboard\TaskTemplateNodeController@store', ['_parent_id' => $parent->id]);
+        $data['action'] = route('task-template-node.store', ['_parent_id' => $parent->id]);
         return view('dashboard.tasks-tpl.modals.create-node', $data);
     }
 
@@ -104,7 +104,7 @@ class TaskTemplateNodeController extends Controller
 
         if ($request->has('delete')) {
             $data['title'] = 'Eliminazione: ' . $data['el']->label;
-            $data['action'] = action('Dashboard\TaskTemplateNodeController@destroy', $id);
+            $data['action'] = route('task-template-node.destroy', $id);
             return view('dashboard.tasks-tpl.modals.delete-node', $data);
         }
 
@@ -129,7 +129,7 @@ class TaskTemplateNodeController extends Controller
         */
 
         $data['title'] = 'Modifica elemento';
-        $data['action'] = action('Dashboard\TaskTemplateNodeController@update', $id);
+        $data['action'] = route('task-template-node.update', $id);
         return view('dashboard.tasks-tpl.modals.create-node', $data);
     }
 

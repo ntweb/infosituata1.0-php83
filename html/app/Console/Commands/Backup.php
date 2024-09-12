@@ -63,13 +63,13 @@ class Backup extends Command
         $files = Storage::disk('local')->files($dir);
         $file = @$files[0];
         if ($file) {
-            $this->info('File: ' . $file);
-            $path = Storage::disk('local')->getAdapter()->applyPathPrefix($file);
+            // $this->info('File: ' . $file);
+            $path = Storage::disk('local')->path($file);
             $originalName = basename($path);
-            $this->info('Path: ' . $path);
-            $this->info('Original name: ' . $originalName);
+            // $this->info('$path: ' . $path);
+            // $this->info('$originalName: ' . $originalName);
 
-            error_reporting(E_ALL & ~E_USER_DEPRECATED);
+            // error_reporting(E_ALL & ~E_USER_DEPRECATED);
             try {
 
                 DB::table('backups')->insert([

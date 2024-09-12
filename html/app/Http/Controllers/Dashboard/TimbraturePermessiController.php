@@ -196,7 +196,7 @@ class TimbraturePermessiController extends Controller
             if ($request->get('_type') == 'json')
                 return response()->json(['res' => 'success','payload' => $payload]);
 
-            return redirect()->to(action('Dashboard\TimbraturePermessiController@index', $parameters));
+            return redirect()->to(route('timbrature-permessi.index', $parameters));
         }catch (\Exception $e) {
             Log::info($e->getMessage());
 

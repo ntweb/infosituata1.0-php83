@@ -88,12 +88,12 @@ class CommessaNodeController extends Controller
 
             $data['title'] = 'Assegnazione ' .$title;
             $data['sub_title'] = 'Assegna a: ' . strtolower($parent->label);
-            $data['action'] = action('Dashboard\CommessaNodeController@store', ['_parent_id' => $parent->id]);
-            $data['search_route'] = action('Dashboard\ItemController@search');
+            $data['action'] = route('commessa-node.store', ['_parent_id' => $parent->id]);
+            $data['search_route'] = route('item.search');
 
             if ($request->input('_module', 'null') == 'squadra') {
-                $data['action'] = action('Dashboard\CommessaNodeController@squadra', [$parent->id, null]);
-                $data['search_route'] = action('Dashboard\SquadraController@search');
+                $data['action'] = route('commessa-node.squadra', [$parent->id, null]);
+                $data['search_route'] = route('squadra.search');
             }
 
             return view('dashboard.commesse.modals.create-node-assignment', $data);
@@ -101,7 +101,7 @@ class CommessaNodeController extends Controller
 
         $data['title'] = 'Crea elemento';
         $data['sub_title'] = 'Sotto elemento di: ' . strtolower($parent->label);
-        $data['action'] = action('Dashboard\CommessaNodeController@store', ['_parent_id' => $parent->id]);
+        $data['action'] = route('commessa-node.store', ['_parent_id' => $parent->id]);
         return view('dashboard.commesse.modals.create-node', $data);
     }
 
@@ -116,22 +116,22 @@ class CommessaNodeController extends Controller
             switch ($request->input('_module')) {
                 case 'mezzo':
                     $title = 'mezzo';
-                    $data['action'] = action('Dashboard\MezziController@store');
+                    $data['action'] = route('mezzi.store');
                     $data['item_store_view'] = 'dashboard.mezzi.forms.parts.create-fields';
                     break;
                 case 'attrezzatura':
                     $title = 'attrezzo';
-                    $data['action'] = action('Dashboard\AttrezzatureController@store');
+                    $data['action'] = route('attrezzature.store');
                     $data['item_store_view'] = 'dashboard.attrezzature.forms.parts.create-fields';
                     break;
                 case 'materiale':
                     $title = 'materiale';
-                    $data['action'] = action('Dashboard\MaterialiController@store');
+                    $data['action'] = route('materiali.store');
                     $data['item_store_view'] = 'dashboard.materiali.forms.parts.create-fields';
                     break;
                 default:
                     $title = 'utente';
-                    $data['action'] = action('Dashboard\UserController@store');
+                    $data['action'] = route('user.store');
                     $data['item_store_view'] = 'dashboard.user.forms.parts.create-fields';
             }
 
@@ -265,7 +265,7 @@ class CommessaNodeController extends Controller
 
         if ($request->has('delete')) {
             $data['title'] = 'Eliminazione: ' . $data['el']->label;
-            $data['action'] = action('Dashboard\CommessaNodeController@destroy', $id);
+            $data['action'] = route('commessa-node.destroy', $id);
             return view('dashboard.commesse.modals.delete-node', $data);
         }
 
@@ -294,7 +294,7 @@ class CommessaNodeController extends Controller
         }
 
         $data['title'] = 'Modifica elemento';
-        $data['action'] = action('Dashboard\CommessaNodeController@update', $id);
+        $data['action'] = route('commessa-node.update', $id);
 
         if ($data['el']->item_id)
             return view('dashboard.commesse.modals.update-node-item', $data);
@@ -612,7 +612,7 @@ class CommessaNodeController extends Controller
         if (!$node) abort('404');
 
         $data['node'] = $node;
-        $data['action'] = action('Dashboard\CommessaNodeController@update', [$node->id]);;
+        $data['action'] = route('commessa-node.update', [$node->id]);;
         return view('dashboard.commesse.modals.change-node-status', $data);
     }
 

@@ -56,7 +56,7 @@ class InfosituataController extends Controller
                 if ($request->has('check_scadenza'))
                     return $this->_risorsa($md5_id);
 
-                return response()->redirectToAction('Dashboard\RisorseController@show', [$item->id]);
+                return redirect()->route('risorse.show', [$item->id]);
                 break;
         }
 

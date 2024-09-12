@@ -77,7 +77,7 @@ class ChecklistTemplateController extends Controller
             $el->key = Str::uuid();
             $el->saveAsRoot();
 
-            return redirect()->action('Dashboard\ChecklistTemplateController@edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('checklist-template.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             Log::info($e->getMessage());
             return redirect()->back()->withInput()->with('error', 'Errore in fase di salvataggio!');
@@ -275,7 +275,7 @@ class ChecklistTemplateController extends Controller
 
             DB::commit();
 
-            return redirect()->action('Dashboard\ChecklistTemplateController@edit', $rootN->id);
+            return redirect()->route('checklist-template.edit', $rootN->id);
         } catch (\Exception $e) {
             DB::rollBack();
 

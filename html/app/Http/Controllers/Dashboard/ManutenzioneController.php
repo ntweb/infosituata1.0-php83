@@ -71,7 +71,7 @@ class ManutenzioneController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -106,7 +106,7 @@ class ManutenzioneController extends Controller
 
             DB::commit();
 
-            return redirect()->action('Dashboard\ManutenzioneController@edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('manutenzione.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
@@ -150,8 +150,8 @@ class ManutenzioneController extends Controller
                     abort(401);
         }
 
-        $data['back'] = action('Dashboard\ManutenzioneController@index', ['id' => $data['item']->id]);
-        $data['action'] = action('Dashboard\ManutenzioneController@update', $id);
+        $data['back'] = route('manutenzione.index', ['id' => $data['item']->id]);
+        $data['action'] = route('manutenzione.update', $id);
 
         return view('dashboard.manutenzione.edit', $data);
     }
@@ -212,7 +212,7 @@ class ManutenzioneController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function destroy(Request $request, $id)
     {
@@ -233,7 +233,7 @@ class ManutenzioneController extends Controller
 
             DB::commit();
 
-            return redirect()->action('Dashboard\ManutenzioneController@index', ['id' => $el->items_id]);
+            return redirect()->route('manutenzione.index', ['id' => $el->items_id]);
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());

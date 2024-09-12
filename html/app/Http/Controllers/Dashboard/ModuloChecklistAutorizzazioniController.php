@@ -90,7 +90,7 @@ class ModuloChecklistAutorizzazioniController extends Controller
         $gruppiIds = Gruppo::get()->pluck('id', 'id');
         $data['gruppi'] = Gruppo::whereIn('id', $gruppiIds)->select('id', 'label')->get()->pluck('label', 'id');
 
-        $data['action'] = action('Dashboard\ModuloChecklistAutorizzazioniController@store');
+        $data['action'] = route('mod-che-aut.store');
         $data['title'] = 'Autorizzazioni modulo checklist';
 
         return view('dashboard.autorizzazioni.modals.autorizzazioni', $data);

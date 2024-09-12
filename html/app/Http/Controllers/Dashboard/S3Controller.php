@@ -48,7 +48,7 @@ class S3Controller extends Controller
             'Content-Disposition' => 'attachment; filename="'. $s3Att->filename .'"',
         ];
 
-        error_reporting(E_ALL & ~E_USER_DEPRECATED);
+        // error_reporting(E_ALL & ~E_USER_DEPRECATED);
         // Log::info($s3Att->uid.'/'.$s3Att->id);
         return response()->make(Storage::disk('s3')->get(strtolower($s3Att->uid).'/'.$s3Att->id), 200, $headers);
     }

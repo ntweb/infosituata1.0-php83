@@ -22,21 +22,18 @@ class DashboardController extends Controller
 
 
     /**
+ * Show the application dashboard.
+ *
 
-     * Show the application dashboard.
-
-     *
-
-     * @return \Illuminate\Contracts\Support\Renderable
-
-     */
+     * @return \Illuminate\Contracts\Support\Renderable|\Illuminate\Http\RedirectResponse
+ */
 
     public function index(Request $request)
 
     {
 
         if (Gate::denies('privacy-accepted'))
-            return redirect()->action('PrivacyController@create');
+            return redirect()->route('privacy.create');
 
         if ($request->input('fs', 'all') == 'me') {
             session()->put('fs', true);

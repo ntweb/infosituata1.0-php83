@@ -93,7 +93,7 @@ class ScadenzarioController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -152,10 +152,10 @@ class ScadenzarioController extends Controller
                 if ($item->controller == 'risorsa')
                     $params['check_scadenza'] = true;
 
-                return response()->json(['res' => 'success', 'payload' => $payload, '_redirect' => action('Dashboard\InfosituataController@check', $params)]);
+                return response()->json(['res' => 'success', 'payload' => $payload, '_redirect' => route('infosituata.check', $params)]);
             }
 
-            return redirect()->action('Dashboard\PackageController@edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('package.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
 
         }catch (\Exception $e) {
             DB::rollBack();
@@ -203,7 +203,7 @@ class ScadenzarioController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
@@ -254,9 +254,9 @@ class ScadenzarioController extends Controller
 
             $payload = 'Salvataggio avvenuto correttamente!';
             if ($request->get('_type') == 'json')
-                return response()->json(['res' => 'success', 'payload' => $payload, '_redirect' => action('Dashboard\InfosituataController@check', [md5($item->id)])]);
+                return response()->json(['res' => 'success', 'payload' => $payload, '_redirect' => route('infosituata.check', [md5($item->id)])]);
 
-            return redirect()->action('Dashboard\PackageController@edit', [$el->id]);
+            return redirect()->route('package.edit', [$el->id]);
 
         }catch (\Exception $e) {
             DB::rollBack();
@@ -330,7 +330,7 @@ class ScadenzarioController extends Controller
                 if ($el->item->controller == 'risorsa')
                     $params['check_scadenza'] = true;
 
-                return response()->json(['res' => 'success', 'payload' => $payload, '_redirect' => action('Dashboard\InfosituataController@check', $params)]);
+                return response()->json(['res' => 'success', 'payload' => $payload, '_redirect' => route('infosituata.check', $params)]);
             }
 
             return response()->json(['res' => 'success', 'payload' => $payload]);
@@ -453,7 +453,7 @@ class ScadenzarioController extends Controller
             if ($item->detail)
                 $title .= ' | '.$item->detail->label;
 
-            $url = action('Dashboard\ScadenzarioController@edit', [$item->id]);
+            $url = route('scadenzario.edit', [$item->id]);
             $end_at = \Carbon\Carbon::parse($item->end_at);
 
 
@@ -473,8 +473,7 @@ class ScadenzarioController extends Controller
 
             $title .= ' | '.$item->label;
 
-            // $url = action('Dashboard\CommessaController@edit', [$item->commesse_id]);
-            $url = action('Dashboard\ScadenzarioController@showCommessa', [$item->id, '_check' => true]);
+            $url = route('scadenzario.show-commessa', [$item->id, '_check' => true]);
             $end_at = \Carbon\Carbon::parse($item->end_at);
 
 
@@ -492,15 +491,8 @@ class ScadenzarioController extends Controller
             $title = '[Task]';
             $title .= ' '.$item->label;
 
-//            $title .= ' | '.$item->label;
 
-            // $url = action('Dashboard\CommessaController@edit', [$item->commesse_id]);
-            $url = action('Dashboard\TaskController@assegnati');
-
-//            $color = null;
-//            if ($item->checked_at) $color = 'green';
-//            else if ($end_at->lessThanOrEqualTo($today)) $color = 'red';
-//            else if ($end_at->diffInDays($today, true) <= 5 && $end_at->diffInDays($today, true) > 0) $color = 'orange';
+            $url = route('task.assegnati');
 
             $color = 'silver';
             if ($item->completed_at) {
@@ -540,7 +532,7 @@ class ScadenzarioController extends Controller
         $data['gruppiSel'] = [];
 
         $data['readonly'] = false;
-        $data['action'] = action('Dashboard\ScadenzarioController@storeCommessa', $id_commessa);
+        $data['action'] = route('scadenzario.store-commessa', $id_commessa);
         return view('dashboard.scadenzario.modals.commessa', $data);
     }
 
@@ -557,7 +549,7 @@ class ScadenzarioController extends Controller
         }
 
         $data['readonly'] = $request->has('_check');
-        $data['action'] = action('Dashboard\ScadenzarioController@storeCommessa',  [$data['el']->commesse_id, 'scadenza_id' => $id_scadenza]);
+        $data['action'] = route('scadenzario.store-commessa',  [$data['el']->commesse_id, 'scadenza_id' => $id_scadenza]);
         return view('dashboard.scadenzario.modals.commessa', $data);
     }
 

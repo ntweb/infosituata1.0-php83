@@ -73,7 +73,7 @@ class ScadenziarioController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -131,10 +131,10 @@ class ScadenziarioController extends Controller
                 if ($item->controller == 'risorsa')
                     $params['check_scadenza'] = true;
 
-                return response()->json(['res' => 'success', 'payload' => $payload, '_redirect' => action('Dashboard\InfosituataController@check', $params)]);
+                return response()->json(['res' => 'success', 'payload' => $payload, '_redirect' => route('infosituata.check', $params)]);
             }
 
-            return redirect()->action('Dashboard\PackageController@edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('package.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
 
         }catch (\Exception $e) {
             DB::rollBack();
@@ -199,7 +199,7 @@ class ScadenziarioController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
@@ -250,9 +250,9 @@ class ScadenziarioController extends Controller
 
             $payload = 'Salvataggio avvenuto correttamente!';
             if ($request->get('_type') == 'json')
-                return response()->json(['res' => 'success', 'payload' => $payload, '_redirect' => action('Dashboard\InfosituataController@check', [md5($item->id)])]);
+                return response()->json(['res' => 'success', 'payload' => $payload, '_redirect' => route('infosituata.check', [md5($item->id)])]);
 
-            return redirect()->action('Dashboard\PackageController@edit', [$el->id]);
+            return redirect()->route('package.edit', [$el->id]);
 
         }catch (\Exception $e) {
             DB::rollBack();
@@ -311,7 +311,7 @@ class ScadenziarioController extends Controller
             if ($el->item->controller == 'risorsa')
                 $params['check_scadenza'] = true;
 
-            return response()->json(['res' => 'success', 'payload' => $payload, '_redirect' => action('Dashboard\InfosituataController@check', $params)]);
+            return response()->json(['res' => 'success', 'payload' => $payload, '_redirect' => route('infosituata.check', $params)]);
 
         }catch (\Exception $e) {
             DB::rollBack();
@@ -392,7 +392,7 @@ class ScadenziarioController extends Controller
             if ($item->detail)
                 $title .= ' | '.$item->detail->label;
 
-            $url = action('Dashboard\ScadenziarioController@edit', [$item->id]);
+            $url = route('scadenziario.edit', [$item->id]);
 
             return (object) ['title' => $title, 'description' => 'aaaa', 'url' => $url, 'start' => $item->end_at, 'color'=> $item->checked_at ? 'green' : null ];
         });

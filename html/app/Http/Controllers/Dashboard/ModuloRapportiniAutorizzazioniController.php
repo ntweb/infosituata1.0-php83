@@ -80,7 +80,7 @@ class ModuloRapportiniAutorizzazioniController extends Controller
         $gruppiIds = Gruppo::get()->pluck('id', 'id');
         $data['gruppi'] = Gruppo::whereIn('id', $gruppiIds)->select('id', 'label')->get()->pluck('label', 'id');
 
-        $data['action'] = action('Dashboard\ModuloRapportiniAutorizzazioniController@store');
+        $data['action'] = route('mod-rap-aut.store');
         $data['title'] = 'Autorizzazioni modulo rapportini';
 
         return view('dashboard.autorizzazioni.modals.autorizzazioni', $data);

@@ -104,17 +104,6 @@ function euro ($number, $prettify = false, $dec = 2 ) {
     return number_format ($number, $dec,".", "");
 }
 
-function saveLog($_pre, $_post, $_controller, $_el_id, $_el_label) {
-    $l = new \App\Models\Log;
-    $l->created_by = Auth::user()->id;
-    $l->pre = $_pre;
-    $l->post = $_post;
-    $l->controller = $_controller;
-    $l->el_id = $_el_id;
-    $l->label = $_el_label;
-    $l->ip = request()->ip();
-    $l->save();
-}
 
 function sendEmailGenerica($to, $bcc, $subject, $message) {
     if (config('app.debug')) {
@@ -129,8 +118,10 @@ function sendEmailGenerica($to, $bcc, $subject, $message) {
         Mail::to($to)->bcc($bcc)->queue(new \App\Mail\EmailGenerica($subject, $message));
     else if($to)
         Mail::to($to)->queue(new \App\Mail\EmailGenerica($subject, $message));
-    else
+    else {
         Mail::bcc($bcc)->queue(new \App\Mail\EmailGenerica($subject, $message));
+    }
+
 }
 
 function sendHumanActivityAlertEmail($alert, $conf) {

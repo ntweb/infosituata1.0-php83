@@ -5,10 +5,8 @@ namespace App\Http\Controllers\Dashboard;
 use App\Models\TaskTemplate;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
@@ -59,7 +57,7 @@ class TaskTemplateController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -84,7 +82,7 @@ class TaskTemplateController extends Controller
             $el->saveAsRoot();
             DB::commit();
 
-            return redirect()->action('Dashboard\TaskTemplateController@edit', $uuid)->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('task-template.edit', $uuid)->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
@@ -281,7 +279,7 @@ class TaskTemplateController extends Controller
 
             DB::commit();
 
-            return redirect()->action('Dashboard\TaskTemplateController@edit', $rootId);
+            return redirect()->route('task-template.edit', $rootId);
         } catch (\Exception $e) {
             DB::rollBack();
 

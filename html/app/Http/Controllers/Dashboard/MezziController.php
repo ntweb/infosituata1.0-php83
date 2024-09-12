@@ -46,8 +46,6 @@ class MezziController extends Controller
     public function create(Request $request)
     {
         $data['azienda_id'] = (Auth::user()->superadmin && $request->has('azienda')) ? $request->get('azienda') : null;
-        //if (packageError('utente', $data['azienda_id']))
-        //    return redirect()->action('Dashboard\PackageController@error')->with(['package-error' => 'Non è consentito creare ulteriori utenti']);
         return view('dashboard.mezzi.create', $data);
     }
 
@@ -55,7 +53,7 @@ class MezziController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -88,7 +86,7 @@ class MezziController extends Controller
             if ($request->get('_type') == 'json')
                 return response()->json(['res' => 'success','payload' => $payload]);
 
-            return redirect()->action('Dashboard\MezziController@edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('mezzi.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
@@ -116,12 +114,12 @@ class MezziController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function edit($id)
     {
         if(Gate::denies('can_create_mezzi'))
-            return redirect()->action('Dashboard\InfosituataPublicController@check', md5($id));
+            return redirect()->route('infosituata-public.check', md5($id));
 
         $el = Mezzo::find($id);
         if (!$el) abort('404');

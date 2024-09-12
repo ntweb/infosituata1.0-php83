@@ -91,7 +91,7 @@ class TopicController extends Controller
 
             DB::commit();
 
-            return redirect()->action('Dashboard\TopicController@edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('topic.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());

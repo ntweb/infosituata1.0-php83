@@ -137,7 +137,7 @@ class CommessaUtilsController extends Controller
         }
 
         $data['title'] = 'Selezione ' .$title;
-        $data['search_route'] = action('Dashboard\ItemController@search');
+        $data['search_route'] = route('item.search');
 
         return view('dashboard.commesse-utils.scheduler.modals.select-items', $data);
 

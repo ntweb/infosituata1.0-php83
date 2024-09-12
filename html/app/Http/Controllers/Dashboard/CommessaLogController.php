@@ -67,7 +67,7 @@ class CommessaLogController extends Controller
             if (!$data['el']) abort('404');
 
             $data['title'] = 'Eliminazione log';
-            $data['action'] = action('Dashboard\CommessaLogController@destroy', $id);
+            $data['action'] = route('commessa-log.destroy', $id);
             return view('dashboard.commesse.modals.delete-log', $data);
         }
     }

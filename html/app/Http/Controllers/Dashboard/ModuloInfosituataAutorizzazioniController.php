@@ -117,7 +117,7 @@ class ModuloInfosituataAutorizzazioniController extends Controller
         $data['gruppi'] = Gruppo::whereIn('id', $gruppiIds)->select('id', 'label')->get()->pluck('label', 'id');
 
 
-        $data['action'] = action('Dashboard\ModuloInfosituataAutorizzazioniController@store');
+        $data['action'] = route('mod-inf-aut.store');
         $data['title'] = 'Autorizzazioni modulo Infosituata';
 
         return view('dashboard.autorizzazioni.modals.autorizzazioni', $data);

@@ -44,17 +44,16 @@ class DeviceController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function create(Request $request)
     {
         if(!Gate::allows('can_create_ham_terminali'))
             abort(401);
 
-        // $data['azienda_id'] = (Auth::user()->superadmin && $request->has('azienda')) ? $request->get('azienda') : null;
         $data['azienda_id'] = Auth::user()->azienda_id;
         if (packageError('terminali', $data['azienda_id']))
-            return redirect()->action('Dashboard\PackageController@error')->with(['package-error' => 'Non è consentito creare ulteriori terminali']);
+            return redirect()->route('package.error')->with(['package-error' => 'Non è consentito creare ulteriori terminali']);
 
         return view('dashboard.device.create', $data);
     }
@@ -101,7 +100,7 @@ class DeviceController extends Controller
 
             DB::commit();
 
-            return redirect()->action('Dashboard\DeviceController@edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('device.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());

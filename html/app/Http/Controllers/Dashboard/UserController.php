@@ -47,13 +47,13 @@ class UserController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function create(Request $request)
     {
         $data['azienda_id'] = (Auth::user()->superadmin && $request->has('azienda')) ? $request->get('azienda') : getAziendaId();
         if (packageError('utente', $data['azienda_id']))
-            return redirect()->action('Dashboard\PackageController@error')->with(['package-error' => 'Non è consentito creare ulteriori utenti']);
+            return redirect()->route('package.error')->with(['package-error' => 'Non è consentito creare ulteriori utenti']);
 
         return view('dashboard.user.create', $data);
     }
@@ -62,7 +62,7 @@ class UserController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -109,7 +109,7 @@ class UserController extends Controller
             if ($request->get('_type') == 'json')
                 return response()->json(['res' => 'success','payload' => $payload]);
 
-            return redirect()->action('Dashboard\UserController@edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('user.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             DB::rollBack();
 
@@ -138,13 +138,13 @@ class UserController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
 
     public function edit($id)
     {
         if(Gate::denies('can_create_utenti'))
-            return redirect()->action('Dashboard\InfosituataPublicController@check', md5($id));
+            return redirect()->route('infosituata-public.check', md5($id));
 
         $el = Utente::with('gruppi')->find($id);
         if (!$el) abort('404');

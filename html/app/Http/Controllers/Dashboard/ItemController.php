@@ -74,16 +74,16 @@ class ItemController extends Controller
 
         switch ($item->controller) {
             case 'utente':
-                return redirect()->action('Dashboard\UserController@edit', $id);
+                return redirect()->route('user.edit', $id);
 
             case 'mezzo':
-                return redirect()->action('Dashboard\MezziController@edit', $id);
+                return redirect()->route('mezzi.edit', $id);
 
             case 'attrezzatura':
-                return redirect()->action('Dashboard\AttrezzatureController@edit', $id);
+                return redirect()->route('attrezzature.edit', $id);
 
             case 'risorsa':
-                return redirect()->action('Dashboard\RisorseController@edit', $id);
+                return redirect()->route('risorse.edit', $id);
         }
     }
 

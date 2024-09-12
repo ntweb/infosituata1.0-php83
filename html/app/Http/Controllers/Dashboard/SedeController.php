@@ -36,13 +36,13 @@ class SedeController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Http\Response|\Illuminate\View\View
      */
     public function create(Request $request)
     {
         $data['azienda_id'] = (Auth::user()->superadmin && $request->has('azienda_id')) ? $request->get('azienda_id') : getAziendaId();
         if (packageError('sede', $data['azienda_id']))
-            return redirect()->action([PackageController::class, 'error'])->with(['package-error' => 'Non è consentito creare ulteriori sedi']);
+            return redirect()->route('package.error')->with(['package-error' => 'Non è consentito creare ulteriori sedi']);
 
         return view('dashboard.sede.create', $data);
     }
@@ -84,7 +84,7 @@ class SedeController extends Controller
 
             DB::commit();
 
-            return redirect()->action([SedeController::class, 'edit'], [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('sede.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());

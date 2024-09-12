@@ -152,7 +152,7 @@ class TimbratureController extends Controller
                 $el->commesse_label = Str::title($commessa->root->label.' / '.$commessa->parent->label);
             }
 
-            $action = action('Dashboard\TimbratureController@create');
+            $action = route('timbrature.create');
 
             if ($request->has('_users_id')) {
 
@@ -173,8 +173,7 @@ class TimbratureController extends Controller
                 $el->marked_at = $_marked_at.' '.$request->input('_time').':00';
                 $el->updated_by = auth()->user()->id;
 
-                $action = action('Dashboard\TimbratureController@edit',
-                    [$request->input('_users_id'), 'date' => $_marked_at]);
+                $action = route('timbrature.edit', [$request->input('_users_id'), 'date' => $_marked_at]);
             }
             $el->save();
 

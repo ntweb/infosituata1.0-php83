@@ -38,7 +38,7 @@ class PrivacyController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -60,7 +60,7 @@ class PrivacyController extends Controller
         $u->privacy_fl_5 = $request->has('privacy_fl_5') ? \Carbon\Carbon::now() : null;
 
         $u->save();
-        return redirect()->action('DashboardController@index');
+        return redirect()->route('dashboard.index');
     }
 
     /**

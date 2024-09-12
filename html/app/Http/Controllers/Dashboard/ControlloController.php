@@ -136,7 +136,7 @@ class ControlloController extends Controller
                 $messaggio->user_id = \auth()->user()->id;
                 $messaggio->oggetto = 'Inserito nuovo controllo: ' . $item->label;
 
-                $url = action('Dashboard\ControlloController@index', ['id' => $el->items_id]);
+                $url = route('controllo.index', ['id' => $el->items_id]);
                 $messaggio->messaggio = $messaggio->oggetto.' <br> <a href="'.$url.'">'. $url .'</a>';
                 $messaggio->utenti_ids = join(',', $utenti_ids);
                 $messaggio->manutenzioni_id = $el->id;
@@ -153,7 +153,7 @@ class ControlloController extends Controller
 
             DB::commit();
 
-            return redirect()->action('Dashboard\ControlloController@edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('controllo.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
@@ -197,9 +197,9 @@ class ControlloController extends Controller
         $data['item'] = $data['el']->item;
         $data['dettagli'] = $data['el']->dettagli;
 
-        $data['back'] = action('Dashboard\ControlloController@index', ['id' => $data['item']->id]);
+        $data['back'] = route('controllo.index', ['id' => $data['item']->id]);
+        $data['action'] = route('controllo.update', $id);
 
-        $data['action'] = action('Dashboard\ControlloController@update', $id);
         return view('dashboard.controllo.edit', $data);
     }
 
@@ -259,7 +259,7 @@ class ControlloController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function destroy(Request $request, $id)
     {
@@ -278,7 +278,7 @@ class ControlloController extends Controller
 
             DB::commit();
 
-            return redirect()->action('Dashboard\ControlloController@index', ['id' => $el->items_id]);
+            return redirect()->route('controllo.index', ['id' => $el->items_id]);
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());

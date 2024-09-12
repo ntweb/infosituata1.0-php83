@@ -10,7 +10,7 @@ class S3
     public function saveFile(UploadedFile $file, $reference, $reference_id, $reference_table, $is_public, $is_embedded, $label)
     {
 
-        error_reporting(E_ALL & ~E_USER_DEPRECATED);
+        // error_reporting(E_ALL & ~E_USER_DEPRECATED);
 
         $filename = $file->getClientOriginalName();
         $filename = pathinfo($filename, PATHINFO_FILENAME);

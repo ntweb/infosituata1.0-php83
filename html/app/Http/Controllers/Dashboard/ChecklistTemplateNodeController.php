@@ -39,14 +39,14 @@ class ChecklistTemplateNodeController extends Controller
             // Aprire il form del modulo selezionato
             $data['title'] = 'Crea elemento';
             $data['sub_title'] = null;
-            $data['action'] = action('Dashboard\ChecklistTemplateNodeController@store', ['_parent_id' => $parent->id, '_module' => $request->input('_module')]);
+            $data['action'] = route('checklist-template-node.store', ['_parent_id' => $parent->id, '_module' => $request->input('_module')]);
             return view('dashboard.checklist-tpl.modals.create-node-'.$request->input('_module'), $data);
         }
 
 
         $data['title'] = 'Crea sezione';
         $data['sub_title'] = null;
-        $data['action'] = action('Dashboard\ChecklistTemplateNodeController@store', ['_parent_id' => $parent->id]);
+        $data['action'] = route('checklist-template-node.store', ['_parent_id' => $parent->id]);
         return view('dashboard.checklist-tpl.modals.create-node', $data);
     }
 
@@ -115,7 +115,7 @@ class ChecklistTemplateNodeController extends Controller
 
         if ($request->has('delete')) {
             $data['title'] = 'Eliminazione: ' . $data['el']->label;
-            $data['action'] = action('Dashboard\ChecklistTemplateNodeController@destroy', $id);
+            $data['action'] = route('checklist-template-node.destroy', $id);
             return view('dashboard.checklist-tpl.modals.delete-node', $data);
         }
 
@@ -123,12 +123,12 @@ class ChecklistTemplateNodeController extends Controller
             // Aprire il form del modulo selezionato
             $data['title'] = 'Modifica elemento';
             $data['sub_title'] = null;
-            $data['action'] = action('Dashboard\ChecklistTemplateNodeController@update', $data['el']->id);
+            $data['action'] = route('checklist-template-node.update', $data['el']->id);
             return view('dashboard.checklist-tpl.modals.create-node-'.$data['el']->type, $data);
         }
 
         $data['title'] = 'Modifica elemento';
-        $data['action'] = action('Dashboard\ChecklistTemplateNodeController@update', $id);
+        $data['action'] = route('checklist-template-node.update', $id);
         return view('dashboard.checklist-tpl.modals.create-node', $data);
     }
 

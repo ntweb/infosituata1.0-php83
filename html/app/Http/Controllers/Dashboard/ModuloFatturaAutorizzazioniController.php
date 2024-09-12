@@ -57,7 +57,7 @@ class ModuloFatturaAutorizzazioniController extends Controller
         $data['gruppi'] = Gruppo::whereIn('id', $gruppiIds)->select('id', 'label')->get()->pluck('label', 'id');
 
 
-        $data['action'] = action('Dashboard\ModuloFatturaAutorizzazioniController@store');
+        $data['action'] = route('mod-fat-aut.store');
         $data['title'] = 'Autorizzazioni modulo fatture';
 
         return view('dashboard.autorizzazioni.modals.autorizzazioni', $data);

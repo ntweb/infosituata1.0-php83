@@ -183,7 +183,7 @@ class CommessaController extends Controller
             }
 
             DB::commit();
-            return redirect()->action('Dashboard\CommessaController@edit', $rootN->id);
+            return redirect()->route('commessa.edit', $rootN->id);
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -251,7 +251,7 @@ class CommessaController extends Controller
         if (!$el) abort('404');
 
         if (Gate::denies('commessa_mod_anagrafica', $el)) {
-            return response()->redirectToAction('Dashboard\CommessaController@show', $id);
+            return redirect()->route('commessa.show', $id);
         }
 
         $data['el'] = $el;

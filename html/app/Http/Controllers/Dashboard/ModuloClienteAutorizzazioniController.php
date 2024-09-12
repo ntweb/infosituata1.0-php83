@@ -51,7 +51,7 @@ class ModuloClienteAutorizzazioniController extends Controller
         $data['gruppi'] = Gruppo::whereIn('id', $gruppiIds)->select('id', 'label')->get()->pluck('label', 'id');
 
 
-        $data['action'] = action('Dashboard\ModuloClienteAutorizzazioniController@store');
+        $data['action'] = route('mod-cli-aut.store');
         $data['title'] = 'Autorizzazioni modulo clienti';
 
         return view('dashboard.autorizzazioni.modals.autorizzazioni', $data);

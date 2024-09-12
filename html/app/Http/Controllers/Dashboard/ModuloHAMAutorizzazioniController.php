@@ -57,7 +57,7 @@ class ModuloHAMAutorizzazioniController extends Controller
         $data['gruppi'] = Gruppo::whereIn('id', $gruppiIds)->select('id', 'label')->get()->pluck('label', 'id');
 
 
-        $data['action'] = action('Dashboard\ModuloHAMAutorizzazioniController@store');
+        $data['action'] = route('mod-ham-aut.store');
         $data['title'] = 'Autorizzazioni modulo Human Activity';
 
         return view('dashboard.autorizzazioni.modals.autorizzazioni', $data);

@@ -102,7 +102,7 @@ class MessaggioController extends Controller
 
             DB::commit();
 
-            return redirect()->action('Dashboard\MessaggioController@edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('messaggio.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
@@ -149,7 +149,7 @@ class MessaggioController extends Controller
         if (!$el) abort('404');
 
         if ($el->sent_at)
-            return redirect()->action('Dashboard\MessaggioController@show', [$id]);
+            return redirect()->route('messaggio.show', [$id]);
 
         $data['el'] = $el;
         $data['gruppi'] = Gruppo::whereAziendaId($el->azienda_id)->orderBy('label')->get()->pluck('label', 'id');
@@ -312,7 +312,7 @@ class MessaggioController extends Controller
             sendEmailGenerica(null, $bcc, 'Nuovo messaggio da INFOSITUATA', 'Gentile utente la preghiamo di collegarsi nella sua area privata di INFOSITUATA. Ha ricevuto un nuovo messaggio con oggetto: '. $el->oggetto);
 
             if ($request->get('_type') == 'json')
-                return response()->json(['res' => 'success','payload' => $payload, '_redirect' => action('Dashboard\MessaggioController@edit', [$id])]);
+                return response()->json(['res' => 'success','payload' => $payload, '_redirect' => route('messaggio.edit', [$id])]);
 
             return redirect()->back()->with('success', 'Salvataggio avvenuto correttamente!');
 

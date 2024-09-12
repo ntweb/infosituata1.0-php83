@@ -213,7 +213,7 @@ class ChecklistController extends Controller
             $payload = 'Salvataggio avvenuto correttamente!';
 
             if ($request->has('reopenForm')) {
-                $payload = action('Dashboard\ChecklistController@show', $checklist->id);
+                $payload = route('checklist.show', $checklist->id);
                 return response()->json($payload);
             }
             return response()->json(['res' => 'success','payload' => $payload]);
@@ -257,7 +257,7 @@ class ChecklistController extends Controller
 
             $data['checklistData'] = ChecklistData::where('checklists_id', $checklist->id)->get()->groupBy('key')->toArray();
 
-            $data['action'] = action('Dashboard\ChecklistController@store');
+            $data['action'] = route('checklist.store');
             $data['callback'] = 'refreshChecklist();';
         }
 
@@ -276,7 +276,7 @@ class ChecklistController extends Controller
             $data['label'] = isset($item) ? $item->label : 'Generica';
             $data['reference_id'] = isset($item) ? $item->id : 0;
             $data['reference_controller'] = $checklist->reference_controller;
-            $data['action'] = action('Dashboard\ChecklistController@store');
+            $data['action'] = route('checklist.store');
             $data['callback'] = 'closeAllModal();';
 
         }
@@ -352,7 +352,7 @@ class ChecklistController extends Controller
 
         $data['checklist'] = $tpl->first();
         // $data['action'] = '#';
-        $data['action'] = action('Dashboard\ChecklistController@store');
+        $data['action'] = route('checklist.store');
 
         /** Commesse **/
         if ($request->has('node')) {
@@ -362,7 +362,6 @@ class ChecklistController extends Controller
             $data['reference_id'] = $node->id;
             $data['reference_controller'] = 'commesse';
 
-            // $data['action'] = action('Dashboard\ChecklistController@store');
             $data['callback'] = 'refreshChecklist();';
         }
 
@@ -374,8 +373,7 @@ class ChecklistController extends Controller
             $data['label'] = $item->label;
             $data['reference_id'] = $item->id;
             $data['reference_controller'] = $request->input('reference_controller');
-            // $data['action'] = action('Dashboard\ChecklistController@store');
-            // $data['callback'] = 'window.location.replace("'. route('checklist.index') .'");';
+
             $data['callback'] = 'reopenLastSavedChecklist';
             $data['formClass'] = 'ns-payload';
             $data['reopenForm'] = 1;

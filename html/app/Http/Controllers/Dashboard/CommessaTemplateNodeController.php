@@ -35,7 +35,7 @@ class CommessaTemplateNodeController extends Controller
 
         $data['title'] = 'Crea elemento';
         $data['sub_title'] = 'Sotto elemento di: ' . strtolower($parent->label);
-        $data['action'] = action('Dashboard\CommessaTemplateNodeController@store', ['_parent_id' => $parent->id]);
+        $data['action'] = route('commessa-template-node.store', ['_parent_id' => $parent->id]);
         return view('dashboard.commesse-tpl.modals.create-node', $data);
     }
 
@@ -103,7 +103,7 @@ class CommessaTemplateNodeController extends Controller
 
         if ($request->has('delete')) {
             $data['title'] = 'Eliminazione: ' . $data['el']->label;
-            $data['action'] = action('Dashboard\CommessaTemplateNodeController@destroy', $id);
+            $data['action'] = route('commessa-template-node.destroy', $id);
             return view('dashboard.commesse-tpl.modals.delete-node', $data);
         }
 
@@ -126,7 +126,7 @@ class CommessaTemplateNodeController extends Controller
         }
 
         $data['title'] = 'Modifica elemento';
-        $data['action'] = action('Dashboard\CommessaTemplateNodeController@update', $id);
+        $data['action'] = route('commessa-template-node.update', $id);
         return view('dashboard.commesse-tpl.modals.create-node', $data);
     }
 

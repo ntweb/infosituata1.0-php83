@@ -15,12 +15,12 @@ class InfosituataPublicController extends Controller
 
 
         if ($item->visibility != 'public')
-            return response()->redirectToAction('Dashboard\InfosituataController@check', [$md5_id]);
+            return redirect()->route('infosituata.check', [$md5_id]);
 
 
         switch ($item->controller) {
             case 'risorsa':
-                return response()->redirectToAction('Dashboard\RisorsePublicController@show', [$item->id]);
+                return redirect()->route('risorse-public.show', [$item->id]);
 
         }
 

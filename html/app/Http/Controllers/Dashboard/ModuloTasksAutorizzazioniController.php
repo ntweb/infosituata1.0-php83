@@ -56,7 +56,7 @@ class ModuloTasksAutorizzazioniController extends Controller
         $gruppiIds = Gruppo::get()->pluck('id', 'id');
         $data['gruppi'] = Gruppo::whereIn('id', $gruppiIds)->select('id', 'label')->get()->pluck('label', 'id');
 
-        $data['action'] = action('Dashboard\ModuloTasksAutorizzazioniController@store');
+        $data['action'] = route('mod-tas-aut.store');
         $data['title'] = 'Autorizzazioni modulo task manager';
 
         return view('dashboard.autorizzazioni.modals.autorizzazioni', $data);

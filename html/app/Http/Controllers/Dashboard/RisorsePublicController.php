@@ -49,7 +49,7 @@ class RisorsePublicController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function show($id)
     {
@@ -57,7 +57,7 @@ class RisorsePublicController extends Controller
         if (!$el) abort(404);
 
         if ($el->visibility == 'private')
-            return redirect()->action('Dashboard\RisorseController@show', [$id]);
+            return redirect()->route('risorse.show', [$id]);
 
         risorsaLog($el);
 

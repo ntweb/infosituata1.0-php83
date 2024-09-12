@@ -85,7 +85,7 @@ class TipologiaScadenzaController extends Controller
             $el->save();
             DB::commit();
 
-            return redirect()->action('Dashboard\TipologiaScadenzaController@edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('tipologia-scadenza.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());

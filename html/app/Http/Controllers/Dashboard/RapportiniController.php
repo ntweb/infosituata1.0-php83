@@ -114,7 +114,6 @@ class RapportiniController extends Controller
                 return [$item->id => $item->extras1.' '.$item->extras2];
             });
 
-            // $data['callback'] = 'window.location.replace("'. route('rapportini.index') .'");';
             $data['callback'] = 'reopenLastSavedRapportino';
             $data['formClass'] = 'ns-payload';
             $data['reopenForm'] = 1;
@@ -238,7 +237,7 @@ class RapportiniController extends Controller
             $payload = 'Salvataggio avvenuto correttamente!';
 
             if ($request->has('reopenForm')) {
-                $payload = action('Dashboard\RapportiniController@show', $el->id);
+                $payload = route('rapportini.show', $el->id);
                 return response()->json($payload);
             }
 
@@ -373,7 +372,7 @@ class RapportiniController extends Controller
             $data['reference_id'] = $node->id;
             $data['reference_controller'] = 'commesse';
 
-            $data['action'] = action('Dashboard\ChecklistController@store');
+            $data['action'] = route('checklist.store');
             $data['callback'] = 'refreshChecklist();';
         }
 
@@ -385,7 +384,7 @@ class RapportiniController extends Controller
             $data['label'] = $item->label;
             $data['reference_id'] = $item->id;
             $data['reference_controller'] = $request->input('reference_controller');
-            $data['action'] = action('Dashboard\ChecklistController@store');
+            $data['action'] = route('checklist.store');
             $data['callback'] = 'window.location.replace("'. route('checklist.index') .'");';
 
         }

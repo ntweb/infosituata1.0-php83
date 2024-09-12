@@ -309,7 +309,7 @@ class ModOt23_2024Controller extends Controller
 
             DB::commit();
 
-            return redirect()->action('Dashboard\Inail\ModOt23_2024Controller@edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('mod-ot23_2024.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
@@ -377,7 +377,7 @@ class ModOt23_2024Controller extends Controller
         if (!$el) abort('404');
 
         if(!Gate::allows('can_create_mancati_infortuni_rspp'))
-            return redirect()->action('Dashboard\Inail\ModOt23_2024Controller@show', $id);
+            return redirect()->route('mod-ot23_2024.show', $id);
 
         $el->data_e_ora = substr($el->data_e_ora, 0, 10);
         $data['el'] = $el;

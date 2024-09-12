@@ -53,7 +53,7 @@ class TaskNodeController extends Controller
 
         $data['title'] = 'Crea nuovo task';
         $data['sub_title'] = null;
-        $data['action'] = action('Dashboard\TaskNodeController@store', ['_parent_id' => $parent->id]);
+        $data['action'] = route('task-node.store', ['_parent_id' => $parent->id]);
         return view('dashboard.tasks.modals.create-node', $data);
     }
 
@@ -138,7 +138,7 @@ class TaskNodeController extends Controller
 
         if ($request->has('delete')) {
             $data['title'] = 'Eliminazione: ' . $data['el']->label;
-            $data['action'] = action('Dashboard\TaskNodeController@destroy', $id);
+            $data['action'] = route('task-node.destroy', $id);
             return view('dashboard.tasks.modals.delete-node', $data);
         }
 
@@ -168,7 +168,7 @@ class TaskNodeController extends Controller
 
 
         $data['title'] = 'Modifica elemento';
-        $data['action'] = action('Dashboard\TaskNodeController@update', $id);
+        $data['action'] = route('task-node.update', $id);
 
         if ($request->has('_operator'))
             return view('dashboard.tasks.modals.create-operator-node', $data);
@@ -361,7 +361,7 @@ class TaskNodeController extends Controller
 
         $data['title'] = 'Aggiungi note al task';
         $data['sub_title'] = null;
-        $data['action'] = action('Dashboard\TaskNodeController@update', $id);
+        $data['action'] = route('task-node.update', $id);
 
         return view('dashboard.tasks.modals.note-node', $data);
     }

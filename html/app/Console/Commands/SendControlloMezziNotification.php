@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Mail\CacciatoreAvviso;
 use App\Mail\NotificaListe;
 use App\Models\PrenotazioneDay;
+use App\Models\User;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Mail;
@@ -55,7 +56,7 @@ class SendControlloMezziNotification extends Command
             $this->info('Messaggio ID: '.$m->id);
 
             $bcc = [];
-            $users = \App\User::whereIn('utente_id', explode(',', $m->utenti_ids))->get();
+            $users = User::whereIn('utente_id', explode(',', $m->utenti_ids))->get();
             if (count($users)) {
                 foreach ($users as $u) {
                     $bcc[] = $u->email;
@@ -67,7 +68,7 @@ class SendControlloMezziNotification extends Command
                 $this->info(join(',', $bcc));
 
                 $subject = 'Nuovo controllo mezzo inserito';
-                $message = action('Dashboard\ControlloController@edit', $m->manutenzioni_id);
+                $message = route('controllo.edit', $m->manutenzioni_id);
 
                 sendEmailGenerica(null , $bcc, $subject, $message);
             }

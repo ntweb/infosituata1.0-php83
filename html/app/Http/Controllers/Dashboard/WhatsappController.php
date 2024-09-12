@@ -169,7 +169,7 @@ class WhatsappController extends Controller
 
             DB::commit();
 
-            return redirect()->action('Dashboard\WhatsappController@index', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('whatsapp.index', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
@@ -317,7 +317,7 @@ class WhatsappController extends Controller
 
             DB::commit();
 
-            return redirect()->action('Dashboard\WhatsappController@index', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('whatsapp.index', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());

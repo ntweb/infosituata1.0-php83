@@ -68,7 +68,7 @@ class ModuloCommesseAutorizzazioniController extends Controller
         $gruppiIds = Gruppo::get()->pluck('id', 'id');
         $data['gruppi'] = Gruppo::whereIn('id', $gruppiIds)->select('id', 'label')->get()->pluck('label', 'id');
 
-        $data['action'] = action('Dashboard\ModuloCommesseAutorizzazioniController@store');
+        $data['action'] = route('mod-com-aut.store');
         $data['title'] = 'Autorizzazioni modulo commesse';
 
         return view('dashboard.autorizzazioni.modals.autorizzazioni', $data);

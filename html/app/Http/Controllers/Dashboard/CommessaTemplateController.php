@@ -78,7 +78,7 @@ class CommessaTemplateController extends Controller
             $el->saveAsRoot();
             DB::commit();
 
-            return redirect()->action('Dashboard\CommessaTemplateController@edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('commessa-template.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
@@ -261,7 +261,7 @@ class CommessaTemplateController extends Controller
 
             DB::commit();
 
-            return redirect()->action('Dashboard\CommessaTemplateController@edit', $rootN->id);
+            return redirect()->route('commessa-template.edit', $rootN->id);
         } catch (\Exception $e) {
             DB::rollBack();
 

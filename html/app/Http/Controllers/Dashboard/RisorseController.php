@@ -51,8 +51,6 @@ class RisorseController extends Controller
             abort(401);
 
         $data['azienda_id'] = (Auth::user()->superadmin && $request->has('azienda')) ? $request->get('azienda') : null;
-        //if (packageError('utente', $data['azienda_id']))
-        //    return redirect()->action('Dashboard\PackageController@error')->with(['package-error' => 'Non è consentito creare ulteriori utenti']);
 
         return view('dashboard.infosituata.risorse.create', $data);
     }
@@ -61,7 +59,7 @@ class RisorseController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\Response
      */
     public function store(Request $request)
     {
@@ -89,7 +87,7 @@ class RisorseController extends Controller
             $el->save();
 
             DB::commit();
-            return redirect()->action('Dashboard\RisorseController@edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('risorse.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
@@ -138,7 +136,7 @@ class RisorseController extends Controller
     public function edit($id)
     {
         if (!Gate::allows('can_create_risorse'))
-            return redirect()->action('Dashboard\InfosituataPublicController@check', md5($id));
+            return redirect()->route('infosituata-public.check', md5($id));
 
         $el = Risorsa::find($id);
         if (!$el) abort('404');

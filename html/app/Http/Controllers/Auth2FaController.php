@@ -61,7 +61,7 @@ class Auth2FaController extends Controller
             '_2fa_code_expiration' => null,
         ]);
 
-        return redirect()->action('DashboardController@index');
+        return redirect()->route('dashboard.index');
     }
 
 }

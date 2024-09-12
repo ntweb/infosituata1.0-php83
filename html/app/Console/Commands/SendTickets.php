@@ -59,7 +59,7 @@ class SendTickets extends Command
                 $attachmentURL = null;
                 $attachment = 'tickets/'.$t->id.'.png';
                 if (Storage::disk('public')->exists($attachment)) {
-                    $attachmentURL = action('Dashboard\TicketController@attachment', $t->id);
+                    $attachmentURL = route('ticket.attachment', $t->id);
                 }
 
                 $description = nl2br($t->descrizione);

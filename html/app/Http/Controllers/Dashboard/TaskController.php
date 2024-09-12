@@ -281,7 +281,7 @@ class TaskController extends Controller
             **/
 
             DB::commit();
-            return redirect()->action('Dashboard\TaskController@edit', $rootId);
+            return redirect()->route('task.edit', $rootId);
         } catch (\Exception $e) {
             DB::rollBack();
 

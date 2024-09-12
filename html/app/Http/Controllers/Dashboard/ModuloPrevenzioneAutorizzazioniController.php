@@ -57,7 +57,7 @@ class ModuloPrevenzioneAutorizzazioniController extends Controller
         $data['gruppi'] = Gruppo::whereIn('id', $gruppiIds)->select('id', 'label')->get()->pluck('label', 'id');
 
 
-        $data['action'] = action('Dashboard\ModuloPrevenzioneAutorizzazioniController@store');
+        $data['action'] = route('mod-pre-aut.store');
         $data['title'] = 'Autorizzazioni modulo prevenzione';
 
         return view('dashboard.autorizzazioni.modals.autorizzazioni', $data);

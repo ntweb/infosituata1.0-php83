@@ -69,7 +69,7 @@ class ModuloComunicazioniAutorizzazioniController extends Controller
         $data['gruppi'] = Gruppo::whereIn('id', $gruppiIds)->select('id', 'label')->get()->pluck('label', 'id');
 
 
-        $data['action'] = action('Dashboard\ModuloComunicazioniAutorizzazioniController@store');
+        $data['action'] = route('mod-com-aut.store');
         $data['title'] = 'Autorizzazioni modulo comunicazioni';
 
         return view('dashboard.autorizzazioni.modals.autorizzazioni', $data);

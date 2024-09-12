@@ -107,7 +107,7 @@ class ManutenzioneDettaglioController extends Controller
         $data['manutenzione'] = Manutenzione::find($data['el']->manutenzioni_id);
         if (!$data['manutenzione']) abort(404);
 
-        $data['action'] = action('Dashboard\ManutenzioneDettaglioController@update', [$id, '_type' => 'json']);
+        $data['action'] = route('manutenzione-dettaglio.update', [$id, '_type' => 'json']);
 
         return view('dashboard.manutenzione-dettaglio.create', $data);
     }

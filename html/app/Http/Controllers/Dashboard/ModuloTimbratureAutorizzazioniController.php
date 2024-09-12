@@ -57,7 +57,7 @@ class ModuloTimbratureAutorizzazioniController extends Controller
         $data['gruppi'] = Gruppo::whereIn('id', $gruppiIds)->select('id', 'label')->get()->pluck('label', 'id');
 
 
-        $data['action'] = action('Dashboard\ModuloTimbratureAutorizzazioniController@store');
+        $data['action'] = route('mod-tim-aut.store');
         $data['title'] = 'Autorizzazioni modulo rilevazione presenze';
 
         return view('dashboard.autorizzazioni.modals.autorizzazioni', $data);

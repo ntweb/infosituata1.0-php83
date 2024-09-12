@@ -41,7 +41,7 @@ class GruppoController extends Controller
     {
         $data['azienda_id'] = (Auth::user()->superadmin && $request->has('azienda_id')) ? $request->get('azienda_id') : getAziendaId();
         if (packageError('gruppo', $data['azienda_id']))
-            return redirect()->action('Dashboard\PackageController@error')->with(['package-error' => 'Non è consentito creare ulteriori gruppi']);
+            return redirect()->route('package.error')->with(['package-error' => 'Non è consentito creare ulteriori gruppi']);
 
         return view('dashboard.gruppo.create', $data);
     }
@@ -79,7 +79,7 @@ class GruppoController extends Controller
 
             DB::commit();
 
-            return redirect()->action('Dashboard\GruppoController@edit', [$el->id])->with('success', 'Elemento creato correttamente');
+            return redirect()->route('gruppo.edit', [$el->id])->with('success', 'Elemento creato correttamente');
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());

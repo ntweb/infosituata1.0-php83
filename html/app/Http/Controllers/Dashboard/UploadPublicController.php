@@ -18,7 +18,6 @@ class UploadPublicController extends Controller
             if (!$item) abort(404);
 
             if ($item->visibility == 'private') abort(401);
-            // return redirect()->action('Dashboard\UploadController@download', [$md5_attachment_id]);
         }
 
         $file = public_path('docs/'.$el->azienda_id.'/'.$el->id.'/'.$el->filename);

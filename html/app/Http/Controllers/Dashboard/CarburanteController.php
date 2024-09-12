@@ -128,7 +128,7 @@ class CarburanteController extends Controller
 
             DB::commit();
 
-            return redirect()->action('Dashboard\CarburanteController@edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+            return redirect()->route('carburante.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
@@ -164,9 +164,9 @@ class CarburanteController extends Controller
         $data['item'] = $data['el']->item;
         $data['dettagli'] = $data['el']->dettagli;
 
-        $data['back'] = action('Dashboard\CarburanteController@index', ['id' => $data['item']->id]);
+        $data['back'] = route('carburante.index', ['id' => $data['item']->id]);
 
-        $data['action'] = action('Dashboard\CarburanteController@update', $id);
+        $data['action'] = route('carburante.update', $id);
 
         $data['nextScheda'] = Carburante::where('km', '>', $data['el']->km)->orderBy('km', 'desc')->first();
 
@@ -251,7 +251,7 @@ class CarburanteController extends Controller
 
             DB::commit();
 
-            return redirect()->action('Dashboard\ControlloController@index', ['id' => $el->items_id]);
+            return redirect()->route('controllo.index', ['id' => $el->items_id]);
         }catch (\Exception $e) {
             DB::rollBack();
             Log::info($e->getMessage());
