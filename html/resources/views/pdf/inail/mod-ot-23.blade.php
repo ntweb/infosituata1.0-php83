@@ -1,4 +1,4 @@
-@extends('pdf.base')
+@extends('base')
 
 @section('style')
     <style type="text/css">
@@ -29,7 +29,8 @@
             <td class="font-size-10 text-uppercase"><b>Data e ora</b> <br>{{ $el->data_e_ora }}</td>
             <td class="font-size-10 text-uppercase"><b>Cognome e nome</b> <br>{{ $el->nome_e_cognome }}</td>
             <td class="font-size-10 text-uppercase"><b>Qualifica</b> <br>{{ $el->qualifica }}</td>
-            <td class="font-size-10 text-uppercase"><b>Descrizione incidente</b> <br>{{ $el->descrizione_incidente }}</td>
+            <td class="font-size-10 text-uppercase"><b>Descrizione incidente</b> <br>{{ $el->descrizione_incidente }}
+            </td>
         </tr>
     </table>
 

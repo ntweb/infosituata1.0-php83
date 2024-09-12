@@ -99,8 +99,6 @@ class UserController extends Controller
             $u->utente_id = $el->id;
             $u->utente_azienda_id = $el->azienda_id;
 
-            $u->api_token = Str::random(60);
-
             $u->save();
 
             DB::commit();
@@ -265,11 +263,6 @@ class UserController extends Controller
 
             if ($request->has('_2fa'))
                 $u->_2fa = $request->input('_2fa');
-
-            // Log::info($u->_2fa);
-            if ($u->_2fa && !$u->api_token) {
-                $u->api_token = Str::random(60);
-            }
 
             $u->name = $el->extras1.' '.$el->extras2;
             $u->save();
