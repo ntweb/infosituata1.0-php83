@@ -918,7 +918,7 @@
                             </ul>
                         </li>
 
-                        <li class="{{ isActive(['task.*', 'task-tpl.*']) }}">
+                        <li class="{{ isActive(['task.*', 'task-template.*']) }}">
                             <a href="#">
                                 <i class="metismenu-icon bx bx-task"></i>
                                 Task manager
@@ -942,7 +942,7 @@
                                 </li>
 
                                 @can('can_create_tasks_template')
-                                    <li class="{{ isActive('task-tpl.index') }}">
+                                    <li class="{{ isActive('task-template.index') }}">
                                         <a href="{{ route('task-template.index') }}">
                                             <i class="metismenu-icon"></i>
                                             Template
@@ -1486,7 +1486,7 @@
     <script src="{{ url('js/checklist.js?v=').time() }}"></script>
 @endif
 
-@if(isActive(['task-tpl.*', 'task.*']))
+@if(isActive(['task-template.*', 'task.*']))
     <script src="{{ url('js/task.js?v=').time() }}"></script>
     <script src="{{ url('js/task-tpl.js?v=').time() }}"></script>
 @endif
