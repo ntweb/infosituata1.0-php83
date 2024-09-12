@@ -894,7 +894,7 @@
                             </ul>
                         </li>
 
-                        <li class="{{ isActive(['checklist.*', 'checklist-tpl.*']) }}">
+                        <li class="{{ isActive(['checklist.*', 'checklist-template.*']) }}">
                             <a href="#">
                                 <i class="metismenu-icon bx bx-check-circle"></i>
                                 Checklist
@@ -1478,7 +1478,7 @@
     <script src="{{ url('js/rapportini.js?v=').time() }}"></script>
 @endif
 
-@if(isActive(['checklist-tpl.*']))
+@if(isActive(['checklist-template.*']))
     <script src="{{ url('js/checklist-tpl.js?v=').time() }}"></script>
 @endif
 
