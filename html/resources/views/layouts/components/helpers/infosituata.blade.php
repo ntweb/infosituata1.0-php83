@@ -1,20 +1,30 @@
 @php
     /** La visibilità sarà sempre pubbica, se la risorsa è privata ci sarà un redirect **/
     $url = route('infosituata-public.check', [md5($el->id)]);
+
+    $writer = new Endroid\QrCode\Writer\PngWriter();
+    $qrCode = Endroid\QrCode\QrCode::create($url)
+        ->setSize(500)
+        ->setMargin(10)
+        ->setRoundBlockSizeMode(Endroid\QrCode\RoundBlockSizeMode::Margin)
+        ->setForegroundColor(new Endroid\QrCode\Color\Color(0, 0, 0))
+        ->setBackgroundColor(new Endroid\QrCode\Color\Color(255, 255, 255));
+    $base64 = $writer->write($qrCode)->getString();
+
 @endphp
 
 <div class="card-hover-shadow-2x mb-3 card">
     <div class="card-header">Infosituata</div>
     <div class="card-body">
         <a href="{{ $url }}">
-            <img class="img-fluid" src="data:image/png;base64, {{ base64_encode(QrCode::format('png')->size(500)->generate($url)) }} " >
+            <img class="img-fluid" src="data:image/png;base64, {{ base64_encode($base64) }} " >
         </a>
 {{--        {{ $url }}--}}
     </div>
     <div class="d-block card-footer">
         <a class="mr-2 btn btn-link btn-sm pull-left" href="{{ $url }}" >Infosituata check</a>
         <a class="mr-2 btn btn-link btn-sm pull-right" href="{{ route('infosituata.qr', ['png', 'generate' => urlencode($url)]) }}" target="_blank">PNG</a>
-        <a class="mr-2 btn btn-link btn-sm pull-right" href="{{ route('infosituata.qr', ['svg', 'generate' => urlencode($url)]) }}" target="_blank">SVG</a>
+{{--        <a class="mr-2 btn btn-link btn-sm pull-right" href="{{ route('infosituata.qr', ['svg', 'generate' => urlencode($url)]) }}" target="_blank">SVG</a>--}}
     </div>
 
     @if($el->controller == 'risorsa')

@@ -145,9 +145,9 @@ Route::get('/dashboard/messaggio/user/{id}/show', [ScadenzarioController::class,
 Route::resource('messaggio', MessaggioController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
 
 // Topic
-Route::get('/dashboard/topic/load-other/messages', [ScadenzarioController::class, 'loadOtherMessages'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('scadenzario.load-other-messages');
-Route::get('/dashboard/topic/{id}/messages', [ScadenzarioController::class, 'messages'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('scadenzario.messages');
-Route::post('/dashboard/topic/store/{id}/message', [ScadenzarioController::class, 'storeMessage'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('scadenzario.store-message');
+Route::get('/dashboard/topic/load-other/messages', [TopicController::class, 'loadOtherMessages'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('topic.load-other-messages');
+Route::get('/dashboard/topic/{id}/messages', [TopicController::class, 'messages'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('topic.messages');
+Route::post('/dashboard/topic/store/{id}/message', [TopicController::class, 'storeMessage'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('topic.store-message');
 Route::resource('topic', TopicController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
 
 // Eventi

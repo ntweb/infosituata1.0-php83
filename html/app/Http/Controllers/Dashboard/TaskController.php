@@ -26,7 +26,6 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use PDF;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class TaskController extends Controller
 {

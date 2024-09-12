@@ -12,9 +12,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind('path.public', function() {
-            return base_path().DIRECTORY_SEPARATOR.'public_html';
-        });
+//        $this->app->bind('path.public', function() {
+//            return base_path().DIRECTORY_SEPARATOR.'public_html';
+//        });
     }
 
     /**

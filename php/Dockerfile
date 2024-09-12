@@ -13,10 +13,10 @@ RUN apk add jpeg-dev libpng-dev \
     && docker-php-ext-install -j$(nproc) gd
 
 # Install Imagick extension
-RUN apk add --update --no-cache autoconf g++ imagemagick imagemagick-dev libtool make pcre-dev \
-    && pecl install imagick \
-    && docker-php-ext-enable imagick \
-    && apk del autoconf g++ libtool make pcre-dev
+#RUN apk add --update --no-cache autoconf g++ imagemagick imagemagick-dev libtool make pcre-dev \
+#    && pecl install imagick \
+#    && docker-php-ext-enable imagick \
+#    && apk del autoconf g++ libtool make pcre-dev
 
 RUN NUMPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
     && docker-php-ext-install -j${NUMPROC} gd

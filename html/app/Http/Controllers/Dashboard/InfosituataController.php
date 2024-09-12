@@ -13,6 +13,10 @@ use App\Models\Rapportino;
 use App\Models\Risorsa;
 use App\Models\RisorsaLog;
 use App\Models\Utente;
+use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\RoundBlockSizeMode;
+use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -21,7 +25,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class InfosituataController extends Controller
 {
@@ -65,12 +68,21 @@ class InfosituataController extends Controller
 
     public function qr(Request $request, $format) {
         $generate = urldecode($request->get('generate'));
+
+        $writer = new PngWriter();
+        $qrCode = QrCode::create($generate)
+            ->setSize(500)
+            ->setMargin(10)
+            ->setRoundBlockSizeMode(RoundBlockSizeMode::Margin)
+            ->setForegroundColor(new Color(0, 0, 0))
+            ->setBackgroundColor(new Color(255, 255, 255));
+
         switch ($format) {
             case 'png':
-                $contents = QrCode::format('png')->size(500)->generate($generate);
+                $contents = $writer->write($qrCode)->getString();
                 break;
             default:
-                $contents = QrCode::format('svg')->size(500)->generate($generate);
+                $contents = $writer->write($qrCode)->getString();
         }
 
         $filename = time().'_'.Auth::user()->id.'.'.$format;
