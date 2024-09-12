@@ -1,5 +1,5 @@
 @php
-    $action = route('Task.assegnati');
+    $action = route('task.assegnati');
 @endphp
 
 <form class="" id="frmSearchTaskAssegnati" action="{{ $action }}" autocomplete="none" method="get" data-container="#div-list-assegnati" data-callback="$('#modalTasksSearch').modal('hide');">
