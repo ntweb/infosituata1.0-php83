@@ -48,7 +48,7 @@ function padZero(str, len) {
 function drawGanttLines() {
 
     var data = JSON.parse($('#data-events').val());
-    // console.log(data);
+    // console.log('drawGanttLines', data);
 
     var tdBorder = 1;
     var eventLineHeight = 22;
@@ -102,10 +102,10 @@ function drawGanttLines() {
                 .attr('data-toggle', 'tooltip')
                 .attr('data-placement', 'top')
                 .attr('data-title', line.title)
-                .html('<div class="gantt" sytle="left: '+calcStickyLeftMargin+'px"><span class="gantt-type">'+ line.type +'</span>'+ line.title +'</div>');
+                .html('<div class="gantt" style="left: '+calcStickyLeftMargin+'px"><span class="gantt-type">'+ line.type +'</span>'+ line.title +'</div>');
             l.appendTo(td);
 
-            // console.log(l.prev());
+            // console.log('tdW * days', tdW,  '*', days);
 
             // if (l.prev().length && margin > 0) {
             if (l.prev().length && margin > 0) {

@@ -68,7 +68,7 @@ class CommessaUtilsController extends Controller
                 // 'from' => $node->data_inizio_prevista,
                 'from' => $b->toDateString(),
                 'to' => $node->data_fine_prevista,
-                'days' => $e->diffInDays($b) + 1,
+                'days' => abs($e->diffInDays($b)) + 1,
                 'title' => Str::title(strtolower($node->root->label)) . ' / ' . Str::title(strtolower($node->label)),
                 'bgColor' => $node->color ?? '#ffffff',
                 'class' => null
@@ -199,7 +199,7 @@ class CommessaUtilsController extends Controller
                     'type' => 'event',
                     'from' => $b->toDateString(),
                     'to' => $event->end,
-                    'days' => $e->diffInDays($b) + 1,
+                    'days' => abs($e->diffInDays($b)) + 1,
                     'title' => Str::title(strtolower($event->titolo))
                 ];
             }
@@ -219,7 +219,7 @@ class CommessaUtilsController extends Controller
                     'type' => 'commessa',
                     'from' => $b->toDateString(),
                     'to' => $event->data_fine_prevista,
-                    'days' => $e->diffInDays($b) + 1,
+                    'days' => abs($e->diffInDays($b)) + 1,
                     'title' => Str::title(strtolower($event->root->label . ' / ' . $event->parent->label))
                 ];
             }
@@ -291,7 +291,7 @@ class CommessaUtilsController extends Controller
                 // 'from' => $node->data_inizio_prevista,
                 'from' => $b->toDateString(),
                 'to' => $node->data_fine_prevista,
-                'days' => $e->diffInDays($b) + 1,
+                'days' => abs($e->diffInDays($b)) + 1,
                 'title' => Str::title(strtolower($node->label)),
                 'bgColor' => $node->color ?? '#ffffff',
                 'class' => null

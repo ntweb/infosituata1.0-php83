@@ -1,5 +1,5 @@
 @php
-    $action = isset($el) ? route('Device.update', [$el->id, '_type' => 'json']) : route('Device.store');
+    $action = isset($el) ? route('device.update', [$el->id, '_type' => 'json']) : route('Device.store');
     $class = isset($el) ? 'ns' : null;
 @endphp
 

@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\DeviceConfiguration;
+use App\Models\HumanActivity;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -31,9 +32,9 @@ class HumanActivityController extends Controller
             /**
              * Prendo la configurazione attuale per capire l'entità di HRM
              */
-            $conf = \App\Models\DeviceConfiguration::whereDeviceId($device->id)->whereActive('1')->first();
+            $conf = DeviceConfiguration::whereDeviceId($device->id)->whereActive('1')->first();
             if (!$conf)
-                $conf = \App\Models\DeviceConfiguration::whereAziendaId($device->azienda_id)->whereDeviceId(0)->first();
+                $conf = DeviceConfiguration::whereAziendaId($device->azienda_id)->whereDeviceId(0)->first();
 
             $hrm = 'nd';
             if ($request->get('hrm') <= $conf->hrm_bpm_max && $request->get('hrm') >= $conf->hrm_bpm_min) $hrm = 'normal';
@@ -42,7 +43,7 @@ class HumanActivityController extends Controller
 
             //Log::info('arrivo');
 
-            $el = new \App\Models\HumanActivity;
+            $el = new HumanActivity;
             $el->device_id = $device->id;
             $el->utente_id = $device->utente_id;
             $el->azienda_id = $device->azienda_id;

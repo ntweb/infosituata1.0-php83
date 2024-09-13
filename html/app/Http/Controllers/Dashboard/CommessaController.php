@@ -534,12 +534,18 @@ class CommessaController extends Controller
             $b = new \Carbon\Carbon($node->data_inizio_prevista);
             $e = new \Carbon\Carbon($node->data_fine_prevista);
 
+            // Log::info('-------------');
+            // Log::info(Str::title(strtolower($node->label)));
+            // Log::info($b);
+            // Log::info($e);
+            // Log::info($e->diffInDays($b) + 1);
+
             $data['events'][$node->id]['item_id'] = $node->id;
             $data['events'][$node->id]['lines'][] = [
                 'type' => 'p',
                 'from' => $node->data_inizio_prevista,
                 'to' => $node->data_fine_prevista,
-                'days' => $e->diffInDays($b) + 1,
+                'days' => abs($e->diffInDays($b)) + 1,
                 'title' => Str::title(strtolower($node->label)),
                 'bgColor' => $node->color,
                 'class' => null
@@ -554,7 +560,7 @@ class CommessaController extends Controller
                 'type' => 'c',
                 'from' => $node->data_inizio_effettiva ?? $node->data_inizio_prevista,
                 'to' => $node->data_fine_effettiva ?? $node->data_fine_prevista,
-                'days' => $e->diffInDays($b) + 1,
+                'days' => abs($e->diffInDays($b)) + 1,
                 'title' => Str::title(strtolower($node->label)),
                 'bgColor' => $node->data_inizio_effettiva ? $node->color : '#ffffff',
                 'class' => $node->data_inizio_effettiva ? null : 'stripe'
@@ -606,6 +612,7 @@ class CommessaController extends Controller
         $data['range'] = [$minPrevInizio, $minPrevFine];
         $data['period'] = \Carbon\CarbonPeriod::create(new \Carbon\Carbon($minPrevInizio), new \Carbon\Carbon($minPrevFine));
 
+        Log::info($data['events']);
         return view('dashboard.commesse.analisi.components.gantt20', $data);
     }
 
