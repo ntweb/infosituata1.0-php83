@@ -2,17 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\CacciatoreAvviso;
-use App\Mail\NotificaListe;
-use App\Models\PrenotazioneDay;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Mail;
+use App\Models\Pivot\MessaggioTopicNotify;
 use Illuminate\Support\Str;
-use PDF;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class SendTopicNotification extends Command
 {
@@ -47,10 +40,8 @@ class SendTopicNotification extends Command
      */
     public function handle()
     {
-        // Log::info('aaaaaaaaa');
         $now = \Carbon\Carbon::now();
-        // $topics = \App\Models\Pivot\MessaggioTopicNotify::where('created_at', '>=', $now->subMinutes(30))
-        $topics = \App\Models\Pivot\MessaggioTopicNotify::where('created_at', '>=', $now->subMinutes(5))
+        $topics = MessaggioTopicNotify::where('created_at', '>=', $now->subMinutes(5))
             ->whereNull('sent_at')
             ->with(['topic', 'utente', 'utente.user'])
             ->get();

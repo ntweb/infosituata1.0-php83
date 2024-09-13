@@ -2,17 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\CacciatoreAvviso;
-use App\Mail\NotificaListe;
-use App\Models\PrenotazioneDay;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Mail;
+use App\Models\Scadenza;
+use App\Models\Utente;
 use Illuminate\Support\Str;
-use PDF;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class SendScadenzeNotification extends Command
 {
@@ -48,7 +41,7 @@ class SendScadenzeNotification extends Command
     public function handle()
     {
         $today = \Carbon\Carbon::today()->toDateString();
-        $scadenze = \App\Models\Scadenza::whereAdviceAt($today)
+        $scadenze = Scadenza::whereAdviceAt($today)
                         ->whereAdviced('0')
                         ->limit(10)
                         ->with(['gruppi', 'item', 'module', 'detail', 'commessa'])->get();
@@ -81,7 +74,7 @@ class SendScadenzeNotification extends Command
             }
 
             if ($scadenza->advice_item == '1') {
-                $utente = \App\Models\Utente::find($scadenza->item_id);
+                $utente = Utente::find($scadenza->item_id);
                     if ($utente->user->active)
                         $bcc[] = $utente->user->email;
             }

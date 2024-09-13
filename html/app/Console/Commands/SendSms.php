@@ -2,17 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\CacciatoreAvviso;
-use App\Mail\NotificaListe;
-use App\Models\PrenotazioneDay;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
-use PDF;
+use App\Models\Sms;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class SendSms extends Command
 {
@@ -47,7 +38,7 @@ class SendSms extends Command
      */
     public function handle()
     {
-        $sms = \App\Models\Sms::where('to_send', '1')
+        $sms = Sms::where('to_send', '1')
                         ->with(['azienda', 'utenti'])->get();
 
         foreach ($sms as $s) {

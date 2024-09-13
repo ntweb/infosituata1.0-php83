@@ -2,18 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\CacciatoreAvviso;
-use App\Mail\NotificaListe;
-use App\Models\PrenotazioneDay;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
-use PDF;
+use App\Models\Parameter;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
-
 class ZohoRefreshToken extends Command
 {
     /**
@@ -47,7 +37,16 @@ class ZohoRefreshToken extends Command
      */
     public function handle()
     {
-        $zoho = \App\Models\Parameter::find('ZOHO_TOKEN');
+        $zoho = Parameter::find('ZOHO_TOKEN');
+        if ($zoho) {
+            $jsonString = $zoho->value;
+            $json = json_decode($jsonString, true);
+            if ($json['error']) {
+                $zoho->delete();
+                $zoho = null;
+            }
+        }
+
         if (!$zoho) {
             $client = new \GuzzleHttp\Client();
             $res = $client->request('POST', 'https://accounts.zoho.eu/oauth/v2/token', [
@@ -65,7 +64,7 @@ class ZohoRefreshToken extends Command
                 $json = json_decode($jsonString, true);
 
                 if (!isset($json['error'])) {
-                    $zoho = \App\Models\Parameter::firstOrNew(['id' => 'ZOHO_TOKEN']);
+                    $zoho = Parameter::firstOrNew(['id' => 'ZOHO_TOKEN']);
                     $zoho->value = $jsonString;
                     $zoho->save();
                 }

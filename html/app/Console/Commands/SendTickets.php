@@ -2,18 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\CacciatoreAvviso;
-use App\Mail\NotificaListe;
-use App\Models\PrenotazioneDay;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Mail;
+use App\Models\Parameter;
+use App\Models\Ticket;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use PDF;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class SendTickets extends Command
 {
@@ -48,12 +40,14 @@ class SendTickets extends Command
      */
     public function handle()
     {
-        $zoho = \App\Models\Parameter::find('ZOHO_TOKEN');
+        $zoho = Parameter::find('ZOHO_TOKEN');
+        // $this->info('ZOHO_TOKEN', $zoho->value);
+
         if ($zoho->value) {
             $json = json_decode($zoho->value, true);
 
 
-            $tickets = \App\Models\Ticket::orderBy('created_at')->limit(10)->get();
+            $tickets = Ticket::orderBy('created_at')->limit(10)->get();
             foreach ($tickets as $t) {
 
                 $attachmentURL = null;

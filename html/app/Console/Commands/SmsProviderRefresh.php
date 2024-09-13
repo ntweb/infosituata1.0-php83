@@ -2,17 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\CacciatoreAvviso;
-use App\Mail\NotificaListe;
-use App\Models\PrenotazioneDay;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
-use PDF;
+use App\Models\Azienda;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class SmsProviderRefresh extends Command
 {
@@ -47,7 +38,7 @@ class SmsProviderRefresh extends Command
      */
     public function handle()
     {
-        $aziende = \App\Models\Azienda::where('module_sms', '1')
+        $aziende = Azienda::where('module_sms', '1')
             ->where('module_sms_provider_refresh', '1')
             ->get();
 

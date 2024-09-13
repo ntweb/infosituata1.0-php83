@@ -2,20 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\CacciatoreAvviso;
-use App\Mail\NotificaListe;
-use App\Models\PrenotazioneDay;
-
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-
 use Maatwebsite\Excel\Facades\Excel;
-
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 

@@ -2,19 +2,13 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\CacciatoreAvviso;
-use App\Mail\NotificaListe;
-use App\Models\PrenotazioneDay;
+use App\Models\AttachmentS3;
+use App\Models\Azienda;
 use App\Utilities\S3;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use PDF;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class TransferS3 extends Command
 {
@@ -59,7 +53,7 @@ class TransferS3 extends Command
 
         $id = $this->argument('id');
 
-        $aziende = \App\Models\Azienda::with('user')->where('id', $id)->get();
+        $aziende = Azienda::with('user')->where('id', $id)->get();
         foreach ($aziende as $azi) {
             $this->info('---------------------------------------------');
 
@@ -206,7 +200,7 @@ class TransferS3 extends Command
     }
 
     protected function transferCloud($attachment, $reference, $reference_id, $reference_table, $is_embedded) {
-        $s3Attachment = new \App\Models\AttachmentS3;
+        $s3Attachment = new AttachmentS3;
         $s3Attachment->id = Str::uuid();
         $s3Attachment->azienda_id = $reference->azienda_id;
         $s3Attachment->reference_id = $reference_id;

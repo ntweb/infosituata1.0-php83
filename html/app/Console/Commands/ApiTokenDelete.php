@@ -2,21 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\CacciatoreAvviso;
-use App\Mail\NotificaListe;
-use App\Models\PrenotazioneDay;
-use App\Utilities\S3;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
-use PDF;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class ApiTokenDelete extends Command
 {
@@ -49,5 +36,7 @@ class ApiTokenDelete extends Command
             ->whereNull('last_used_at')
             ->where('created_at', '<', now()->subMonths(2))
             ->delete();
+
+        return true;
     }
 }

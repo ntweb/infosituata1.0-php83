@@ -2,17 +2,8 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\CacciatoreAvviso;
-use App\Mail\NotificaListe;
-use App\Models\PrenotazioneDay;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
-use PDF;
+use App\Models\MessaggioWhatsapp;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class SendWhatsapp extends Command
 {
@@ -47,7 +38,7 @@ class SendWhatsapp extends Command
      */
     public function handle()
     {
-        $messaggi = \App\Models\MessaggioWhatsapp::whereNull('sent_at')->with(['messaggio', 'messaggio.azienda', 'utente'])->get();
+        $messaggi = MessaggioWhatsapp::whereNull('sent_at')->with(['messaggio', 'messaggio.azienda', 'utente'])->get();
         foreach ($messaggi as $m) {
             $this->info('sending whatsapp to -> ' . $m->utente->label);
             // $this->info('sending whatsapp to -> ' . $m->messaggio);
