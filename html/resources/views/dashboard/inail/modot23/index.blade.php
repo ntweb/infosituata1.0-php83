@@ -119,7 +119,7 @@
                         @endif
 
                         @if(@isset($possibili_cause))
-                            <h5 class="card-title">Possibili cause (Lavoratore)</h5>
+                            <h5 class="card-title">Possibili cause dell'evento</h5>
                             <div class="table-responsive pb-4">
                                 <table class="mb-0 table table-hover">
                                     <thead>
@@ -142,7 +142,7 @@
                         @endif
 
                         @if(@isset($incidente_poss_cause))
-                            <h5 class="card-title">Possibili cause (RSPP)</h5>
+                            <h5 class="card-title">Incidente (Tipologia di mancato infortunio)</h5>
                             <div class="table-responsive pb-4">
                                 <table class="mb-0 table table-hover">
                                     <thead>
@@ -165,7 +165,7 @@
                         @endif
 
                         @if(@isset($cause_accertate))
-                            <h5 class="card-title">Cause accertate (RSPP)</h5>
+                            <h5 class="card-title">Cause accertate dell'evento</h5>
                             <div class="table-responsive pb-4">
                                 <table class="mb-0 table table-hover">
                                     <thead>
@@ -180,7 +180,6 @@
                                             <td>{{ Str::title($el) }}</td>
                                             <td class="text-right">{{ $val }}</td>
                                         </tr>
-
                                     @endforeach
                                     </tbody>
                                 </table>
