@@ -1,5 +1,5 @@
 @php
-    $action = isset($el) ? route('azienda,update', [$el->id, '_type' => 'json']) : route('azienda,store');
+    $action = isset($el) ? route('azienda.update', [$el->id, '_type' => 'json']) : route('azienda.store');
     $class = isset($el) ? 'ns' : null;
 @endphp
 
