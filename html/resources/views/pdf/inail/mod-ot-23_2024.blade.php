@@ -46,7 +46,7 @@
         <tr>
             <td class="font-size-10 text-uppercase"><b>Possibili cause dell'evento</b><br>
                 <ul style="padding-left: 1cm; padding-right: 1cm;">
-                @foreach($json_possibili_cause as $id)
+                @foreach($json_possibili_cause ?? [] as $id)
                     <li>{{ $modot_23_2024_possibili_cause[$id] }}</li>
                 @endforeach
                 </ul>
@@ -105,13 +105,13 @@
         <tr>
             <td class="font-size-10 text-uppercase"><b>Incidente (Tipologia di mancato infortunio)</b><br>
                 <ul style="padding-left: 1cm; padding-right: 1cm;">
-                    @foreach($json_incidente_poss_cause as $id)
+                    @foreach($json_incidente_poss_cause ?? [] as $id)
                         <li>{{ $modot_23_2024_incidente_poss_cause[$id] }}</li>
                     @endforeach
                 </ul>
             </td>
         </tr>
-        @if ($json_incidente_poss_cause_altro)
+        @if (@$json_incidente_poss_cause_altro)
             <tr>
                 <td class="font-size-10">
                     <b>Altro (Specifica)</b>
@@ -126,13 +126,13 @@
         <tr>
             <td class="font-size-10 text-uppercase"><b>Cause accertate dell'evento (A partire dal modulo di segnalazione si confermano o modificano le possibili cause lì indicate)</b><br>
                 <ul style="padding-left: 1cm; padding-right: 1cm;">
-                    @foreach($json_cause_accertate as $id)
+                    @foreach($json_cause_accertate ?? [] as $id)
                         <li>{{ $modot_23_2024_cause_accertate[$id] }}</li>
                     @endforeach
                 </ul>
             </td>
         </tr>
-        @if ($json_cause_accertate_altro)
+        @if (@$json_cause_accertate_altro)
             <tr>
                 <td class="font-size-10">
                     <b>Altro (Specifica)</b>
@@ -146,11 +146,11 @@
                 {{ $modot_23_2024_situazione_presentata[$json_situazione_presentata] }}
             </td>
         </tr>
-        @if ($json_critic_organizzative)
+        @if (@$json_critic_organizzative)
         <tr>
             <td class="font-size-10 text-uppercase"><b>Cause accertate dell'evento (A partire dal modulo di segnalazione si confermano o modificano le possibili cause lì indicate)</b><br>
                 <ul style="padding-left: 1cm; padding-right: 1cm;">
-                    @foreach($json_critic_organizzative as $id)
+                    @foreach($json_critic_organizzative ?? [] as $id)
                         <li>{{ $modot_23_2024_critic_organizzative[$id] }}</li>
                     @endforeach
                 </ul>
