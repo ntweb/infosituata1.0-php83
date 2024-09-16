@@ -276,7 +276,7 @@ class ModOt23_2024Controller extends Controller
         $json = [];
         foreach ($fields as $k => $v) {
 
-            if(starts_with($k, 'json_')) {
+            if(Str::startsWith($k, 'json_')) {
                 $json[str_replace('json_', '', $k)] = $v;
             }
             else {
@@ -437,7 +437,7 @@ class ModOt23_2024Controller extends Controller
         $json = [];
         foreach ($fields as $k => $v) {
 
-            if(starts_with($k, 'json_')) {
+            if(Str::startsWith($k, 'json_')) {
                 $json[str_replace('json_', '', $k)] = $v;
             }
             else {
