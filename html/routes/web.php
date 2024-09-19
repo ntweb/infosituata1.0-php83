@@ -141,7 +141,7 @@ Route::put('/dashboard/scadenzario/{id}/check', [ScadenzarioController::class, '
 Route::resource('scadenzario', ScadenzarioController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
 
 // Messaggio
-Route::get('/dashboard/messaggio/user/{id}/show', [ScadenzarioController::class, 'showUser'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('messaggio.show-user');
+Route::get('/dashboard/messaggio/user/{id}/show', [MessaggioController::class, 'showUser'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('messaggio.show-user');
 Route::resource('messaggio', MessaggioController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
 
 // Topic
