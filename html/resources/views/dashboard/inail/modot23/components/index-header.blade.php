@@ -11,9 +11,9 @@
     <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle btn btn-primary btn-sm">Menù</button>
     <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu-right dropdown-menu-rounded dropdown-menu">
         @can('testing')
-        <a href="{{ route('mod-ot23_2024.create') }}" tabindex="0" class="dropdown-item"><i class="fas fa-fw fa-plus mr-2"></i> crea nuovo modulo 2024</a>
+        <a href="{{ route('mod-ot23_2024.create') }}" tabindex="0" class="dropdown-item"><i class="fas fa-fw fa-plus mr-2"></i> crea nuovo modulo</a>
         @endcan
-        <a href="{{ route('mod-ot23.create') }}" tabindex="0" class="dropdown-item"><i class="fas fa-fw fa-plus mr-2"></i> crea nuovo modulo</a>
+        {{-- <a href="{{ route('mod-ot23.create') }}" tabindex="0" class="dropdown-item"><i class="fas fa-fw fa-plus mr-2"></i> crea nuovo modulo</a> --}}
         @can('can_create_mancati_infortuni_export')
             @if($years)
                 <h6 tabindex="-1" class="dropdown-header">Export</h6>
