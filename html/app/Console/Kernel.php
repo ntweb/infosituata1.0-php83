@@ -48,7 +48,7 @@ class Kernel extends ConsoleKernel
 
         $schedule->command('clienti:import')->everyMinute()->withoutOverlapping(5);
 
-        $schedule->command('zoho:refresh-token')->everyTenMinutes()->withoutOverlapping(5);
+        // $schedule->command('zoho:refresh-token')->everyTenMinutes()->withoutOverlapping(5);
         $schedule->command('tickets:send')->everyFiveMinutes()->withoutOverlapping(5);
         $schedule->command('tickets:tickets:delete-attachments')->daily();
 

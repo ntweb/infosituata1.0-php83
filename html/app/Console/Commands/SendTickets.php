@@ -40,12 +40,13 @@ class SendTickets extends Command
      */
     public function handle()
     {
+
+        /**
         $zoho = Parameter::find('ZOHO_TOKEN');
         // $this->info('ZOHO_TOKEN', $zoho->value);
-
         if ($zoho->value) {
             $json = json_decode($zoho->value, true);
-
+        **/
 
             $tickets = Ticket::orderBy('created_at')->limit(10)->get();
             foreach ($tickets as $t) {
@@ -56,17 +57,18 @@ class SendTickets extends Command
                     $attachmentURL = route('ticket.attachment', $t->id);
                 }
 
-                $description = nl2br($t->descrizione);
-                $description .= "<br>-------------------<br>";
-                $description .= $t->azienda."<br>";
-                $description .= 'Utente: ' .$t->utente."<br>";
-                $description .= 'Modulo: ' . $t->modulo.'<br>';
-                $description .= 'URL: <a href="'.$t->url.'">Apri URL catturata</a><br>';
+                $message = nl2br($t->descrizione);
+                $message .= "<br>-------------------<br>";
+                $message .= $t->azienda."<br>";
+                $message .= 'Utente: ' .$t->utente."<br>";
+                $message .= 'Modulo: ' . $t->modulo.'<br>';
+                $message .= 'URL: <a href="'.$t->url.'">Apri URL catturata</a><br>';
 
                 if ($attachmentURL) {
-                    $description .= 'Attachment: <a href="'.$attachmentURL.'">Apri allegato</a><br>';
+                    $message .= 'Attachment: <a href="'.$attachmentURL.'">Apri allegato</a><br>';
                 }
 
+                /*
                 $data = [
                     'departmentId' => 138575000000007061,
                     'subject' => $t->oggetto,
@@ -80,7 +82,11 @@ class SendTickets extends Command
                     'channel' => 'Infosituata web application',
                     'webUrl' => $t->url
                 ];
+                */
 
+                sendEmailGenerica(null, ['mimmomecca@gmail.com', 'info@infosituata.com'], 'Ticket: ' . $t->oggetto, $message);
+
+                /**
                 $ch = curl_init();
 
                 curl_setopt($ch, CURLOPT_URL, 'https://desk.zoho.eu/api/v1/tickets');
@@ -103,7 +109,13 @@ class SendTickets extends Command
                 }
 
                 curl_close($ch);
+                **/
+
+                $t->delete();
             }
+
+        /**
         }
+         **/
     }
 }
