@@ -84,7 +84,7 @@ class SendTickets extends Command
                 ];
                 */
 
-                sendEmailGenerica(null, ['mimmomecca@gmail.com', 'info@infosituata.com'], 'Ticket: ' . $t->oggetto, $message);
+                sendEmailGenerica(null, ['mimmomecca@gmail.com', 'info@infosituata.it'], 'Ticket: ' . $t->oggetto, $message);
 
                 /**
                 $ch = curl_init();
