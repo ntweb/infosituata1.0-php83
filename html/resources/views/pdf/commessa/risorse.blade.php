@@ -16,7 +16,7 @@
                 @foreach($node->descendants as $child)
                     <tr>
                         <td>
-                            <table class="full-width">
+                            <table class="full-width bordered-left">
                                 <tr>
                                     <td class="vertical-align-top">
                                         <strong>{{ Str::title($child->label) }}</strong>

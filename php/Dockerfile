@@ -25,3 +25,7 @@ RUN NUMPROC=$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 COPY php.ini /usr/local/etc/php/conf.d/
+
+RUN addgroup -g 1000 laravel && adduser -G laravel -g laravel -s /bin/sh -D laravel
+
+USER laravel

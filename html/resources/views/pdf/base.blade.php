@@ -13,6 +13,7 @@
             margin: 0;
             padding: 0;
         }
+
         .page-break {
             page-break-after: always;
         }
@@ -39,6 +40,7 @@
             border-bottom: 0.01em solid #ccc;
         }
         td { padding: 1mm; }
+        table.bordered-left td { border-left: 0.01em solid #ccc !important; }
         th { padding: 1mm; }
         .bordered {
             box-sizing: border-box;
@@ -78,7 +80,8 @@
 
         header {
             position: fixed;
-            padding: 10mm;
+            padding: 5mm;
+            background-color: #0a66b7 !important;
         }
 
         footer {

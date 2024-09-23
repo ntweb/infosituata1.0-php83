@@ -87,7 +87,7 @@
                     @if(!$child->item_id)
                         <tr>
                             <td colspan="3">
-                                <table class="full-width">
+                                <table class="full-width bordered-left">
                                     <tr>
                                         <td class="vertical-align-top" colspan="3">
                                             <strong>{{ Str::title($child->label) }}</strong>

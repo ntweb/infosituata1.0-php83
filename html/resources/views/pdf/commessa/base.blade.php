@@ -11,22 +11,26 @@
 
         header {
             position: fixed;
-            margin: 5mm;
-            margin-left: 10mm;
-            margin-right: 10mm;
-            /*background-color: aquamarine;*/
+            margin: 0;
+            padding-left: 10mm;
+            padding-right: 10mm;
+            /* background-color: aquamarine; */
+            top: 0;
+            left:0;
+            right: 0;
             height: 2cm;
         }
 
         footer {
             position: fixed;
-            bottom: 0mm;
-            margin: 5mm;
-            margin-top: 0mm;
-            margin-left: 10mm;
-            margin-right: 10mm;
+            bottom: 0;
+            left:0;
+            right: 0;
+            margin: 0;
+            padding-left: 10mm;
+            padding-right: 10mm;
             height: 1.5cm;
-            /*background-color: aquamarine;*/
+            /* background-color: aquamarine; */
         }
 
         * {
@@ -67,6 +71,7 @@
             border-top: 0.01em solid #000;
             border-bottom: 0.01em solid #000;
         }
+        table.bordered-left td { border-left: 0.01em solid #000 !important; }
         td { padding: 1mm; }
         th { padding: 1mm; }
         .vertical-align-top {

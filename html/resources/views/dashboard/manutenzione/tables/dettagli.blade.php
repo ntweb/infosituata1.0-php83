@@ -25,7 +25,7 @@
                                             data-route="{{ route('manutenzione-dettaglio.destroy', [$l->id, '_type' => 'json']) }}"
                                             data-callback="deleteElement('#l-{{ $l->id }}');"><i class="fas fa-trash fa-fw"></i></button>
                                     <button type="button" class="btn btn-light get-html"
-                                            data-route="{{ route('manutenzione-dettaglio.edit', ['id' => $l->id]) }}"
+                                            data-route="{{ route('manutenzione-dettaglio.edit', [$l->id]) }}"
                                             data-container="#form-create"><i class="fas fa-edit fa-fw"></i></button>
                                 </div>
                             </td>
