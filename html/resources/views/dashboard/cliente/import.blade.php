@@ -23,7 +23,7 @@
                 </div>
             </div>
 
-            <form action="{{ route('cliente.import-upload') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('cliente.upload') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="main-card mb-3 card">
                     <div class="card-header">File da importare</div>

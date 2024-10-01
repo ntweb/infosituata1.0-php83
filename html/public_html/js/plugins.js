@@ -29,16 +29,32 @@ function initUI() {
         $(el).html(text.length);
     });
 
-    tinymce.init({
-        selector: '.tinymce',
-        language: 'it',
-        relative_urls: false,
-        remove_script_host: false,
-        menubar: 'edit insert format',
-        plugins: ['lists', 'image', 'link', 'media', 'table', 'code'],
-        toolbar: 'undo redo | styles | bold italic | link image media | table tabledelete | numlist bullist | code',
-        toolbar_mode: 'floating',
+    // tinymce.init({
+    //     selector: '.tinymce',
+    //     language: 'it',
+    //     relative_urls: false,
+    //     remove_script_host: false,
+    //     menubar: 'edit insert format',
+    //     plugins: ['lists', 'image', 'link', 'media', 'table', 'code'],
+    //     toolbar: 'undo redo | styles | bold italic | link image media | table tabledelete | numlist bullist | code',
+    //     toolbar_mode: 'floating',
+    // });
+
+    $('.tinymce').summernote({
+        minHeight: 450,
+        dialogsInBody: true,
+        blockquoteBreakingLevel: 1,
+        toolbar: [
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['codeview', 'help']]
+        ],
     });
+
+    $('div.note-group-select-from-files').remove();
 
     // Summernote WYSIWYG
     // $('.summernote').summernote({

@@ -1429,8 +1429,12 @@
 <script src="{{ url('assets/js/vendors/FitVids/jquery.fitvids.js') }}"></script>
 
 {{-- Tiny MCE --}}
-<script src="https://cdn.tiny.cloud/1/1opy22wr19sfyoz1fzd7d6hjd99uc8nsg8fya0r2e37wga4x/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-<script src="{{ url('js/tinymce/langs/it.js') }}"></script>
+{{--<script src="https://cdn.tiny.cloud/1/1opy22wr19sfyoz1fzd7d6hjd99uc8nsg8fya0r2e37wga4x/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>--}}
+{{--<script src="{{ url('js/tinymce/langs/it.js') }}"></script>--}}
+
+{{-- Summernote --}}
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote.min.js"></script>
 
 {{-- Html2Canvas --}}
 <script src="{{ url('js/html2canvas/html2canvas.min.js') }}"></script>
