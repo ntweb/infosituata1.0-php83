@@ -207,7 +207,7 @@
         <div class="card-body">
             <div class="tab-content">
                 @for($i = 1; $i <= 3; $i++)
-                <div class="tab-pane show @if($i == 1) active @endif"" id="tab-f-up-{{ $i }}" role="tabpanel">
+                <div class="tab-pane show @if($i == 1) active @endif" id="tab-f-up-{{ $i }}" role="tabpanel">
                     @php
                         $json_f_up_azioni = 'json_f_up_azioni_'.$i;
                         $json_f_up_resp = 'json_f_up_resp_'.$i;
@@ -233,6 +233,26 @@
                     </div>
                 </div>
                 @endfor
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-3 card">
+        <div class="col-md-12 mx-2 mt-4">
+            <h6 class="card-title">Stato della pratica</h6>
+        </div>
+        <div class="card-body">
+            @php
+                $elements = [
+                    'active' => 'Attivo',
+                    'canceled' => 'Annullato',
+                ];
+            @endphp
+
+            <div class="row">
+                @component('layouts.components.forms.select', ['name' => 'status', 'value' => @$el->status, 'elements' => $elements, 'class' => 'col-md-4', '_read_only' => @$_read_only])
+                    Stato
+                @endcomponent
             </div>
         </div>
     </div>
