@@ -21,14 +21,16 @@ class UserEventSubscriber
         //
     }
 
-    public function handleUserLogout($event) {
+    public function handleUserLogout(\Illuminate\Auth\Events\Logout $event) {
+        // Log::info('handleUserLogout');
         $user = $event->user;
         $user->permission_checked_at = null;
         $user->save();
         // Log::info('handleUserLogout');
     }
 
-    public function handleUserAuthenticated($event) {
+    public function handleUserAuthenticated(\Illuminate\Auth\Events\Authenticated $event) {
+        // Log::info('handleUserAuthenticated');
         $refresh_permissions = false;
         $check_permissions_every_minutes = 15;
         $user = $event->user;
@@ -83,13 +85,15 @@ class UserEventSubscriber
 
     public function subscribe($events) {
         $events->listen(
-            'Illuminate\Auth\Events\Authenticated',
-            'App\Listeners\UserEventSubscriber@handleUserAuthenticated'
+            \Illuminate\Auth\Events\Authenticated::class,
+            [UserEventSubscriber::class, 'handleUserAuthenticated']
+            // 'App\Listeners\UserEventSubscriber@handleUserAuthenticated'
         );
 
         $events->listen(
-            'Illuminate\Auth\Events\Logout',
-            'App\Listeners\UserEventSubscriber@handleUserLogout'
+            \Illuminate\Auth\Events\Logout::class,
+            [UserEventSubscriber::class, 'handleUserLogout']
+            // 'App\Listeners\UserEventSubscriber@handleUserLogout'
         );
     }
 

@@ -1,5 +1,5 @@
 @php
-    $action = actionroute'upload.upload');
+    $action = route('upload.upload');
     $class = 'ajaxForm';
 
     $model = isset($model)  ? $model : 'nd';
@@ -42,7 +42,7 @@
         <div class="tab-content">
             <div class="tab-pane show active" id="tab-upload">
                 {{-- Upload standard --}}
-                <form class="{{ $class }}" id="frmAjaxForm" action="{{ $action }}" autocomplete="none" method="post" data-callback="getHtml('{{ actionroute'upload.attachments', [$item->id, 'module' => 'modot']) }}', '#show-attachments')">
+                <form class="{{ $class }}" id="frmAjaxForm" action="{{ $action }}" autocomplete="none" method="post" data-callback="getHtml('{{ route('upload.attachments', [$item->id, 'module' => 'modot']) }}', '#show-attachments')">
                     @csrf
 
                     <input type="hidden" name="module" value="{{ $module }}">
@@ -64,12 +64,12 @@
                 <input class="dropzone-append" type="hidden" name="module" value="{{ $module }}">
                 <input class="dropzone-append" type="hidden" name="item_id" value="{{ $item->id }}">
                 <input class="dropzone-append" type="hidden" name="upload_mode" value="multi">
-                @component('layouts.components.forms.dropzone', ['action' => $action, 'callback' => "getHtml('". actionroute'upload.attachments', [$item->id, 'module' => 'modot']) ."', '#show-attachments')"])
+                @component('layouts.components.forms.dropzone', ['action' => $action, 'callback' => "getHtml('". route('upload.attachments', [$item->id, 'module' => 'modot']) ."', '#show-attachments')"])
                 @endcomponent
             </div>
             <div class="tab-pane show" id="tab-upload-cloud">
                 {{-- Upload cloud --}}
-                <form class="{{ $class }}" id="frmAjaxForm" action="{{ $action }}" autocomplete="none" method="post" data-callback="getHtml('{{ actionroute'upload.attachments', [$item->id, 'module' => 'modot']) }}', '#show-attachments'); $('#frmUploadCloud')[0].reset();">
+                <form class="{{ $class }}" id="frmAjaxForm" action="{{ $action }}" autocomplete="none" method="post" data-callback="getHtml('{{ route('upload.attachments', [$item->id, 'module' => 'modot']) }}', '#show-attachments'); $('#frmUploadCloud')[0].reset();">
                     @csrf
                     <input type="hidden" name="module" value="{{ $module }}">
                     <input type="hidden" name="item_id" value="{{ $item->id }}">
