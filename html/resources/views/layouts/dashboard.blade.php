@@ -716,7 +716,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="{{ isActive(['user.*', 'mezzi.*', 'attrezzature.*', 'scadenzario.*', 'risorse.*', 'materiali.*', 'eventi.*']) }}">
+                        <li class="{{ isActive(['user.*', 'mezzi.*', 'attrezzature.*', 'scadenzario.*', 'risorse.*', 'materiali.*', 'evento.*']) }}">
                             <a href="#">
                                 <i class="metismenu-icon bx bx-map"></i>
                                 Infosituata
@@ -767,7 +767,7 @@
                                     </a>
                                 </li>
                                 @endcan
-                                <li class="{{ isActive('eventi.*') }}">
+                                <li class="{{ isActive('evento.*') }}">
                                     <a href="{{ route('evento.index') }}">
                                         <i class="metismenu-icon pe-7s-diamond"></i>
                                         Eventi

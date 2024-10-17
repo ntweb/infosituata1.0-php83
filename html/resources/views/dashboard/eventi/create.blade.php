@@ -4,7 +4,7 @@
     @php
         $back = url()->previous() ? url()->previous() : null;
         if (isset($el)) {
-            $back = route('eventi.index');
+            $back = route('evento.index');
         }
     @endphp
 
