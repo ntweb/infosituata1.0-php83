@@ -30,12 +30,12 @@
                     Password
                 @endcomponent
 
-                @can('testing')
+
                 <input name="_2fa" type="hidden" value="0" />
                 @component('layouts.components.forms.toggle', ['name' => '_2fa', 'value' => $el->user->_2fa, 'class' => 'col-md-6', 'toggle' => ['1' => 'Attivato', '0' => 'Disattivato'] ])
                     Autenticazione a 2 fattori
                 @endcomponent
-                @endcan
+
 
                 <input name="active" type="hidden" value="0" />
                 @component('layouts.components.forms.toggle', ['name' => 'active', 'value' => $el->user->active, 'class' => 'col-md-6', 'toggle' => ['1' => 'Attivato', '0' => 'Disattivato'] ])
