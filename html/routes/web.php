@@ -401,7 +401,7 @@ Route::resource('privacy', PrivacyController::class)->middleware(['auth']);
 Route::resource('mod-azi-aut', ModuloAziendaAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
 Route::resource('mod-inf-aut', ModuloInfosituataAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
 Route::resource('mod-tim-aut', ModuloTimbratureAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
-Route::resource('mod-com-aut', ModuloComunicazioniAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
+Route::resource('mod-comun-aut', ModuloComunicazioniAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
 Route::resource('mod-rap-aut', ModuloRapportiniAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
 Route::resource('mod-che-aut', ModuloChecklistAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
 Route::resource('mod-tas-aut', ModuloTasksAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);

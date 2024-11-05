@@ -1137,7 +1137,7 @@
                                 <li class="">
                                     <a href="javascript:void(0);" tabindex="1"
                                        class="rapportini-autorizzazioni"
-                                       data-route="{{ route('mod-com-aut.index') }}">
+                                       data-route="{{ route('mod-comun-aut.index') }}">
                                         Comunicazioni
                                     </a>
                                 </li>
