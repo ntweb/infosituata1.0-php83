@@ -42,7 +42,7 @@
                                 <tbody>
                                 @foreach($list as $el)
                                     <tr>
-                                        <td>{{ Str::title($el->item->label) }}</td>
+                                        <td>{{ $el->item ? Str::title($el->item->label) : 'Item n.d.' }}</td>
                                         <td>{{ data($el->start) }}</td>
                                         <td>{{ data($el->end) }}</td>
                                         <td>{{ strtoupper($el->titolo) }}</td>
