@@ -422,6 +422,24 @@ $(function() {
         $(modal).modal('toggle');
     });
 
+    $(document).on('click', '.btnUpdateAttachmentLabel', function(){
+        var route = $(this).data('route');
+        var label = $(this).data('label');
+        var callback = $(this).data('callback');
+
+        var modal = '#updateAttachmentLabelModal';
+        var frm = $('#frmAttachmentLabelModal');
+
+        frm.attr('data-callback', 'closeAllModal(null);');
+        if (callback) {
+            frm.attr('data-callback', frm.data('callback')+callback);
+        }
+
+        frm.attr('action', route);
+        frm.find('input[name=label]').val(label);
+        $(modal).modal('toggle');
+    });
+
     $(document).on('click', '.btnDeleteAttachment', function(){
         var route = $(this).data('route');
         $('#frmDeleteAttachment').trigger('reset');

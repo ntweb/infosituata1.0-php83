@@ -1318,6 +1318,7 @@
 
 @include('layouts.modals.destroy')
 @include('layouts.modals.confirm')
+@include('dashboard.upload.s3.modals.attachment-update-label')
 
 @include('dashboard.ticket.modals.create')
 

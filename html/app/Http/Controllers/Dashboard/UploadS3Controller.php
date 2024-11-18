@@ -219,7 +219,24 @@ class UploadS3Controller extends Controller
      */
     public function update(Request $request, $id)
     {
-        ///
+        $validationRules = [
+            'label' => 'required',
+        ];
+
+        Log::info($id);
+        $validatedData = $request->validate($validationRules);
+
+        $reference = AttachmentS3::where('id', $id)
+            ->where('azienda_id', getAziendaId())
+            ->first();
+
+        if (!$reference)
+            abort(404);
+
+        $reference->label = $request->input('label', null);
+        $reference->save();
+
+        return response()->json(['res' => 'success', 'message' => 'Label updated']);
     }
 
     /**

@@ -6,6 +6,10 @@
     @endcomponent
 @endsection
 
+@section('modal')
+    @include('dashboard.topic.modals.index-topic-search')
+@endsection
+
 @section('content')
 
     <div class="app-main__inner p-0">

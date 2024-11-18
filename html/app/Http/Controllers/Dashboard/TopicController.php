@@ -32,6 +32,20 @@ class TopicController extends Controller
         else
             $query = $query->where('user_id', \auth()->user()->id);
 
+        if ($request->input('_search', null)) {
+
+            $search = explode(' ', $request->input('_search'));
+
+            $query = $query->where(function($q) use($search) {
+                foreach ($search as $tag) {
+                    if ($tag !== '') {
+                        $q->where('oggetto', 'LIKE', '%'.$tag.'%');
+                    }
+                }
+            });
+
+        }
+
         $query = $query->select('messaggi.*');
         $data['list'] = $query->orderBy('sent_at', 'desc')->paginate(50)->appends(request()->query());
 

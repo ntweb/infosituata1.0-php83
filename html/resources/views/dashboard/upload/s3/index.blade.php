@@ -68,6 +68,12 @@
                             <i class="bx bx-copy"></i>
                         </button>
                         @can('can_delete_s3_attachment', $a)
+                            <button type="button" class="btn btn-sm btn-light btnUpdateAttachmentLabel"
+                                    data-route="{{ route('upload-s3.update', [$a->id]) }}"
+                                    data-label="{{ $a->label }}"
+                                    data-callback="refreshAttachments();">
+                                <i class="bx bx-edit-alt"></i>
+                            </button>
                             <button type="button" class="btn btn-danger btn-sm btnDelete"
                                     data-message="Si conferma la cancellazione?"
                                     data-route="{{ route('upload-s3.destroy', [$a->id]) }}"
