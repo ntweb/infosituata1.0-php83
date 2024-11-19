@@ -20,7 +20,7 @@
                 </td>
                 <td>{{ $sq->item->controller }}</td>
                 <td style="width: 180px">
-                    <input name="costo_item_orario_previsto[{{ $sq->id }}]" type="number" class="form-control form-control-sm" value="{{ $sq->costo_item_orario_previsto }}" min="0">
+                    <input name="costo_item_orario_previsto[{{ $sq->id }}]" type="number" class="form-control form-control-sm" value="{{ $sq->costo_item_orario_previsto }}" min="0" step="0.01">
                 </td>
             </tr>
             @endforeach
