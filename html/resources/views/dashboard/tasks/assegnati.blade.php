@@ -35,10 +35,22 @@
                                                         $users = getUsersFromIds(json_decode($node->users_ids));
                                                     @endphp
                                                     <div>
-                                                        <strong>Asseganto a:</strong> <span class="font-italic">{{ $users->pluck('name')->join(', ') }}</span>
+                                                        <strong>Assegnato a:</strong> <span class="font-italic">{{ $users->pluck('name')->join(', ') }}</span>
                                                     </div>
                                                 @else
                                                     <span class="font-italic text-danger">Task non assegnato</span>
+                                                @endif
+
+                                                @if($node->root->note)
+                                                    <div>
+                                                        <strong>Note:</strong> <span class="font-italic">{{ $node->root->note }}</span>
+                                                    </div>
+                                                @endif
+
+                                                @if($node->root->indirizzo_specifico)
+                                                    <div>
+                                                        <strong>Indirizzo spec:</strong> <span class="font-italic">{{ $node->root->indirizzo_specifico }}</span>
+                                                    </div>
                                                 @endif
                                             </div>
                                             @if($node->root->cliente)

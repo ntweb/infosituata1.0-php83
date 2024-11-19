@@ -14,7 +14,7 @@ $(document).ready(function($) {
         data.append("squadra_id", squadra_id);
         data.append("id", id);
 
-        var route = url + '/dashboard/squadra-item';
+        var route = url + '/squadra-item';
 
         $.ajax ({
             data: data,

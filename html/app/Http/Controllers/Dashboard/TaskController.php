@@ -88,6 +88,8 @@ class TaskController extends Controller
         }
 
         $data['list'] = $query->with("root.cliente")->orderBy('created_at', 'desc')->paginate(500)->appends(request()->query());
+
+        // dd($data['list']);
         return view('dashboard.tasks.assegnati', $data);
     }
 
@@ -160,6 +162,9 @@ class TaskController extends Controller
                 $rootN->clienti_id = $request->input('clienti_id', null);
                 $rootN->label = $request->input('label');
 
+                $rootN->indirizzo_specifico = $request->input('indirizzo_specifico', null);
+                $rootN->note = $request->input('note', null);
+
                 $rootN->tags = $request->input('tags', null);
 
                 $rootId = Str::uuid();
@@ -175,6 +180,9 @@ class TaskController extends Controller
                 $nodeN->description = $request->input('description', null);
                 $nodeN->data_inizio_prevista = $request->input('data_inizio_prevista', null);
                 $nodeN->data_fine_prevista = $request->input('data_fine_prevista', null);
+
+                // $nodeN->indirizzo_specifico = $request->input('indirizzo_specifico', null);
+                // $nodeN->note = $request->input('note', null);
 
                 $ids = json_encode($request->input('users_ids', []));
                 $nodeN->users_ids = $ids;
@@ -346,6 +354,8 @@ class TaskController extends Controller
 
         $el = Task::find($id);
         if (!$el) abort('404');
+
+        // dd($el);
 
         if (!Gate::allows('can_create_tasks'))
             abort(401);
