@@ -348,7 +348,16 @@ class UserController extends Controller
             "D"=>"Email",
             "E"=>"Telefono",
             "F"=> "Attivo",
-            "G"=> "Scadenze non gestite (ultimi 6 mesi)"
+            "G"=> "Scadenze non gestite (ultimi 6 mesi)",
+            "H"=> "Luogo di nascita",
+            "I"=> "Data di nascita",
+            "J"=> "Luogo di residenza",
+            "K"=> "Via di residenza",
+            "L"=> "Telefono",
+            "M"=> "Cellulare",
+            "N"=> "Data di assunzione",
+            "O"=> "Qualifica assunzione",
+            "P"=> "Titolo di studio",
         );
 
         foreach ($celle as $k=>$v){
@@ -432,6 +441,52 @@ class UserController extends Controller
                 $cell->getStyle()->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
             }
 
+            /** Luogo di nascita **/
+            $cell = $spreadsheet->getActiveSheet()->getCell("H$i");
+            $cell->getStyle()->applyFromArray($styleAlignLeftString);
+            $cell->setValueExplicit(strtolower($l->user_luogo_nascita), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING2);
+
+            /** Data di nascita **/
+            $d = $l->user_data_nascita ? data($l->user_data_nascita) : '';
+            $cell = $spreadsheet->getActiveSheet()->getCell("I$i");
+            $cell->getStyle()->applyFromArray($styleAlignLeftString);
+            $cell->setValueExplicit($d, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING2);
+
+            /** Luogo di residenza **/
+            $cell = $spreadsheet->getActiveSheet()->getCell("J$i");
+            $cell->getStyle()->applyFromArray($styleAlignLeftString);
+            $cell->setValueExplicit(strtolower($l->user_luogo_residenza), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING2);
+
+            /** Via di residenza **/
+            $cell = $spreadsheet->getActiveSheet()->getCell("K$i");
+            $cell->getStyle()->applyFromArray($styleAlignLeftString);
+            $cell->setValueExplicit(strtolower($l->user_via_residenza), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING2);
+
+            /** Telefono **/
+            $cell = $spreadsheet->getActiveSheet()->getCell("L$i");
+            $cell->getStyle()->applyFromArray($styleAlignLeftString);
+            $cell->setValueExplicit(strtolower($l->user_telefono), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING2);
+
+            /** Cellulare **/
+            $cell = $spreadsheet->getActiveSheet()->getCell("M$i");
+            $cell->getStyle()->applyFromArray($styleAlignLeftString);
+            $cell->setValueExplicit(strtolower($l->user_cellulare), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING2);
+
+            /** Data di assunzione **/
+            $d = $l->user_data_nascita ? data($l->user_data_assunzione) : '';
+            $cell = $spreadsheet->getActiveSheet()->getCell("N$i");
+            $cell->getStyle()->applyFromArray($styleAlignLeftString);
+            $cell->setValueExplicit($d, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING2);
+
+            /** Qualifica assunzione **/
+            $cell = $spreadsheet->getActiveSheet()->getCell("O$i");
+            $cell->getStyle()->applyFromArray($styleAlignLeftString);
+            $cell->setValueExplicit(strtolower($l->user_qualifica_assunzione), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING2);
+
+            /** Titolo di studio **/
+            $cell = $spreadsheet->getActiveSheet()->getCell("P$i");
+            $cell->getStyle()->applyFromArray($styleAlignLeftString);
+            $cell->setValueExplicit(strtolower($l->user_titolo_studio), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING2);
 
             $i++;
         }
