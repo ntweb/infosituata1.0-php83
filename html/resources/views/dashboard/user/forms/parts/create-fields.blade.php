@@ -25,6 +25,46 @@
     Telefono
 @endcomponent
 
+<div class="col-12"><hr></div>
+
+@component('layouts.components.forms.text', ['name' => 'user_luogo_nascita', 'value' => @$el->user_luogo_nascita, 'class' => 'col-md-6'])
+    Nato a
+@endcomponent
+
+@component('layouts.components.forms.date-native', ['name' => 'user_data_nascita', 'id' => 'user_data_nascita',  'value' => @$el->user_data_nascita, 'class' => 'col-md-6'])
+    Nato il
+@endcomponent
+
+@component('layouts.components.forms.text', ['name' => 'user_luogo_residenza', 'value' => @$el->user_luogo_residenza, 'class' => 'col-md-4'])
+    Residente a
+@endcomponent
+
+@component('layouts.components.forms.text', ['name' => 'user_via_residenza', 'value' => @$el->user_via_residenza, 'class' => 'col-md-8'])
+    Via
+@endcomponent
+
+@component('layouts.components.forms.text', ['name' => 'user_telefono', 'value' => @$el->user_telefono, 'class' => 'col-md-6'])
+    Telefono
+@endcomponent
+
+@component('layouts.components.forms.text', ['name' => 'user_cellulare', 'value' => @$el->user_cellulare, 'class' => 'col-md-6'])
+    Cellulare
+@endcomponent
+
+@component('layouts.components.forms.date-native', ['name' => 'user_data_assunzione', 'id' => 'user_data_assunzione',  'value' => @$el->user_data_assunzione, 'class' => 'col-md-4'])
+    Data assunzione
+@endcomponent
+
+@component('layouts.components.forms.text', ['name' => 'user_qualifica_assunzione', 'value' => @$el->user_qualifica_assunzione, 'class' => 'col-md-8'])
+    Qualifica assunzione
+@endcomponent
+
+@component('layouts.components.forms.text', ['name' => 'user_titolo_studio', 'value' => @$el->user_titolo_studio, 'class' => 'col-md-12'])
+    Titolo di studio
+@endcomponent
+
+<div class="col-12"><hr></div>
+
 <input name="fl_external" type="hidden" value="0" />
 @component('layouts.components.forms.toggle', ['name' => 'fl_external', 'value' => @$el->fl_external, 'class' => 'col-md-12', 'toggle' => ['1' => 'Esterno', '0' => 'Interno'] ])
     Consulente e/o lavoratore esterno all'azienda
