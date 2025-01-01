@@ -321,8 +321,9 @@ function getScaduti($_days = 90, $item_id = null) {
         ->with('gruppi.utenti', 'item', 'module', 'detail')
         ->limit(150);
 
-    if ($item_id)
+    if ($item_id !== null) {
         $query = $query->where('item_id', $item_id);
+    }
     else {
         if (\Illuminate\Support\Facades\Gate::denies('can-create') || session()->has('fs')) {
             $query = $query->where(function($query) {
