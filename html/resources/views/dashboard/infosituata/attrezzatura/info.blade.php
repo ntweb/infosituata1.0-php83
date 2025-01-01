@@ -61,6 +61,14 @@
                                 <div class="tab-subheading">Rapportini</div>
                             </a>
                         </li>
+                        @if(count($scaduti))
+                            <li class="nav-item">
+                                <a data-toggle="tab" href="#tab-eg9-5" class="nav-link">
+                                    <div class="widget-number"><i class="bx bx-error text-danger"></i></div>
+                                    <div class="tab-subheading text-danger">Scadenze</div>
+                                </a>
+                            </li>
+                        @endif
                     </ul>
                 </div>
                 <div class="tab-content">
@@ -211,6 +219,13 @@
                             @endif
                         </div>
                     </div>
+                    @if(count($scaduti))
+                        <div class="tab-pane" id="tab-eg9-5" role="tabpanel">
+                            <div class="card-body">
+                                @include('dashboard.scadenzario.tables.index')
+                            </div>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>

@@ -358,6 +358,7 @@ class UserController extends Controller
             "N"=> "Data di assunzione",
             "O"=> "Qualifica assunzione",
             "P"=> "Titolo di studio",
+            "Q"=> "Gruppi",
         );
 
         foreach ($celle as $k=>$v){
@@ -387,7 +388,7 @@ class UserController extends Controller
         /**
          * query lista
         **/
-        $list = Utente::with(['azienda', 'user', 'scadenzeNonGestite'])
+        $list = Utente::with(['azienda', 'user', 'scadenzeNonGestite', 'gruppi'])
             ->orderBy('extras1')
             ->orderBy('extras2')
             ->get();
@@ -487,6 +488,18 @@ class UserController extends Controller
             $cell = $spreadsheet->getActiveSheet()->getCell("P$i");
             $cell->getStyle()->applyFromArray($styleAlignLeftString);
             $cell->setValueExplicit(strtolower($l->user_titolo_studio), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING2);
+
+            /** Gruppi **/
+            if ($l->gruppi->count()) {
+                // Log::info($l->gruppi->pluck('label')->join(', '));
+                $gruppi = $l->gruppi->pluck('label')->join(', ');
+            } else {
+                $gruppi = '';
+            }
+
+            $cell = $spreadsheet->getActiveSheet()->getCell("Q$i");
+            $cell->getStyle()->applyFromArray($styleAlignLeftString);
+            $cell->setValueExplicit(strtolower($gruppi), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING2);
 
             $i++;
         }

@@ -315,21 +315,26 @@ function getInscadenza($_days = 30) {
     return $query->get();
 }
 
-function getScaduti($_days = 90) {
+function getScaduti($_days = 90, $item_id = null) {
     $query  = \App\Models\Scadenza::whereNull('checked_at')
         ->where('end_at', '<', \Carbon\Carbon::now()->toDateString())
         ->with('gruppi.utenti', 'item', 'module', 'detail')
         ->limit(150);
 
-    if (\Illuminate\Support\Facades\Gate::denies('can-create') || session()->has('fs')) {
-        $query = $query->where(function($query) {
-            $query->where('created_by', \auth()->user()->id)
-                ->orWhere('item_id', \auth()->user()->utente_id)
-                ->orWhereHas('gruppi.utenti', function($query) {
-                    $query->where('id', \auth()->user()->utente_id);
-                });
-        });
+    if ($item_id)
+        $query = $query->where('item_id', $item_id);
+    else {
+        if (\Illuminate\Support\Facades\Gate::denies('can-create') || session()->has('fs')) {
+            $query = $query->where(function($query) {
+                $query->where('created_by', \auth()->user()->id)
+                    ->orWhere('item_id', \auth()->user()->utente_id)
+                    ->orWhereHas('gruppi.utenti', function($query) {
+                        $query->where('id', \auth()->user()->utente_id);
+                    });
+            });
+        }
     }
+
 
     return $query->get();
 }

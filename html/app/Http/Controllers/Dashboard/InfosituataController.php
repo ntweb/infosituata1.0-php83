@@ -268,6 +268,9 @@ class InfosituataController extends Controller
             ->orderBy('id', 'desc')
             ->paginate(50);
 
+        $data['inScadenza'] = collect([]);
+        $data['scaduti'] = $this->getScadenzeToShow();
+
         return view('dashboard.infosituata.attrezzatura.info', $data);
     }
 
@@ -293,6 +296,9 @@ class InfosituataController extends Controller
             ->orderBy('id', 'desc')
             ->paginate(50);
 
+        $data['inScadenza'] = collect([]);
+        $data['scaduti'] = $this->getScadenzeToShow();
+
         return view('dashboard.infosituata.materiale.info', $data);
     }
 
@@ -317,6 +323,9 @@ class InfosituataController extends Controller
         $data['listRapportini'] = Rapportino::where('items_id', $el->id)
             ->orderBy('id', 'desc')
             ->paginate(50);
+
+        $data['inScadenza'] = collect([]);
+        $data['scaduti'] = $this->getScadenzeToShow();
 
         return view('dashboard.infosituata.mezzo.info', $data);
     }
@@ -346,6 +355,19 @@ class InfosituataController extends Controller
             ->orderBy('id', 'desc')
             ->paginate(50);
 
+        $data['inScadenza'] = collect([]);
+        $data['scaduti'] = $this->getScadenzeToShow();
+
         return view('dashboard.infosituata.risorsa.info', $data);
+    }
+
+    private function getScadenzeToShow() {
+        $arrScadenze = [];
+        if (\auth()->check()) {
+            $arrScadenze = getScaduti(90, \auth()->user()->utente_id);
+            // dd($arrScadenze);
+        }
+
+        return $arrScadenze;
     }
 }
