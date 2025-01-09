@@ -27,7 +27,7 @@
                     Indirizzo specifico
                 @endcomponent
 
-                @component('layouts.components.forms.textarea', ['name' => 'note', 'value' => @$el->note, 'class' => 'col-md-12'])
+                @component('layouts.components.forms.textarea', ['name' => 'note', 'value' => @$el->note, 'class' => 'col-md-12', 'maxLength' => 1500])
                     Note
                 @endcomponent
 
