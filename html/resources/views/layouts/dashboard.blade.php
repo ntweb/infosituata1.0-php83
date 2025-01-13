@@ -1155,7 +1155,6 @@
                                         Checklist
                                     </a>
                                 </li>
-                                @can('testing')
                                 <li class="">
                                     <a href="javascript:void(0);" tabindex="1"
                                        class="rapportini-autorizzazioni"
@@ -1163,7 +1162,6 @@
                                         Task manager
                                     </a>
                                 </li>
-                                @endcan
                                 <li class="">
                                     <a href="javascript:void(0);" tabindex="1"
                                        class="rapportini-autorizzazioni"
