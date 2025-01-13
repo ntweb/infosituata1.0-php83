@@ -478,6 +478,10 @@ class AppServiceProvider extends ServiceProvider
             return true;
         }
 
+        if (Gate::allows('can_create_tasks', $user)) {
+            return true;
+        }
+
         // Log::info($autorizzazione);
         $auth = json_decode($task->auth, true);
         if ($auth) {
