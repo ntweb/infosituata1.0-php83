@@ -298,6 +298,8 @@ class TopicController extends Controller
         try {
 
             // $el->delete();
+            $ids = DB::table('messaggio_topic')->where('messaggio_id', $id)->pluck('id', 'id');
+            DB::table('messaggio_topic_notify')->whereIn('messaggio_id', $ids)->delete();
             DB::table('messaggio_topic')->where('messaggio_id', $id)->delete();
             DB::table('messaggi')->where('id', $id)->delete();
 
