@@ -1,3 +1,7 @@
+@php
+ $user = auth()->user();
+@endphp
+
 @extends('layouts.dashboard')
 @section('header')
 
@@ -38,10 +42,10 @@
                     @include('dashboard.topic.users-list')
                 @endif
 
-                @can('can_create_topic')
+                @if ($user->superadmin || $user->power_user || $el->user_id === $user->id)
                     @component('dashboard.topic.components.delete', ['el' => $el, 'redirect' => route('topic.index')])
                     @endcomponent
-                @endcan
+                @endif
             </div>
         @endif
 
