@@ -363,6 +363,7 @@
                                                     @if(count($headerTopics))
                                                         <div class="vertical-time-simple vertical-without-time vertical-timeline vertical-timeline--one-column">
                                                             @foreach($headerTopics as $m)
+                                                                @if($m->topic)
                                                                 <div class="vertical-timeline-item dot-primary vertical-timeline-element openUrl" style="cursor: pointer;" data-route="{{ route('topic.edit', [$m->messaggio_id]) }}">
                                                                     <div>
                                                                         <span class="vertical-timeline-element-icon bounce-in"></span>
@@ -374,6 +375,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </div>
+                                                                @endif
                                                             @endforeach
                                                         </div>
                                                     @else
