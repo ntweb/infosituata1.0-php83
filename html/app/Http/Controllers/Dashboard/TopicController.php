@@ -286,9 +286,28 @@ class TopicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Request $request, $id)
     {
-        //
+        if(!$request->has('confirm'))
+            return redirect()->back()->withInput()->with('error', 'E\' necessario confermare la cancellazione!');
+
+        $el = Topic::find($id);
+        if (!$el) abort(404);
+
+        DB::beginTransaction();
+        try {
+
+            // $el->delete();
+            DB::table('messaggio_topic')->where('messaggio_id', $id)->delete();
+            DB::table('messaggi')->where('id', $id)->delete();
+
+            DB::commit();
+            return redirect()->to($request->get('_redirect'))->with('success', 'A breve il sistema cancellerà l\'elemento!');
+        }catch (\Exception $e) {
+            DB::rollBack();
+            Log::info($e->getMessage());
+            return redirect()->back()->with('error', 'Errore in fase di cancellazione!');
+        }
     }
 
     public function storeMessage(Request $request, $id) {

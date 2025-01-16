@@ -37,6 +37,11 @@
                 @else
                     @include('dashboard.topic.users-list')
                 @endif
+
+                @can('can_create_topic')
+                    @component('dashboard.topic.components.delete', ['el' => $el, 'redirect' => route('topic.index')])
+                    @endcomponent
+                @endcan
             </div>
         @endif
 
