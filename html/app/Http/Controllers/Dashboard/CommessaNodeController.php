@@ -41,6 +41,7 @@ class CommessaNodeController extends Controller
      */
     public function create(Request $request)
     {
+
         $parent = Commessa::find($request->input('node'));
         if (!$parent) abort('404');
 
@@ -92,7 +93,7 @@ class CommessaNodeController extends Controller
             $data['search_route'] = route('item.search');
 
             if ($request->input('_module', 'null') == 'squadra') {
-                $data['action'] = route('commessa-node.squadra', [$parent->id, null]);
+                $data['action'] = route('commessa-node.squadra', [$parent->id, 'xxx']);
                 $data['search_route'] = route('squadra.search');
             }
 
