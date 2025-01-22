@@ -688,12 +688,17 @@ class CommessaNodeController extends Controller
             }
         }
 
+        Log::info($request->all());
         $log->note = $request->input('note', null);
         $log->item_id = $node->item_id;
         $log->item_label = $node->item_label;
         $log->item_qty = $request->input('item_qty', 1);
         $log->item_costo = $request->input('item_costo', 0);
         $log->username = auth()->user()->name;
+
+        if ($log->item_costo > 0) {
+            $log->item_costo = $log->item_costo * -1;
+        }
 
         $log->data_attribuzione = $request->input('data_attribuzione', null);
 
