@@ -33,6 +33,9 @@
                         <div class="divider"></div>
                         <a href="javascript:void(0);" tabindex="1" class="dropdown-item autorizzazioni" data-route="{{ route('commessa-autorizzazioni.index', ['id' => $el->id]) }}">Autorizzazioni</a>
                         <a href="javascript:void(0);" tabindex="1" class="dropdown-item" data-toggle="modal" data-target="#modalAutorizzazioniCopy">Autorizzazioni copia da...</a>
+
+                            <div class="divider"></div>
+                            <a href="javascript:void(0);" tabindex="1" class="dropdown-item commessa-ricalcola-costi" data-route="{{ route('commessa.ricalcola', ['id' => $el->id]) }}">Ricalcola costi commessa</a>
                     @endcan
                 </div>
             </div>

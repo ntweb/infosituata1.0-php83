@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Events\Illuminate\Events\CommessaNodeInserted;
 use App\Events\Illuminate\Events\CommessaNodeSottoFaseChangedCosti;
+use App\Events\Illuminate\Events\CommessaRicalculateCosts;
 use App\Models\AttachmentCommessa;
 use App\Models\AttachmentS3;
 use App\Models\Checklist;
@@ -1000,7 +1001,16 @@ class CommessaController extends Controller
             $payload = 'Errore in fase di salvataggio!';
             return response()->json(['res' => 'error', 'payload' => $payload]);
         }
+    }
 
+    public function ricalcola($id)
+    {
+        $el = Commessa::find($id);
+        if (!$el) abort('404');
 
+        event(new CommessaRicalculateCosts($el->id));
+
+        $payload = 'Ricalcolo avvenuto correttamente!';
+        return response()->json(['res' => 'success','payload' => $payload]);
     }
 }

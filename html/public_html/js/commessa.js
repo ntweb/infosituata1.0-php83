@@ -758,6 +758,14 @@ $(document).ready(function($) {
 
         $('#frmMap').submit();
     });
+
+    $(document).on('click', '.commessa-ricalcola-costi', function() {
+        var route = $(this).data('route');
+
+        $.get(route, function(data){
+            toastr.success(data.payload, 'Success');
+        }, 'json');
+    });
 });
 
 

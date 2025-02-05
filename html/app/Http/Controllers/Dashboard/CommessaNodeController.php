@@ -9,6 +9,7 @@ use App\Events\Illuminate\Events\CommessaNodeInserted;
 use App\Events\Illuminate\Events\CommessaNodeSottoFaseChangedCosti;
 use App\Events\Illuminate\Events\CommessaNodeSottoFaseChangedDateEffettive;
 use App\Events\Illuminate\Events\CommessaNodeSottoFaseChangedDatePreviste;
+use App\Events\Illuminate\Events\CommessaRicalculateCosts;
 use App\Exceptions\CommessaNodeException;
 use App\Listeners\DeleteScadenzaCommessa;
 use App\Models\Commessa;
@@ -575,6 +576,10 @@ class CommessaNodeController extends Controller
             $el->delete();
 
             DB::commit();
+
+            if ($el->root_id) {
+                event(new CommessaRicalculateCosts($el->root_id));
+            }
 
             $payload = 'Cancellazione avvenuta correttamente!';
             return response()->json(['res' => 'success','payload' => $payload]);

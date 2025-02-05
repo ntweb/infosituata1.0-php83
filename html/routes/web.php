@@ -211,6 +211,7 @@ Route::post('/dashboard/task-autorizzazioni/copy', [TaskAutorizzazioniController
 Route::resource('task-autorizzazioni', TaskAutorizzazioniController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
 
 // Commessa
+Route::get('/dashboard/commessa/{id}/ricalcola', [CommessaController::class, 'ricalcola'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa.ricalcola');
 Route::get('/dashboard/commessa/{format}/qr', [CommessaController::class, 'qr'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa.qr');
 Route::get('/dashboard/commessa/{id}/mark-in', [CommessaController::class, 'markIn'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa.mark-in');
 Route::get('/dashboard/commessa/{id}/mark-out', [CommessaController::class, 'markOut'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa.mark-out');
