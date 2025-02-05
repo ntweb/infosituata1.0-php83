@@ -9,6 +9,7 @@ use App\Models\Evento;
 use App\Models\Item;
 use App\Models\Materiale;
 use App\Models\Mezzo;
+use App\Models\User;
 use App\Models\Utente;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -157,6 +158,13 @@ class ItemController extends Controller
         try {
             $el->deleted_at = \Carbon\Carbon::now();
             $el->save();
+
+            if ($el->controller == 'utente') {
+                $u = User::where('utenza_id', $el->id)->first();
+                $u->active = 0;
+                $u->email = str_replace('@', '_deleted@', $u->email);
+                $u->save();
+            }
 
             /** Deleting s3 attachments **/
             event(new AttachmentS3ParentDeleted($id, 'items'));

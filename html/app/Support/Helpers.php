@@ -566,7 +566,9 @@ function getMessageDesinatari($message) {
     $utenti = $message->utenti()->with('user')->get();
     $bcc = [];
     foreach ($utenti as $utente) {
-        $bcc[] = $utente->user->email;
+        if ($utente->user->active) {
+            $bcc[] = $utente->user->email;
+        }
     }
 
     return $bcc;

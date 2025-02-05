@@ -36,6 +36,19 @@ services:
     networks:
       - app-network
 
+  phpmyadmin:
+    image: phpmyadmin
+    container_name: 'phpmyadmin-is'
+    environment:
+      PMA_HOST: db-is-83
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - '8091:80'
+    depends_on:
+      - db
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge
