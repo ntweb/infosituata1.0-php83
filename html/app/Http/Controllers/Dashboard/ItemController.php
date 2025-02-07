@@ -160,8 +160,8 @@ class ItemController extends Controller
             $el->save();
 
             if ($el->controller == 'utente') {
-                $u = User::where('utenza_id', $el->id)->first();
-                $u->active = 0;
+                $u = User::where('utente_id', $el->id)->first();
+                $u->active = '0';
                 $u->email = str_replace('@', '_deleted@', $u->email);
                 $u->save();
             }

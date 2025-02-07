@@ -11,8 +11,13 @@
     if (isset($slot))
         $label = $slot;
 
-    $_old_values = array_combine(old($name, []), old($name, []));
-//    dump($_old_values);
+    if (old($name)) {
+        if (is_array(old($name))) {
+            $_old_values = array_combine(old($name, []), old($name, []));
+        } else {
+            $_old_values = array_combine([], []);
+        }
+    }
 @endphp
 
 <div class="form-group {{ isset($class) ? $class : 'col-md-12' }} @error( $name ) has-error has-error-checkboxes @enderror">
