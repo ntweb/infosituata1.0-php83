@@ -121,6 +121,7 @@ class RisorseController extends Controller
             ->where('reference_table', 'items')
             ->where('to_delete', '0')
             ->where('is_embedded', '0')
+            ->orderBy('label')
             ->get();
 
         $data['scadenze'] = getScadenze($el);

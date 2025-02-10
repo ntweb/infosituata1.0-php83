@@ -59,6 +59,7 @@ class UploadS3Controller extends Controller
         $data['attachments'] = AttachmentS3::where('reference_id', $reference->id)
                 ->where('reference_table', $request->input('reference_table'))
                 ->where('to_delete', '0')
+                ->orderBy('label')
                 ->get();
 
         return view('dashboard.upload.s3.index', $data);
