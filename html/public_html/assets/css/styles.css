@@ -6,6 +6,10 @@
     flex: 1;
 }
 
+.tr-node-selected td {
+    background-color: #e7e70f !important;
+}
+
 /*dl {*/
 /*    display: flex;*/
 /*    flex-flow: row wrap;*/

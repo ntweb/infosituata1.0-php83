@@ -44,7 +44,7 @@
 
 @endphp
 
-<tr id="node-{{ $node->id }}" data-depend-on="node-{{ $node->execute_after_id }}" data-node-toggle="{{ $node->type }}">
+<tr id="node-{{ $node->id }}" class="tr-node-selector" data-depend-on="node-{{ $node->execute_after_id }}" data-node-toggle="{{ $node->type }}">
     <td class="fit" @if($node->depth > 1) style="padding-left: {{ 20 * $node->depth }}px" @endif>
         <button type="button" aria-haspopup="true" aria-expanded="false" data-toggle="dropdown" class="btn btn-outline-link py-0 hightlight-tr-dependant" data-id="node-{{ $node->id }}">
             @component('dashboard.commesse.components.icons.node-icon', ['node' => $node])

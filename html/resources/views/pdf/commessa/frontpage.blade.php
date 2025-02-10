@@ -40,24 +40,66 @@
     <div class="full-width mt-5 text-center">
         <h1>{{ Str::title($commessa->label) }}</h1>
     </div>
-    <p class="mt-5">
-        <span style="width: 4cm; display: inline-block">Data creazione</span>
-        <span style="width: 8cm; display: inline-block">{{ data($commessa->created_at) }}</span>
-    </p>
-    <p>
-        <span style="width: 4cm; display: inline-block">Data preventive</span>
-        <span style="width: 8cm; display: inline-block">{{ data($commessa->data_inizio_prevista) }} -  {{ data($commessa->data_fine_prevista) }}</span>
-    </p>
-    <p>
-        <span style="width: 4cm; display: inline-block">Date consuntive</span>
-        <span style="width: 8cm; display: inline-block">
-            @if ($commessa->data_inizio_effettiva)
-                {{ data($commessa->data_inizio_effettiva) }} -  {{ data($commessa->data_fine_effettiva) }}
-            @else
-                -
-            @endif
-        </span>
-    </p>
+
+    <table class="full-width mt-5">
+        <tr>
+            <td width="50%">
+                <p>
+                    <span style="width: 4cm; display: inline-block">Data creazione</span>
+                    <span style="width: 8cm; display: inline-block">{{ data($commessa->created_at) }}</span>
+                </p>
+                <p>
+                    <span style="width: 4cm; display: inline-block">Data preventive</span>
+                    <span style="width: 8cm; display: inline-block">{{ data($commessa->data_inizio_prevista) }} -  {{ data($commessa->data_fine_prevista) }}</span>
+                </p>
+                <p>
+                    <span style="width: 4cm; display: inline-block">Date consuntive</span>
+                    <span style="width: 8cm; display: inline-block">
+                        @if ($commessa->data_inizio_effettiva)
+                            {{ data($commessa->data_inizio_effettiva) }} -  {{ data($commessa->data_fine_effettiva) }}
+                        @else
+                            -
+                        @endif
+                    </span>
+                </p>
+            </td>
+            <td width="50%">
+                <table class="full-width bordered">
+                    <tr>
+                        <td>
+                            Costo azi. prev.
+                            <br>
+                            {{ euro($commessa->costo_previsto) }} &euro;
+                        </td>
+                        <td>
+                            Costo azi. cons.
+                            <br>
+                            {{ euro($commessa->costo_effettivo) }} &euro;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Riv. cli.
+                            <br>
+                            {{ euro($commessa->prezzo_cliente) }} &euro;
+                        </td>
+                        <td>
+                            Riv. prev.
+                            <br>
+                            {{ euro($commessa->prezzo_cliente - $commessa->costo_previsto) }} &euro;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            Ric. cons.
+                            <br>
+                            {{ euro($commessa->prezzo_cliente - $commessa->costo_effettivo) }} &euro;
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 
     <table class="full-width mt-5 bordered">
         <tr class="bgLightGrey">

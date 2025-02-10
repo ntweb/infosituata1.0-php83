@@ -766,6 +766,11 @@ $(document).ready(function($) {
             toastr.success(data.payload, 'Success');
         }, 'json');
     });
+
+    $(document).on('click', '.tr-node-selector', function() {
+        $('.tr-node-selector').removeClass('tr-node-selected');
+        $(this).addClass('tr-node-selected');
+    });
 });
 
 
