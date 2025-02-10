@@ -348,6 +348,7 @@ class InfosituataController extends Controller
             ->where('reference_table', 'items')
             ->where('to_delete', '0')
             ->where('is_embedded', '0')
+            ->orderBy('label')
             ->get();
 
         $data['listChecklist'] = Checklist::where('reference_controller', 'risorse')
