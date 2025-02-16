@@ -18,7 +18,7 @@
 
                     <div class="row">
                         <div class="col-12">
-                            @component('layouts.components.forms.date-native', ['name' => 'inizio',  'value' => \Carbon\Carbon::now()->toDateString(), 'class' => 'col-md-12'])
+                            @component('layouts.components.forms.date-native', ['name' => 'date',  'value' => \Carbon\Carbon::now()->toDateString(), 'class' => 'col-md-12'])
                                 Data/ora inizio
                             @endcomponent
                         </div>

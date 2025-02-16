@@ -947,6 +947,21 @@ function getExtraFieldsStructure($commessa) {
     return $extraFields;
 }
 
+function getCommessaLogByDayItem($ids, $day) {
+    $logs = \App\Models\CommessaLog::whereIn('commesse_id', $ids)
+        ->where(function ($query) use ($day) {
+            $query->where(function ($query) use ($day) {
+                $query->whereNotNull('inizio')->whereDate('inizio', $day);
+            })->orWhere(function ($query) use ($day) {
+                $query->whereNotNull('data_attribuzione')->whereDate('data_attribuzione', $day);
+            });
+        })
+        ->with('item')
+        ->get();
+
+    return $logs;
+}
+
 function getUsersFromIds($ids) {
     return App\Models\User::whereIn('id', $ids)->get();
 }

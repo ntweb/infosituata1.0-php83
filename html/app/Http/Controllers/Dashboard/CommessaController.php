@@ -1024,9 +1024,19 @@ class CommessaController extends Controller
             return view('layouts.helpers.module-deactive', $data);
         }
 
+        $date = $request->input('date');
+
         // dd($request->all());
         $data['commessa'] = Commessa::with('azienda')->find($id);
         if (!$data['commessa']) abort(404);
+
+        $ids = Commessa::where('root_id', $id)->orWhere('id', $id)->pluck('id', 'id');
+
+
+        dump($data['commessa']->id);
+        dump($date);
+        $logs = getCommessaLogByDayItem($ids, $date);
+        dd($logs);
 
         $data['azienda'] = $data['commessa']->azienda;
 
@@ -1094,9 +1104,10 @@ class CommessaController extends Controller
         $row->addCell(null, $cellVCentered)->addText('-', ['size' => 11], $paragraphHMargin);
 
         // Data esecuzione
+        $d = new \Carbon\Carbon($date);
         $row = $table->addRow(400);
         $row->addCell(25 * 50, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Data esecuzione lavori: ', ['bold' => true, 'size' => 11], $paragraphHMargin);
-        $row->addCell(25 * 50, $cellVCentered)->addText('-', ['size' => 11], $paragraphHMargin);
+        $row->addCell(25 * 50, $cellVCentered)->addText($d->format('d-m-Y'), ['size' => 11], $paragraphHMargin);
         $row->addCell(25 * 50, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Turno di lavoro: ', ['bold' => true, 'size' => 11], $paragraphHMargin);
         $row->addCell(25 * 50, $cellVCentered)->addText('-', ['size' => 11], $paragraphHMargin);
 
