@@ -28,8 +28,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use PDF;
+use PhpOffice\PhpWord\SimpleType\Border;
 
 
 class CommessaController extends Controller
@@ -1013,4 +1015,156 @@ class CommessaController extends Controller
         $payload = 'Ricalcolo avvenuto correttamente!';
         return response()->json(['res' => 'success','payload' => $payload]);
     }
+
+    public function printGiornaleLavori(Request $request, $id) {
+
+        if (!Gate::allows('is-commesse-module-enabled')) {
+            $data['message'] = 'Il modulo selezionato non è attivo per questo account.';
+            $data['message_2'] = 'Il modulo COMMESSE permette di definire le proprie commesse, organizzarle e pianificarle in base allo stato occupazionale dei propri dipendenti, mezzi, attrezzature e materiali. Gantt e grafici di supporto, allegati e schedulatori permettono di monitorare in tempo reale lo stato di avanzamento della commessa.';
+            return view('layouts.helpers.module-deactive', $data);
+        }
+
+        // dd($request->all());
+        $data['commessa'] = Commessa::with('azienda')->find($id);
+        if (!$data['commessa']) abort(404);
+
+        $data['azienda'] = $data['commessa']->azienda;
+
+        $languageIt = new \PhpOffice\PhpWord\Style\Language(\PhpOffice\PhpWord\Style\Language::IT_IT);
+
+        $phpWord = new \PhpOffice\PhpWord\PhpWord();
+        $phpWord->getSettings()->setThemeFontLang($languageIt);
+
+        // Word configs
+        $cellHCentered = ['alignment' => \PhpOffice\PhpWord\SimpleType\Jc::CENTER];
+        $cellVCentered = ['valign' => 'center'];
+        $cellVMargin = ['cellMarginTop' => 80, 'cellMarginBottom' => 80];
+        $cellHMargin = ['cellMarginLeft' => 80, 'cellMarginRight' => 80];
+        $paragraphVMargin = [
+            'spaceBefore' => 100,
+            'spaceAfter' => 100,
+        ];
+        $paragraphHMargin = [
+            'indentation' => ['left' => 100, 'right' => 100]
+        ];
+
+        $section = $phpWord->addSection(['marginLeft' => 600, 'marginRight' => 600,
+            'marginTop' => 600, 'marginBottom' => 600]);
+
+        // Header Logo
+        $table = $section->addTable(['cellMargin' => 0, 'borderSize' => 1, 'unit' => \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT, 'width' => 100 * 50]);
+        $table->addRow()->addCell()->addText('Inserire logo o intestazione');
+
+        // Titolo commessa
+        $table->addRow()->addCell(100 *50)->addText($data['commessa']->label, ['bold' => true, 'size' => 16], ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]);
+
+        // Titolo giornale lavori
+        $subTableGl = $table->addRow()->addCell(100 *50)->addTable(['cellMargin' => 0, 'borderSize' => 1, 'unit' => \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT, 'width' => 100 * 50]);
+
+        // Celle informative Ditta e data compilazione
+        $row = $subTableGl->addRow();
+        $subTable = $row->addCell(33 * 50)->addTable($cellVMargin);
+        $subTable->addRow()->addCell(null, ['borderSize' => 0, 'borderStyle' => Border::NONE, 'bgColor' => 'e0e0e0'])->addText("Impresa", ['bold' => true, 'size' => 10], ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]);
+        $subTable->addRow()->addCell(null,  array_merge(['borderSize' => 0, 'borderStyle' => Border::NONE, $cellVCentered]))->addText($data['azienda']->label, ['bold' => true, 'size' => 12], ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]);
+
+        $row->addCell(33 * 50, $cellVCentered)->addText("Giornale dei lavori", ['bold' => true, 'size' => 12], ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]);
+
+        $subTable = $row->addCell(34 * 50)->addTable($cellVMargin);
+        $subTable->addRow()->addCell(null, ['borderSize' => 0, 'borderStyle' => Border::NONE, 'bgColor' => 'e0e0e0'])->addText("Data compilazione", ['bold' => true, 'size' => 10], ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]);
+        $subTable->addRow()->addCell(null, array_merge(['borderSize' => 0, 'borderStyle' => Border::NONE, $cellVCentered]))->addText(now()->format('d/m/Y'), ['bold' => true, 'size' => 12], ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]);
+        $subTable->addRow()->addCell(null, array_merge(['borderSize' => 0, 'borderStyle' => Border::NONE, $cellVCentered]))->addText('Rev. N°: ', ['bold' => true, 'size' => 10], ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]);
+
+        // informazioni meteo
+        $row = $table->addRow(400);
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Condizioni meteo: ', ['bold' => true, 'size' => 11], $paragraphHMargin);
+        $row->addCell(null, $cellVCentered)->addText('-', ['size' => 11], $paragraphHMargin);
+
+        // Riferimenti contrattuali
+        $row = $table->addRow(400);
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Riferimenti contrattuali', ['bold' => true, 'size' => 11], ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]);
+
+        // contratto
+        $row = $table->addRow(400);
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Contratto N°: ', ['bold' => true, 'size' => 11], $paragraphHMargin);
+        $row->addCell(null, $cellVCentered)->addText('-', ['size' => 11], $paragraphHMargin);
+
+        // descrizione intervento
+        $row = $table->addRow(400);
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Descrizione intervento: ', ['bold' => true, 'size' => 11], $paragraphHMargin);
+        $row->addCell(null, $cellVCentered)->addText('-', ['size' => 11], $paragraphHMargin);
+
+        // Data esecuzione
+        $row = $table->addRow(400);
+        $row->addCell(25 * 50, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Data esecuzione lavori: ', ['bold' => true, 'size' => 11], $paragraphHMargin);
+        $row->addCell(25 * 50, $cellVCentered)->addText('-', ['size' => 11], $paragraphHMargin);
+        $row->addCell(25 * 50, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Turno di lavoro: ', ['bold' => true, 'size' => 11], $paragraphHMargin);
+        $row->addCell(25 * 50, $cellVCentered)->addText('-', ['size' => 11], $paragraphHMargin);
+
+        // Misurazioni
+        $table->addRow(400)->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Descrizioni attività VALUTABILI a misura', ['bold' => true, 'size' => 11], ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]);
+        $table->addRow(400)->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText($data['azienda']->label, ['bold' => true, 'size' => 11], ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]);
+        $table->addRow(1600)->addCell()->addText('-', ['size' => 11], $paragraphHMargin);
+
+        $tableDettagli = $table->addRow()->addCell(100 * 50)->addTable(['cellMargin' => 0, 'borderSize' => 1, 'unit' => \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT, 'width' => 100 * 50]);
+
+        $row = $tableDettagli->addRow();
+        $tableUtenti = $row->addCell(50 * 50)->addTable(['cellMargin' => 0, 'borderSize' => 1, 'unit' => \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT, 'width' => 100 * 50]);
+        $tableMezziAttrezzature= $row->addCell(50 * 50)->addTable(['cellMargin' => 0, 'borderSize' => 1, 'unit' => \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT, 'width' => 100 * 50]);
+
+
+        $row = $tableUtenti->addRow(400);
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Uomini', ['bold' => true, 'size' => 11], $cellHCentered);
+
+        $row = $tableUtenti->addRow(400);
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Nominativo', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Qualifica', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Ore di lavoro', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Ore complessive', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+
+
+        // ciclo utenti
+        $row = $tableUtenti->addRow(400);
+        $row->addCell(null)->addText('Nominativo', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        $row->addCell(null)->addText('Qualifica', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        $row->addCell(null)->addText('Ore di lavoro', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        $row->addCell(null)->addText('Ore complessive', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+
+
+        $row = $tableMezziAttrezzature->addRow(400);
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Mezzi', ['bold' => true, 'size' => 11], $cellHCentered);
+
+        $row = $tableMezziAttrezzature->addRow(400);
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText(' ', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('N°', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Ore di lavoro', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Ore complessive', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+
+        // ciclo mezzi
+        $row = $tableMezziAttrezzature->addRow(400);
+        $row->addCell(null)->addText('Nominativo', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        $row->addCell(null)->addText('Qualifica', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        $row->addCell(null)->addText('Ore di lavoro', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        $row->addCell(null)->addText('Ore complessive', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+
+        $row = $tableMezziAttrezzature->addRow(400);
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Attrezzature', ['bold' => true, 'size' => 11], $cellHCentered);
+
+        // ciclo attrezzature
+        $row = $tableMezziAttrezzature->addRow(400);
+        $row->addCell(null)->addText('Nominativo', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        $row->addCell(null)->addText('Qualifica', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        $row->addCell(null)->addText('Ore di lavoro', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        $row->addCell(null)->addText('Ore complessive', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+
+
+        // Saving the document as OOXML file...
+        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
+        $filename = time().'-'.$data['azienda']->id.'-giornale-lavori.docx';
+        $objWriter->save(public_path('temp/'.$filename));
+
+        return response()->download(public_path('temp/'.$filename));
+    }
+
+
 }
+

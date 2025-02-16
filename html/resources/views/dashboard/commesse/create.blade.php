@@ -39,6 +39,7 @@
         @include('dashboard.commesse.forms.create-extrafield')
         @include('dashboard.commesse.forms.notification-status')
         @include('dashboard.commesse.modals.print')
+        @include('dashboard.commesse.modals.giornale-lavori')
     @endsection
 @endif
 

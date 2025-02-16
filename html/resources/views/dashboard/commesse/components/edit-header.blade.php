@@ -22,7 +22,12 @@
                         <a href="javascript:void(0);" tabindex="1" class="dropdown-item uploadDocNode" data-route="{{ route('upload-s3.modal', ['reference_id' => $el->id, 'reference_table' => 'commesse']) }}">Upload documenti commessa</a>
                     @endcan
                     @can('commessa_print', $el)
+                        <div class="divider"></div>
                         <button type="button" tabindex="0" class="dropdown-item" data-toggle="modal" data-target="#printModal">Stampa commessa</button>
+
+                        @can('testing')
+                            <button type="button" tabindex="0" class="dropdown-item" data-toggle="modal" data-target="#giornaleLavoriModal">Giornale dei lavori</button>
+                        @endcan
                     @endif
                     @can('commessa_mod_autorizzazioni', $el)
                         <div class="divider"></div>

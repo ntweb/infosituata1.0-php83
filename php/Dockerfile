@@ -4,6 +4,7 @@ RUN apk update; \
 
 RUN apk add libzip-dev
 RUN apk add --no-cache mariadb-client
+RUN apk add --no-cache git
 RUN docker-php-ext-install zip
 
 RUN docker-php-ext-install mysqli pdo pdo_mysql

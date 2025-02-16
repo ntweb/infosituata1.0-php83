@@ -226,6 +226,7 @@ Route::get('/dashboard/commessa/{id}/gantt20', [CommessaController::class, 'gant
 Route::post('/dashboard/commessa/notifications', [CommessaController::class, 'notifications'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa.notifications');
 Route::post('/dashboard/commessa/{id}/calculate/costi', [CommessaController::class, 'calculateCostiConsuntivi'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa.calculate-costi-consuntivi');
 Route::post('/dashboard/commessa/{id}/print', [CommessaController::class, 'print'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa.print');
+Route::post('/dashboard/commessa/{id}/print-giornale-lavori', [CommessaController::class, 'printGiornaleLavori'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa.print-giornale-lavori');
 Route::get('/dashboard/commessa/select2', [CommessaController::class, 'select2'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('commessa.select2');
 Route::resource('commessa', CommessaController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
 

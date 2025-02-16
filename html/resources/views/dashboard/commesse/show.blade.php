@@ -120,6 +120,7 @@
     @include('dashboard.commesse.modals.modal-delete-attachment')
 
     @include('dashboard.commesse.modals.print')
+    @include('dashboard.commesse.modals.giornale-lavori')
 
     {{-- Modale conferma associazione costi --}}
     <form class="ns" action="{{ route('commessa.calculate-costi-consuntivi', $el->id) }}"
