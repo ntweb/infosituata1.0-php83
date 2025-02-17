@@ -867,16 +867,47 @@ function random_color() {
     return '#' . random_color_part() . random_color_part() . random_color_part();
 }
 
+// pass two hours parameters, sum and format
+function sumHours($hours1, $hours2, $format = 'H:i') {
+    $t1 = \Carbon\Carbon::parse($hours1);
+    $t2 = \Carbon\Carbon::parse($hours2);
+
+    $t3 = $t1->addMinutes($t2->hour * 60 + $t2->minute);
+    return $t3;
+}
+
+// minutes to hours
+function minutesToHours($minutes) {
+    $hours = floor($minutes / 60);
+    $minutes = $minutes % 60;
+    $minutes = str_pad($minutes, 2, '0', STR_PAD_LEFT);
+    return $hours . ':' . $minutes;
+}
+
+function differenceInMinutes($from, $to) {
+    $_from = new \Carbon\Carbon($from);
+    $_to = new \Carbon\Carbon($to);
+
+    $_diff = abs($_to->diffInMinutes($_from));
+    return $_diff;
+}
+
 function differenceInHours($from, $to) {
     $_from = new \Carbon\Carbon($from);
     $_to = new \Carbon\Carbon($to);
 
-    $hours = $_to->diffInMinutes($from) / 60;
-    return number_format((float)$hours, 2, '.', '');
+    $minutes = abs($_to->diffInMinutes($_from));
+    $hours = floor($minutes / 60);
+    $minutes = $minutes % 60;
+    $minutes = str_pad($minutes, 2, '0', STR_PAD_LEFT);
+    // Log::info($_from.' - '.$_to.' - '.$hours.' - '.$hoursFormatted);
+    return $hours . '.' . $minutes;
+
+    // return number_format((float)$hoursFormatted, 2, '.', '');
 }
 function differenceInDays($from, $to, $hour_per_day = 8) {
 
-    $days = differenceInHours($from, $to) / $hour_per_day;
+    $days = abs(differenceInHours($from, $to) / $hour_per_day);
     return number_format((float)$days, 2, '.', '');
     return $days;
 }

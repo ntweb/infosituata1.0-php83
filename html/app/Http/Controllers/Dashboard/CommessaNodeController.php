@@ -702,7 +702,7 @@ class CommessaNodeController extends Controller
         $log->username = auth()->user()->name;
 
         // if ($log->item_costo > 0) {
-            $log->item_costo = $log->item_costo * -1;
+        // $log->item_costo = $log->item_costo * -1;
         // }
 
         $log->data_attribuzione = $request->input('data_attribuzione', null);

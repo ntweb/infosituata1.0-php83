@@ -41,7 +41,8 @@ services:
     container_name: 'phpmyadmin-is'
     environment:
       PMA_HOST: db-is-83
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
     ports:
       - '8091:80'
     depends_on:

@@ -1032,14 +1032,28 @@ class CommessaController extends Controller
 
         $ids = Commessa::where('root_id', $id)->orWhere('id', $id)->pluck('id', 'id');
 
-
-        dump($data['commessa']->id);
-        dump($date);
         $logs = getCommessaLogByDayItem($ids, $date);
-        dd($logs);
+        $groupedLog = $logs->groupBy('item.controller');
+
+        $fasi = [];
+        foreach ($logs as $log) {
+            $node = Commessa::find($log->commesse_id);
+            $ancestors = Commessa::whereAncestorOf($node)->get();
+            foreach ($ancestors as $a) {
+                if ($a->type == 'fase_lv_1' || $a->type == 'fase_lv_2') {
+                    $fasi[$a->id] = $a;
+                }
+            }
+        }
+        // dump($fasi);
+        // dd('stop');
+
+        // dump($data['commessa']->id);
+        // dump($date);
+        // dump($logs);
+        // dd($groupedLog);
 
         $data['azienda'] = $data['commessa']->azienda;
-
         $languageIt = new \PhpOffice\PhpWord\Style\Language(\PhpOffice\PhpWord\Style\Language::IT_IT);
 
         $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -1112,61 +1126,219 @@ class CommessaController extends Controller
         $row->addCell(25 * 50, $cellVCentered)->addText('-', ['size' => 11], $paragraphHMargin);
 
         // Misurazioni
+        $text = '';
+        foreach ($fasi as $f) {
+            $text .= $f->label . "<w:br />\n";
+        }
         $table->addRow(400)->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Descrizioni attività VALUTABILI a misura', ['bold' => true, 'size' => 11], ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]);
         $table->addRow(400)->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText($data['azienda']->label, ['bold' => true, 'size' => 11], ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::CENTER]);
-        $table->addRow(1600)->addCell()->addText('-', ['size' => 11], $paragraphHMargin);
+        $table->addRow(1600)->addCell()->addText($text, ['size' => 11], $paragraphHMargin);
 
         $tableDettagli = $table->addRow()->addCell(100 * 50)->addTable(['cellMargin' => 0, 'borderSize' => 1, 'unit' => \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT, 'width' => 100 * 50]);
 
+        // Utenti
         $row = $tableDettagli->addRow();
         $tableUtenti = $row->addCell(50 * 50)->addTable(['cellMargin' => 0, 'borderSize' => 1, 'unit' => \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT, 'width' => 100 * 50]);
-        $tableMezziAttrezzature= $row->addCell(50 * 50)->addTable(['cellMargin' => 0, 'borderSize' => 1, 'unit' => \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT, 'width' => 100 * 50]);
-
-
         $row = $tableUtenti->addRow(400);
         $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Uomini', ['bold' => true, 'size' => 11], $cellHCentered);
 
         $row = $tableUtenti->addRow(400);
         $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Nominativo', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
         $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Qualifica', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
-        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Ore di lavoro', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
-        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Ore complessive', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
-
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Ore di lavoro', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Ore complessive', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
 
         // ciclo utenti
-        $row = $tableUtenti->addRow(400);
-        $row->addCell(null)->addText('Nominativo', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
-        $row->addCell(null)->addText('Qualifica', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
-        $row->addCell(null)->addText('Ore di lavoro', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
-        $row->addCell(null)->addText('Ore complessive', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        if (isset($groupedLog['utente'])) {
+            $temp = [];
+            foreach ($groupedLog['utente'] as $log ) {
+                $h = differenceInMinutes($log->inizio, $log->fine);
+                if (isset($temp[$log->item->id])) {
+                    // Log::info($temp[$log->item->id]['h'] . ' + ' . $h);
+                    $temp[$log->item->id]['h'] = $temp[$log->item->id]['h'] + $h;
+                } else {
+                    $temp[$log->item->id]['log'] = $log;
+                    $temp[$log->item->id]['h'] = $h;
+                }
+            }
 
+            // dd($temp);
+            $total_h = 0;
+            foreach ($temp as $log) {
+                // dd($log['log']);
+                $total_h += $log['h'];
+                $row = $tableUtenti->addRow(400);
+                $row->addCell(null)->addText($log['log']->item->extras1.' '.$log['log']->item->extras2, ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+                $row->addCell(null)->addText($log['log']->item->user_qualifica_assunzione, ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+                $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+                $row->addCell(null)->addText(minutesToHours($log['h']), ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+            }
 
-        $row = $tableMezziAttrezzature->addRow(400);
+            // Totale
+            $row = $tableUtenti->addRow(400);
+            $row->addCell(null)->addText('', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+            $row->addCell(null)->addText(minutesToHours($total_h), ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+        }
+        else {
+            // Row blank
+            $row = $tableUtenti->addRow(400);
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+        }
+
+        // Attrezzature, mezzi e materiali
+        $row = $tableDettagli->addRow();
+        $tableMezziAttrezzatureMateriali= $row->addCell(50 * 50)->addTable(['cellMargin' => 0, 'borderSize' => 1, 'unit' => \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT, 'width' => 100 * 50]);
+
+        $row = $tableMezziAttrezzatureMateriali->addRow(400);
         $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Mezzi', ['bold' => true, 'size' => 11], $cellHCentered);
 
-        $row = $tableMezziAttrezzature->addRow(400);
+        $row = $tableMezziAttrezzatureMateriali->addRow(400);
         $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText(' ', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
         $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('N°', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
         $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Ore di lavoro', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
         $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Ore complessive', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
 
         // ciclo mezzi
-        $row = $tableMezziAttrezzature->addRow(400);
-        $row->addCell(null)->addText('Nominativo', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
-        $row->addCell(null)->addText('Qualifica', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
-        $row->addCell(null)->addText('Ore di lavoro', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
-        $row->addCell(null)->addText('Ore complessive', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        if (isset($groupedLog['mezzo'])) {
+            $temp = [];
+            foreach ($groupedLog['mezzo'] as $log ) {
+                $h = differenceInMinutes($log->inizio, $log->fine);
+                if (isset($temp[$log->item->id])) {
+                    // Log::info($temp[$log->item->id]['h'] . ' + ' . $h);
+                    $temp[$log->item->id]['h'] = $temp[$log->item->id]['h'] + $h;
+                } else {
+                    $temp[$log->item->id]['log'] = $log;
+                    $temp[$log->item->id]['h'] = $h;
+                }
+            }
 
-        $row = $tableMezziAttrezzature->addRow(400);
+            // dd($temp);
+            $total_h = 0;
+            foreach ($temp as $log) {
+                $total_h += $log['h'];
+
+                $targa = $log['log']->item->extras3 ? '('.$log['log']->item->extras3.')' : '';
+                // dd($log['log']);
+                $row = $tableMezziAttrezzatureMateriali->addRow(400);
+                $row->addCell(null)->addText($log['log']->item->extras1.' '.$targa, ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+                $row->addCell(null)->addText(1, ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+                $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+                $row->addCell(null)->addText(minutesToHours($log['h']), ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+            }
+
+            // Totale
+            $row = $tableMezziAttrezzatureMateriali->addRow(400);
+            $row->addCell(null)->addText('', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+            $row->addCell(null)->addText(minutesToHours($total_h), ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+        }
+        else {
+            // Row blank
+            $row = $tableMezziAttrezzatureMateriali->addRow(400);
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+        }
+
+        $row = $tableMezziAttrezzatureMateriali->addRow(400);
         $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Attrezzature', ['bold' => true, 'size' => 11], $cellHCentered);
 
         // ciclo attrezzature
-        $row = $tableMezziAttrezzature->addRow(400);
-        $row->addCell(null)->addText('Nominativo', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
-        $row->addCell(null)->addText('Qualifica', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
-        $row->addCell(null)->addText('Ore di lavoro', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
-        $row->addCell(null)->addText('Ore complessive', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        if (isset($groupedLog['attrezzatura'])) {
+            $temp = [];
+            foreach ($groupedLog['attrezzatura'] as $log ) {
+                $h = differenceInMinutes($log->inizio, $log->fine);
+                if (isset($temp[$log->item->id])) {
+                    // Log::info($temp[$log->item->id]['h'] . ' + ' . $h);
+                    $temp[$log->item->id]['h'] = $temp[$log->item->id]['h'] + $h;
+                } else {
+                    $temp[$log->item->id]['log'] = $log;
+                    $temp[$log->item->id]['h'] = $h;
+                }
+            }
 
+            // dd($temp);
+            $total_h = 0;
+            foreach ($temp as $log) {
+                $total_h += $log['h'];
+
+                $targa = $log['log']->item->extras3 ? '('.$log['log']->item->extras3.')' : '';
+                // dd($log['log']);
+                $row = $tableMezziAttrezzatureMateriali->addRow(400);
+                $row->addCell(null)->addText($log['log']->item->extras1.' '.$targa, ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+                $row->addCell(null)->addText(1, ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+                $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+                $row->addCell(null)->addText(minutesToHours($log['h']), ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+            }
+
+            // Totale
+            $row = $tableMezziAttrezzatureMateriali->addRow(400);
+            $row->addCell(null)->addText('', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+            $row->addCell(null)->addText(minutesToHours($total_h), ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+        }
+        else {
+            // Row blank
+            $row = $tableMezziAttrezzatureMateriali->addRow(400);
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+        }
+
+        $row = $tableMezziAttrezzatureMateriali->addRow(400);
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Materiali', ['bold' => true, 'size' => 11], $cellHCentered);
+
+        // ciclo materiale
+        if (isset($groupedLog['materiale'])) {
+            $temp = [];
+            foreach ($groupedLog['materiale'] as $log ) {
+                $qty = $log->item_qty;
+                if (isset($temp[$log->item->id])) {
+                    // Log::info($temp[$log->item->id]['h'] . ' + ' . $h);
+                    $temp[$log->item->id]['qty'] = $temp[$log->item->id]['qty'] + $qty;
+                } else {
+                    $temp[$log->item->id]['log'] = $log;
+                    $temp[$log->item->id]['qty'] = $qty;
+                }
+            }
+
+            // dd($temp);
+            $total_qty = 0;
+            foreach ($temp as $log) {
+                $total_qty += $log['qty'];
+
+                // dd($log['log']);
+                $row = $tableMezziAttrezzatureMateriali->addRow(400);
+                $row->addCell(null)->addText($log['log']->item->extras1, ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+                $row->addCell(null)->addText($log['qty'], ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+                $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+                $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+            }
+
+            // Totale
+            $row = $tableMezziAttrezzatureMateriali->addRow(400);
+            $row->addCell(null)->addText('', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText($total_qty, ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+            $row->addCell(null)->addText('', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+        }
+        else {
+            // Row blank
+            $row = $tableMezziAttrezzatureMateriali->addRow(400);
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+        }
 
         // Saving the document as OOXML file...
         $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'Word2007');
