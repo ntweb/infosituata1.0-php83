@@ -59,7 +59,7 @@
                                                                     data-toggle="tooltip"
                                                                     data-placement="left"
                                                                     data-title="Ore lavorate">
-                                                                {{ $result }}
+                                                                    {{ $result }}
                                                             </span>
                                                             @else
                                                                 <span

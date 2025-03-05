@@ -535,7 +535,7 @@ class TimbratureController extends Controller
                     throw new TimbraturaException('Squadratura per uscita minore di entrata');
                 }
 
-                $minutiLavorati = $minutiLavorati + $do->diffInMinutes($di);
+                $minutiLavorati = $minutiLavorati + abs($do->diffInMinutes($di));
             }
 
             /** eseguire calcolo ore totali lavorate **/
