@@ -718,7 +718,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="{{ isActive(['user.*', 'mezzi.*', 'attrezzature.*', 'scadenzario.*', 'risorse.*', 'materiali.*', 'evento.*']) }}">
+                        <li class="{{ isActive(['user.*', 'mezzi.*', 'attrezzature.*', 'scadenzario.*', 'risorse.*', 'materiali.*', 'evento.*', 'log-visualizzazioni.*']) }}">
                             <a href="#">
                                 <i class="metismenu-icon bx bx-map"></i>
                                 Infosituata
@@ -773,6 +773,12 @@
                                     <a href="{{ route('evento.index') }}">
                                         <i class="metismenu-icon pe-7s-diamond"></i>
                                         Eventi
+                                    </a>
+                                </li>
+                                <li class="{{ isActive('logv-isualizzazioni.*') }}">
+                                    <a href="{{ route('log-visualizzazioni.index') }}">
+                                        <i class="metismenu-icon pe-7s-diamond"></i>
+                                        Log visualizzazioni
                                     </a>
                                 </li>
                             </ul>
@@ -1481,6 +1487,10 @@
 
 @if(isActive(['rapportini.*']))
     <script src="{{ url('js/rapportini.js?v=').time() }}"></script>
+@endif
+
+@if(isActive(['log-visualizzazioni.*']))
+    <script src="{{ url('js/log-visualizzazioni.js?v=').time() }}"></script>
 @endif
 
 @if(isActive(['checklist-template.*']))

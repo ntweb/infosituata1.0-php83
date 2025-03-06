@@ -29,6 +29,7 @@ use App\Http\Controllers\Dashboard\InfosituataController;
 use App\Http\Controllers\Dashboard\InfosituataPublicController;
 use App\Http\Controllers\Dashboard\ItemController;
 use App\Http\Controllers\Dashboard\IvaController;
+use App\Http\Controllers\Dashboard\LogVisualizzazioniController;
 use App\Http\Controllers\Dashboard\ManutenzioneController;
 use App\Http\Controllers\Dashboard\ManutenzioneDettaglioController;
 use App\Http\Controllers\Dashboard\MaterialiController;
@@ -417,6 +418,11 @@ Route::resource('mod-fat-aut', ModuloFatturaAutorizzazioniController::class)->mi
 Route::get('/microformazione', [MicroformazioneController::class, 'index'])->name('microformazione.index');
 Route::get('/microformazione/alcol', [MicroformazioneController::class, 'alcol'])->name('microformazione.alcol');
 Route::get('/microformazione/manuale', [MicroformazioneController::class, 'manuale'])->name('microformazione.manuale');
+
+Route::get('/log-visualizzazioni', [LogVisualizzazioniController::class, 'index'])->name('log-visualizzazioni.index');
+Route::get('/log-visualizzazioni/export', [LogVisualizzazioniController::class, 'export'])->name('log-visualizzazioni.export');
+
+
 
 // Image
 Route::post('/image/resize', [ImageController::class, 'resize'])->name('image.resize');

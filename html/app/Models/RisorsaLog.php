@@ -21,7 +21,7 @@ class RisorsaLog extends Model
     }
 
     public function utente() {
-        return $this->hasMany('App\Models\Utente', 'utente_id');
+        return $this->belongsTo('App\Models\Utente', 'utente_id');
     }
 
     public function risorsa() {
