@@ -3,7 +3,7 @@
         <div class="card-body">
             <div class="d-flex justify-content-between my-2">
                 <h5 class="card-title">Log visualizzazioni</h5>
-                <a href="{{ $filename }}" class="btn btn-sm btn-success">Export</a>
+                <a href="{{ $filename }}" class="btn btn-light btn-sm">Export</a>
             </div>
             <div class="table-responsive pb-10">
                 <table class="mb-0 table table-hover" id="dashboard_user_index">
