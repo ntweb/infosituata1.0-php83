@@ -66,6 +66,7 @@
                                     <td></td>
                                     <td></td>
                                     <td></td>
+                                    <td></td>
                                     <td class="text-right"><b>{{ euro($_tot_costi) }}</b> &euro;</td>
                                     <td></td>
                                 </tr>

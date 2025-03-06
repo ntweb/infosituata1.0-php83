@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Events\Illuminate\Events\AttachmentS3ParentDeleted;
+use App\Events\Illuminate\Events\CarburanteAddOrUpdEvent;
 use App\Models\Carburante;
 use App\Models\Cisterna;
 use App\Models\Item;
@@ -133,6 +134,13 @@ class CarburanteController extends Controller
             $el->created_by = Auth::user()->id;
             $el->save();
 
+            $evt['cisterne_id'] = $el->cisterne_id;
+            $evt['litri'] = $el->litri;
+            $evt['old_cisterne_id'] = null;
+            $evt['old_litri'] = null;
+
+            event(new CarburanteAddOrUpdEvent($evt));
+
             DB::commit();
 
             return redirect()->route('carburante.edit', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
@@ -195,6 +203,9 @@ class CarburanteController extends Controller
         $el = Carburante::find($id);
         if (!$el) abort('404');
 
+        $evt['old_cisterne_id'] = $el->cisterne_id;
+        $evt['old_litri'] = $el->litri;
+
         switch ($request->get('_module', null)) {
             default:
                 $validationRules = [
@@ -218,6 +229,11 @@ class CarburanteController extends Controller
         try {
 
             $el->save();
+
+            $evt['cisterne_id'] = $el->cisterne_id;
+            $evt['litri'] = $el->litri;
+
+            event(new CarburanteAddOrUpdEvent($evt));
 
             DB::commit();
             $payload = 'Salvataggio avvenuto correttamente!';
