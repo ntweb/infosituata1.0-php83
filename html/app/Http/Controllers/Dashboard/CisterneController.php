@@ -118,7 +118,46 @@ class CisterneController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $el = Cisterna::find($id);
+        if (!$el) {
+            abort(404);
+        }
+
+        $validationRules = [
+            'label' => 'required',
+        ];
+
+        $validatedData = $request->validate($validationRules);
+
+        $fields = $request->except(['_token', '_redirect', '_method', '_type', '_module']);
+        foreach ($fields as $k => $v) {
+            switch ($k) {
+                case 'gruppi_ids':
+                    $el->$k = json_encode($v);
+                    break;
+                default:
+                    $el->$k = $v;
+            }
+        }
+
+        try {
+            $el->save();
+
+            $payload = 'Salvataggio avvenuto correttamente!';
+            if ($request->get('_type') == 'json')
+                return response()->json(['res' => 'success','payload' => $payload]);
+
+            return redirect()->route('cisterne.index', [$el->id])->with('success', 'Salvataggio avvenuto correttamente!');
+        }
+        catch (\Exception $e) {
+
+            Log::info($e->getMessage());
+            $payload = 'Errore in fase di salvataggio!';
+            if ($request->get('_type') == 'json')
+                return response()->json(['res' => 'error', 'payload' => $payload]);
+
+            return redirect()->back()->withInput()->with('error', 'Errore in fase di salvataggio!');
+        }
     }
 
     /**
