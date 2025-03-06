@@ -26,6 +26,10 @@ class Carburante extends Model
         return $this->belongsTo('App\Models\User', 'created_by');
     }
 
+    public function cisterna() {
+        return $this->belongsTo('App\Models\Cisterna', 'cisterne_id');
+    }
+
     public function item() {
         return $this->belongsTo('App\Models\Item', 'items_id');
     }

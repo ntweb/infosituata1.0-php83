@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Events\Illuminate\Events\AttachmentS3ParentDeleted;
 use App\Models\Carburante;
+use App\Models\Cisterna;
 use App\Models\Item;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -37,6 +38,7 @@ class CarburanteController extends Controller
                     ->whereBetween('data', [strToDate($dates[0])->startOfDay()->toDateTimeString(), strToDate($dates[1])->startOfDay()->toDateTimeString()])
                     ->orderBy('items_id')
                     ->orderBy('data', 'desc')
+                    ->with('cisterna')
                     ->get();
 
                 // dump($data['items']);
@@ -74,6 +76,8 @@ class CarburanteController extends Controller
 
         $data['item'] = Item::find($request->input('id', null));
         if (!$data['item']) abort(404);
+
+        $data['cisterne'] = Cisterna::get()->pluck('label', 'id')->toArray();
 
         return view('dashboard.carburante.create', $data);
     }
@@ -114,6 +118,9 @@ class CarburanteController extends Controller
 
             if($k == 'data')
                 $el->$k = \Carbon\Carbon::createFromFormat('d/m/Y', $v);
+
+            if ($k == 'cisterne_id' && $v == 0)
+                $el->$k = null;
 
         }
 
@@ -169,6 +176,8 @@ class CarburanteController extends Controller
         $data['action'] = route('carburante.update', $id);
 
         $data['nextScheda'] = Carburante::where('km', '>', $data['el']->km)->orderBy('km', 'desc')->first();
+
+        $data['cisterne'] = Cisterna::get()->pluck('label', 'id')->toArray();
 
         return view('dashboard.carburante.edit', $data);
     }
@@ -261,7 +270,7 @@ class CarburanteController extends Controller
     }
 
     public function export($id) {
-        $el = Item::with('carburante')->find($id);
+        $el = Item::with(['carburante', 'carburante.cisterna'])->find($id);
         if (!$el) abort(404);
 
         $filename = 'Export-schede-carburanti-'.auth()->user()->id.time().'.xlsx';
@@ -283,6 +292,7 @@ class CarburanteController extends Controller
             "C"=>"Km",
             "D"=>"litri",
             "E"=>"Costo",
+            "F"=>"Cisterna",
         );
 
         foreach ($celle as $k=>$v){
@@ -319,6 +329,7 @@ class CarburanteController extends Controller
             $spreadsheet->getActiveSheet()->SetCellValue("C$i", $l->km);
             $spreadsheet->getActiveSheet()->SetCellValue("D$i", $l->litri);
             $spreadsheet->getActiveSheet()->SetCellValue("E$i", $l->costo);
+            $spreadsheet->getActiveSheet()->SetCellValue("F$i", $l->cisterne_id ? $l->cisterna->label : '');
             $i++;
         }
 
