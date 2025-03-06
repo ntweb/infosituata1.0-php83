@@ -8,6 +8,7 @@ use App\Http\Controllers\Dashboard\CarburanteController;
 use App\Http\Controllers\Dashboard\ChecklistController;
 use App\Http\Controllers\Dashboard\ChecklistTemplateController;
 use App\Http\Controllers\Dashboard\ChecklistTemplateNodeController;
+use App\Http\Controllers\Dashboard\CisterneController;
 use App\Http\Controllers\Dashboard\ClienteController;
 use App\Http\Controllers\Dashboard\CommessaAutorizzazioniController;
 use App\Http\Controllers\Dashboard\CommessaController;
@@ -366,6 +367,9 @@ Route::resource('controllo', ControlloController::class)->middleware(['auth','ca
 // Carburante
 Route::get('/dashboard/carburante/{id}/export', [CarburanteController::class, 'export'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('carburante.export');
 Route::resource('carburante', CarburanteController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
+
+// Cisterne
+Route::resource('cisterne', CisterneController::class)->middleware(['auth']);
 
 // Ricambi
 Route::resource('ricambi', RicambiController::class)->middleware(['auth']);

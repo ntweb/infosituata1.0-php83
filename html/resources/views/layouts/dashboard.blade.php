@@ -718,7 +718,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="{{ isActive(['user.*', 'mezzi.*', 'attrezzature.*', 'scadenzario.*', 'risorse.*', 'materiali.*', 'evento.*', 'log-visualizzazioni.*']) }}">
+                        <li class="{{ isActive(['user.*', 'mezzi.*', 'attrezzature.*', 'scadenzario.*', 'risorse.*', 'materiali.*', 'evento.*', 'log-visualizzazioni.*', 'cisterne.*']) }}">
                             <a href="#">
                                 <i class="metismenu-icon bx bx-map"></i>
                                 Infosituata
@@ -755,6 +755,14 @@
                                         Risorse
                                     </a>
                                 </li>
+                                @can('can_create_mezzi')
+                                    <li class="{{ isActive('cisterne.*') }}">
+                                        <a href="{{ route('cisterne.index') }}">
+                                            <i class="metismenu-icon pe-7s-diamond"></i>
+                                            Cisterne
+                                        </a>
+                                    </li>
+                                @endcan
                                 <li class="{{ isActive('scadenzario.*') }}">
                                     <a href="{{ route('scadenzario.index') }}">
                                         <i class="metismenu-icon pe-7s-diamond"></i>
@@ -775,12 +783,14 @@
                                         Eventi
                                     </a>
                                 </li>
-                                <li class="{{ isActive('logv-isualizzazioni.*') }}">
+                                @can('can_create_utenti')
+                                <li class="{{ isActive('log-visualizzazioni.*') }}">
                                     <a href="{{ route('log-visualizzazioni.index') }}">
                                         <i class="metismenu-icon pe-7s-diamond"></i>
                                         Log visualizzazioni
                                     </a>
                                 </li>
+                                @endcan
                             </ul>
                         </li>
 
