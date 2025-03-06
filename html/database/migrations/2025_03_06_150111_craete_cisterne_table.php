@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('cisterne', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('azienda_id');
             $table->string('label');
             $table->decimal('livello_attuale', 30, 2)->default(0);
             $table->decimal('livello_minimo', 30, 2)->default(0);
