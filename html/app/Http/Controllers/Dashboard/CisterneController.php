@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
+use App\Models\Carburante;
 use App\Models\Cisterna;
 use App\Models\Gruppo;
+use App\Models\Manutenzione;
 use App\Models\Mezzo;
 use App\Models\Utente;
 use Illuminate\Http\Request;
@@ -109,6 +111,12 @@ class CisterneController extends Controller
 
         $gruppiIds = Gruppo::get()->pluck('id', 'id');
         $data['gruppi'] = Gruppo::whereIn('id', $gruppiIds)->select('id', 'label')->get()->pluck('label', 'id');
+
+        $data['schedeCarburante'] = Carburante::where('cisterne_id', $id)
+            ->with('item')
+            ->orderBy('data', 'desc')
+            ->limit(50)
+            ->get();
 
         return view('dashboard.cisterne.create', $data);
     }

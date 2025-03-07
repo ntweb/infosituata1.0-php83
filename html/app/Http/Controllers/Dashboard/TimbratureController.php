@@ -9,7 +9,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Commessa;
 use App\Models\Item;
 use App\Models\Timbratura;
+use App\Models\TimbraturaPermesso;
 use App\Models\User;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -460,7 +462,28 @@ class TimbratureController extends Controller
             return $reducer;
         }, []);
 
+
+        $permessi = TimbraturaPermesso::where('status', 'accettato')
+            ->where(function ($query) use ($d) {
+                $query->whereBetween('start_at',  [$d->startOfMonth()->startOfDay()->toDateTimeString(), $d->endOfMonth()->endOfDay()->toDateTimeString()])
+                    ->orWhereBetween('start_at',  [$d->startOfMonth()->startOfDay()->toDateTimeString(), $d->endOfMonth()->endOfDay()->toDateTimeString()]);
+            })
+            ->orderBy('users_id')
+            ->orderBy('start_at')
+            ->with('user')
+            ->get();
+
         // dump($data['users']);
+        $data['usersPermessi'] = $permessi->reduce(function ($reducer, $item) {
+            // Log::info($item->users_id.' '.$item->user->name);
+            $reducer[$item->users_id] = $item->user->name;
+            return $reducer;
+        }, []);
+
+        // union $data['users'] e $data['usersPermessi'] preserve array keys
+        $data['users'] = $data['users'] + $data['usersPermessi'];
+        // dd($data['users']);
+
 
         $period = \Carbon\CarbonPeriod::create($d->startOfMonth()->toDateString(), $d->endOfMonth()->toDateString());
         $data['period'] = $period->toArray();
@@ -480,6 +503,28 @@ class TimbratureController extends Controller
                 $data['listChecked'][$users_id][$d] = $this->getDayTimbratureInfo(collect($timbratureGiornata));
             }
         }
+
+        $data['listPermessi'] = [];
+        foreach ($permessi as $t) {
+            $type = $t->type;
+            switch ($type) {
+                case 'ferie':
+                    $d = new \Carbon\Carbon($t->start_at);
+                    $e = new \Carbon\Carbon($t->end_at);
+
+                    $period = CarbonPeriod::create($d->toDateString(), $e->toDateString());
+                    // Iterate over the period
+                    foreach ($period as $date) {
+                        $data['listPermessi'][$t->users_id][$date->format('Y-m-d')] = $type;
+                    }
+                    break;
+                default:
+                    $d = new \Carbon\Carbon($t->start_at);
+                    $data['listPermessi'][$t->users_id][$d->toDateString()] = $type;
+            }
+        }
+
+        // dd($data['listPermessi']);
 
         // dd($data['listChecked']);
 

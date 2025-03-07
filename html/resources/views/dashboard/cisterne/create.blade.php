@@ -16,5 +16,8 @@
             @include('layouts.components.alerts.alert')
             @include('dashboard.cisterne.forms.create')
         </div>
+        <div class="col-md-12 col-lg-4">
+            @include('dashboard.cisterne.components.logs')
+        </div>
     </div>
 @endsection

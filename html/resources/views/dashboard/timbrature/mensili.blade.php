@@ -14,7 +14,7 @@
     <div class="row">
         <div class="col-md-12">
 
-            @if(count($list))
+            @if(count($list) || count($listPermessi))
                 <div class="main-card mb-3 card">
                     <div class="card-body">
                         @php
@@ -40,19 +40,22 @@
                                                     @php
                                                         $d = $p->toDateString();
                                                         $result = @$listChecked[$users_id][$d];
+                                                        $permesso = @$listPermessi[$users_id][$d];
                                                     @endphp
 
                                                     <a href="{{ route('timbrature.edit', [$users_id, 'date' => $d]) }}">
 
-                                                        @if(!isset($result))
+                                                        @if(!isset($result) && !isset($permesso))
                                                             <span
                                                                 class="text-danger"
                                                                 data-toggle="tooltip"
                                                                 data-placement="left"
                                                                 data-title="Timbrature assenti">
-                                                            -
-                                                        </span>
-                                                        @else
+                                                                -
+                                                            </span>
+                                                        @endif
+
+                                                        @if (isset($result))
                                                             @if (is_numeric($result))
                                                                 <span
                                                                     class="font-weight-bold"
@@ -60,16 +63,26 @@
                                                                     data-placement="left"
                                                                     data-title="Ore lavorate">
                                                                     {{ $result }}
-                                                            </span>
+                                                                </span>
                                                             @else
                                                                 <span
                                                                     class="text-warning"
                                                                     data-toggle="tooltip"
                                                                     data-placement="left"
                                                                     data-title="{{ $result }}">
-                                                                <i class="bx bxs-calendar-exclamation" ></i>
-                                                            </span>
+                                                                    <i class="bx bxs-calendar-exclamation" ></i>
+                                                                </span>
                                                             @endif
+                                                        @endif
+
+                                                        @if (isset($permesso))
+                                                                <span
+                                                                    class="badge {{ $permesso == 'ferie' ? 'badge-danger' : 'badge-warning' }}"
+                                                                    data-toggle="tooltip"
+                                                                    data-placement="left"
+                                                                    data-title="{{ $permesso }}">
+                                                                {{ $permesso[0] }}
+                                                                </span>
                                                         @endif
 
                                                     </a>

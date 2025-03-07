@@ -8,6 +8,25 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
+
+function fromGruppiIdsToUserEmail($gruppi_ids) {
+    $gruppi = \App\Models\Gruppo::whereIn('id', $gruppi_ids)
+        ->with('utenti', 'utenti.user')
+        ->get();
+
+    $emails = [];
+    foreach ($gruppi as $gruppo) {
+        foreach ($gruppo->utenti as $utente) {
+            if ($utente->user->active) {
+                $emails[strtolower($utente->user->email)] = strtolower($utente->user->email);
+            }
+        }
+    }
+
+    // select unique emails
+    return array_values($emails);
+}
+
 function isActive($routesName) {
     if (is_array($routesName)) {
         foreach ($routesName as $routeName) {

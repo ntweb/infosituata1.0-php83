@@ -527,4 +527,6 @@ Route::get('/super/login/{id}', function($id){
     }
 })->middleware(['auth']);
 
-
+Route::get('/gruppi/test', function(){
+    return fromGruppiIdsToUserEmail([1,2]);
+})->middleware(['auth']);

@@ -120,9 +120,8 @@ class CarburanteController extends Controller
             if($k == 'data')
                 $el->$k = \Carbon\Carbon::createFromFormat('d/m/Y', $v);
 
-            if ($k == 'cisterne_id' && $v == 0)
+            if ($k == 'cisterne_id' && intval($v) == 0)
                 $el->$k = null;
-
         }
 
         DB::beginTransaction();
@@ -222,6 +221,10 @@ class CarburanteController extends Controller
 
             if($k == 'data') {
                 $el->$k = \Carbon\Carbon::createFromFormat('d/m/Y', $v);
+            }
+
+            if ($k == 'cisterne_id' && intval($v) == 0) {
+                $el->$k = null;
             }
         }
 
