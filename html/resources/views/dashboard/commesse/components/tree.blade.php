@@ -152,7 +152,7 @@
 
             {{-- Sottofasi --}}
             @foreach($node->children as $child)
-                @if(!$child->item_id)
+                @if(!$child->item_id && $child->type !== 'extra')
                     @php $padding = '40px'; @endphp
                     @include('dashboard.commesse.components.tree-child')
 
@@ -183,11 +183,11 @@
                 @endif
             @endforeach
 
-            {{-- Utenti Mezzi Attrezzature --}}
+            {{-- Utenti Mezzi Attrezzature Materiali ed Extra --}}
             @php
                 $padding = '40px';
                  $childTypes = $node->children->groupBy('type');
-                 $childTypes = $childTypes->filter(function($el, $key) { return ($key == 'utente' || $key == 'mezzo' || $key == 'attrezzatura' || $key == 'materiale'); })
+                 $childTypes = $childTypes->filter(function($el, $key) { return ($key == 'utente' || $key == 'mezzo' || $key == 'attrezzatura' || $key == 'materiale' || $key == 'extra'); })
             @endphp
 
             @foreach($childTypes as $children)
@@ -195,7 +195,7 @@
                 @endforeach
             @endforeach
             @foreach($node->children as $child)
-                @if($child->item_id)
+                @if($child->item_id || $child->type === 'extra')
                     @include('dashboard.commesse.components.tree-child-item')
                 @endif
             @endforeach

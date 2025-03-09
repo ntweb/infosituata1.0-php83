@@ -53,7 +53,7 @@
         </button>
         <div tabindex="-1" role="menu" aria-hidden="true" class="dropdown-menu" x-placement="top-start" style="position: absolute; will-change: transform; top: 0px; left: 0px; transform: translate3d(0px, -4px, 0px);">
 
-            @if(!$node->item_id)
+            @if(!$node->item_id && $node->type != 'extra')
 
                 @if($can_create_risorsa)
                     {{-- Assegnazioni --}}
@@ -78,6 +78,12 @@
                        data-route="{{ route('commessa-node.create', ['node' => $node->id, '_callback' => 'refreshOverviewTable()', '_module' => 'squadra']) }}">
                         <i class="bx bxs-user-plus mr-2"></i> Squadra
                     </a>
+                    @can('testing')
+                    <a href="javascript:void(0)" tabindex="0" class="dropdown-item addNode"
+                       data-route="{{ route('commessa-node.create', ['node' => $node->id, '_callback' => 'refreshOverviewTable()', '_module' => 'extra']) }}">
+                        <i class="bx bx-extension mr-2"></i> Extra
+                    </a>
+                    @endcan
                     <div class="dropdown-divider"></div>
                 @endif
 
@@ -104,10 +110,12 @@
 
             {{-- fasi --}}
             @if($can_modify_fasi && !$node->item_id)
+                @if($node->type != 'extra')
                 <a href="javascript:void(0)" tabindex="0" class="dropdown-item modNode"
                    data-route="{{ route('commessa-node.edit', [$node->id, '_callback' => 'refreshOverviewTable()']) }}">
                     <i class="bx bx-edit-alt mr-2"></i> Modifica
                 </a>
+                @endif
                 <a href="javascript:void(0)" tabindex="0"
                    class="dropdown-item text-danger deleteNode"
                    data-route="{{ route('commessa-node.edit', [$node->id, '_callback' => 'refreshOverviewTable()', 'delete' => 1]) }}">
@@ -130,7 +138,6 @@
             @endif
 
             @if($can_view_commessa_log && !$node->item_id)
-
                 <button type="button" tabindex="0" class="dropdown-item openNodeLog" data-route="{{ route('commessa-node.logs', $node->id) }}">Log</button>
             @endif
 
@@ -170,7 +177,7 @@
         </a>
     </td>
     <td class="fit">
-        @if($node->item_id)
+        @if($node->item_id || $node->type == 'extra')
             @if($can_view_risorse_log)
             <a href="javascript:void(0)" class="openNodeLog" style="text-decoration: none;" data-route="{{ route('commessa-node.logs', $node->id) }}">
                 @component('dashboard.commesse.components.labels.node-label-date-eff', ['node' => $node])

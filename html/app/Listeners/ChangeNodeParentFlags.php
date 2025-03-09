@@ -32,7 +32,7 @@ class ChangeNodeParentFlags
         $node = $event->node;
         $parent = $node->parent;
 
-        if ($node->item_id) {
+        if ($node->item_id || $node->type == 'extra') {
             $node->fl_is_status_changeble = '0';
             $node->fl_is_data_prevista_changeble = '1';
             $node->fl_can_have_sottofase = '0';
@@ -41,7 +41,7 @@ class ChangeNodeParentFlags
             $node->data_inizio_prevista = $parent->data_inizio_prevista;
             $node->data_fine_prevista = $parent->data_fine_prevista;
 
-            if ($node->type == 'materiale') {
+            if ($node->type == 'materiale' || $node->type == 'extra') {
                 $node->fl_is_data_prevista_changeble = '0';
                 $node->data_inizio_prevista = null;
                 $node->data_fine_prevista = null;

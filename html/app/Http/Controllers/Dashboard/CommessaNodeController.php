@@ -83,6 +83,10 @@ class CommessaNodeController extends Controller
                     $title = 'squadra';
 
                     break;
+                case 'extra':
+                    $title = 'extra';
+
+                    break;
                 default:
                     $data['gruppi'] = Gruppo::orderBy('label')->get();
                     $title = 'utente';
@@ -96,6 +100,11 @@ class CommessaNodeController extends Controller
             if ($request->input('_module', 'null') == 'squadra') {
                 $data['action'] = route('commessa-node.squadra', [$parent->id, 'xxx']);
                 $data['search_route'] = route('squadra.search');
+            }
+
+            if ($request->input('_module', 'null') == 'extra') {
+                $data['sub_title'] = 'Creare insieme di voci extra per: ' . strtolower($parent->label).'?';
+                return view('dashboard.commesse.modals.create-node-extra-confirm', $data);
             }
 
             return view('dashboard.commesse.modals.create-node-assignment', $data);
@@ -150,10 +159,12 @@ class CommessaNodeController extends Controller
      */
     public function store(Request $request)
     {
-        // Log::info($request->all());
+        Log::info($request->all());
 
         $parent = Commessa::with('root')->find($request->input('_parent_id'));
+        Log::info($parent);
         if (!$parent) abort('404');
+        Log::info('arrivo');
 
 
         $el = new Commessa;
@@ -199,6 +210,20 @@ class CommessaNodeController extends Controller
 
                 break;
 
+            case 'extra':
+                /** controllo esistenza assegnazione **/
+                $exist = Commessa::where('type', 'extra')
+                    ->where('parent_id', $parent->id)
+                    ->count();
+
+                if ($exist) {
+                    $payload = 'Errore, elemento già assegnato!';
+                    return response()->json(['res' => 'error', 'payload' => $payload]);
+                }
+
+                $extra = true;
+                break;
+
             default:
                 $validationRules = ['label' => 'required'];
                 $validatedData = $request->validate($validationRules);
@@ -219,6 +244,11 @@ class CommessaNodeController extends Controller
                 $el->item_id = $item->id;
                 $el->label = $item->label;
                 $el->type = $item->controller;
+            }
+
+            if (isset($extra)) {
+                $el->label = 'Extra';
+                $el->type = 'extra';
             }
 
             $el->color = random_color();
