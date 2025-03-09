@@ -754,8 +754,7 @@
                                         <i class="metismenu-icon"></i>
                                         Risorse
                                     </a>
-                                </li>
-                                @can('testing')
+                                </li>                                
                                 @can('can_create_mezzi')
                                     <li class="{{ isActive('cisterne.*') }}">
                                         <a href="{{ route('cisterne.index') }}">
@@ -763,8 +762,7 @@
                                             Cisterne
                                         </a>
                                     </li>
-                                @endcan
-                                @endcan
+                                @endcan                                
                                 <li class="{{ isActive('scadenzario.*') }}">
                                     <a href="{{ route('scadenzario.index') }}">
                                         <i class="metismenu-icon pe-7s-diamond"></i>

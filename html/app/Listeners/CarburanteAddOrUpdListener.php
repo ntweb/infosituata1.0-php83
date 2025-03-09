@@ -38,9 +38,10 @@ class CarburanteAddOrUpdListener
             // parte avviso
             $gruppi_ids = $checkLimit->gruppi_ids ? json_decode($checkLimit->gruppi_ids) : [];
             if (count($gruppi_ids)) {
-                $message = 'Il livello della cisterna '.$checkLimit->label.' è al di sotto del minimo';
-                $message .= '<br>livello auttuale '.$checkLimit->livello_attuale;
-                sendEmailGenerica(null, $gruppi_ids, 'Alert livello cisterna', $message);
+				$emails = fromGruppiIdsToUserEmail($gruppi_ids);				
+                $message = 'Il livello della cisterna '.$checkLimit->label.' è al di sotto del minimo consentito';
+                $message .= '<br>Livello attuale: '.$checkLimit->livello_attuale;
+                sendEmailGenerica(null, $emails, 'Alert livello cisterna', $message);
             }
         }
 
