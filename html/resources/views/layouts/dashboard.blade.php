@@ -755,6 +755,7 @@
                                         Risorse
                                     </a>
                                 </li>
+                                @can('testing')
                                 @can('can_create_mezzi')
                                     <li class="{{ isActive('cisterne.*') }}">
                                         <a href="{{ route('cisterne.index') }}">
@@ -762,6 +763,7 @@
                                             Cisterne
                                         </a>
                                     </li>
+                                @endcan
                                 @endcan
                                 <li class="{{ isActive('scadenzario.*') }}">
                                     <a href="{{ route('scadenzario.index') }}">
@@ -840,6 +842,12 @@
                                             <a href="{{ route('timbrature-permessi.index') }}">
                                                 <i class="metismenu-icon"></i>
                                                 Richieste permessi
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('timbrature.qr-generator') }}">
+                                                <i class="metismenu-icon"></i>
+                                                Qr acc. timbrature
                                             </a>
                                         </li>
                                     </ul>

@@ -12,6 +12,10 @@ use App\Models\Timbratura;
 use App\Models\TimbraturaPermesso;
 use App\Models\User;
 use Carbon\CarbonPeriod;
+use Endroid\QrCode\Color\Color;
+use Endroid\QrCode\QrCode;
+use Endroid\QrCode\RoundBlockSizeMode;
+use Endroid\QrCode\Writer\PngWriter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -591,5 +595,24 @@ class TimbratureController extends Controller
         catch (TimbraturaException $e) {
             return $e->getMessage();
         }
+    }
+
+    public function qrGenerator() {
+        $generate = route('timbrature.create');
+        $writer = new PngWriter();
+        $qrCode = QrCode::create($generate)
+            ->setSize(500)
+            ->setMargin(10)
+            ->setRoundBlockSizeMode(RoundBlockSizeMode::Margin)
+            ->setForegroundColor(new Color(0, 0, 0))
+            ->setBackgroundColor(new Color(255, 255, 255));
+
+        $contents = $writer->write($qrCode)->getString();
+
+        $filename = time().'_'.Auth::user()->id.'.png';
+        $path = public_path('export/qr/'.$filename);
+        file_put_contents($path, $contents);
+
+        return response()->download($path)->deleteFileAfterSend(true);
     }
 }

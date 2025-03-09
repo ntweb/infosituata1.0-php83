@@ -16,8 +16,10 @@
             @include('layouts.components.alerts.alert')
             @include('dashboard.cisterne.forms.create')
         </div>
+        @if(isset($schedeCarburante))
         <div class="col-md-12 col-lg-4">
             @include('dashboard.cisterne.components.logs')
         </div>
+        @endif
     </div>
 @endsection

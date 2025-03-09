@@ -396,6 +396,7 @@ Route::get('/dashboard/download/{md5_attachment_id}/public', [UploadPublicContro
 // Timbrature
 Route::get('/dashboard/timbrature/refresh/select/commesse', [TimbratureController::class, 'refreshSelectCommesse'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('timbrature.refresh-select-commesse');
 Route::get('/dashboard/timbrature/mensili', [TimbratureController::class, 'mensili'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('timbrature.mensili');
+Route::get('/dashboard/timbrature/qr-generator', [TimbratureController::class, 'qrGenerator'])->middleware(['auth','can:2fa','can:privacy-accepted'])->name('timbrature.qr-generator');
 Route::resource('timbrature', TimbratureController::class)->middleware(['auth','can:2fa','can:privacy-accepted']);
 
 // Permessi
