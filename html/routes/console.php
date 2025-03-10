@@ -27,7 +27,7 @@ Schedule::command('delete:s3')->everyFiveMinutes()->withoutOverlapping(5);
 
 Schedule::command('clienti:import')->everyMinute()->withoutOverlapping(5);
 
-Schedule::command('zoho:refresh-token')->everyTenMinutes()->withoutOverlapping(5);
+// Schedule::command('zoho:refresh-token')->everyTenMinutes()->withoutOverlapping(5);
 Schedule::command('tickets:send')->everyFiveMinutes()->withoutOverlapping(5);
 Schedule::command('tickets:tickets:delete-attachments')->daily();
 
