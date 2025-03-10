@@ -657,12 +657,15 @@ class CommessaNodeController extends Controller
         if (!$node) abort('404');
 
         $data['node'] = $node;
-        if ($node->item_id) {
+        if ($node->item_id || $node->type == 'extra') {
             if ($request->has('_render_table'))
                 return view('dashboard.commesse.analisi.components.item-logs-table', $data);
 
             if ($node->type == 'materiale')
                 return view('dashboard.commesse.modals.get-node-item-materiale-logs', $data);
+
+            if ($node->type == 'extra')
+                return view('dashboard.commesse.modals.get-node-item-extra-logs', $data);
 
             return view('dashboard.commesse.modals.get-node-item-logs', $data);
         }
@@ -676,10 +679,18 @@ class CommessaNodeController extends Controller
         if (!$node) abort('404');
 
         switch ($node->type) {
+            case 'extra':
+                $validationRules = [
+                    'note' => 'required',
+                    'item_costo' => 'required|numeric|min:1',
+                    'data_attribuzione' => 'required'
+                ];
+                break;
             case 'materiale':
                 $validationRules = [
                     'item_qty' => 'required|numeric|min:1',
-                    'item_costo' => 'required|numeric|min:1'
+                    'item_costo' => 'required|numeric|min:1',
+                    'data_attribuzione' => 'required'
                 ];
                 break;
             default:

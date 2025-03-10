@@ -6,8 +6,8 @@
     if ($node->type == 'fase_lv_1')
         $style = 'background: #e5e5e5; ';
 @endphp
-@if($node->item_id)
-
+@if($node->item_id || $node->type == 'extra')
+    {{-- nothing --}}
 @else
 
     @php

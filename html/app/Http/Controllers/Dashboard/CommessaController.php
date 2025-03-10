@@ -1033,7 +1033,9 @@ class CommessaController extends Controller
         $ids = Commessa::where('root_id', $id)->orWhere('id', $id)->pluck('id', 'id');
 
         $logs = getCommessaLogByDayItem($ids, $date);
-        $groupedLog = $logs->groupBy('item.controller');
+        $groupedLog = $logs->groupBy(function($log) {
+            return $log->item ? $log->item->controller : 'extra';
+        });
 
         $fasi = [];
         foreach ($logs as $log) {
@@ -1045,6 +1047,14 @@ class CommessaController extends Controller
                 }
             }
         }
+
+        $rapportini = CommessaRapportino::where('commesse_root_id', $id)
+            ->whereDate('start', $date)
+            ->orderBy('commesse_id')
+            ->orderBy('start')
+            ->with('commessa')
+            ->get();
+
         // dump($fasi);
         // dd('stop');
 
@@ -1194,7 +1204,7 @@ class CommessaController extends Controller
             $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
         }
 
-        // Attrezzature, mezzi e materiali
+        // Attrezzature, mezzi, materiali ed extra
         $row = $tableDettagli->addRow();
         $tableMezziAttrezzatureMateriali= $row->addCell(50 * 50)->addTable(['cellMargin' => 0, 'borderSize' => 1, 'unit' => \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT, 'width' => 100 * 50]);
 
@@ -1343,6 +1353,79 @@ class CommessaController extends Controller
             $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
             $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
         }
+
+        $row = $tableMezziAttrezzatureMateriali->addRow();
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Extra', ['bold' => true, 'size' => 11], $cellHCentered);
+
+        // ciclo extra
+        if (isset($groupedLog['extra'])) {
+            $temp = [];
+            foreach ($groupedLog['extra'] as $log ) {
+                $qty = $log->item_qty;
+                $extraId = strtolower($log->note);
+                if (isset($temp[$extraId])) {
+                    // Log::info($temp[$log->item->id]['h'] . ' + ' . $h);
+                    $temp[$extraId]['qty'] = $temp[$extraId]['qty'] + $qty;
+                } else {
+                    $temp[$extraId]['log'] = $log;
+                    $temp[$extraId]['qty'] = $qty;
+                }
+            }
+
+            // dd($temp);
+            $total_qty = 0;
+            foreach ($temp as $log) {
+                $total_qty += $log['qty'];
+
+                // dd($log['log']);
+                $row = $tableMezziAttrezzatureMateriali->addRow();
+                $row->addCell(null)->addText($log['log']->note, ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+                $row->addCell(null)->addText($log['qty'], ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+                $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+                $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+            }
+
+            // Totale
+            $row = $tableMezziAttrezzatureMateriali->addRow();
+            $row->addCell(null)->addText('', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText($total_qty, ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+            $row->addCell(null)->addText('', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+        }
+        else {
+            // Row blank
+            $row = $tableMezziAttrezzatureMateriali->addRow();
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin, ['alignment' => \PhpOffice\PhpWord\SimpleType\JcTable::END]));
+        }
+
+        // Rapportini
+        $tableDettagli = $table->addRow()->addCell(100 * 50)->addTable(['cellMargin' => 0, 'borderSize' => 1, 'unit' => \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT, 'width' => 100 * 50]);
+
+        $row = $tableDettagli->addRow();
+        $tableRapportini = $row->addCell(50 * 50)->addTable(['cellMargin' => 0, 'borderSize' => 1, 'unit' => \PhpOffice\PhpWord\SimpleType\TblWidth::PERCENT, 'width' => 100 * 50]);
+        $row = $tableRapportini->addRow();
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Rapportini', ['bold' => true, 'size' => 11], $cellHCentered);
+
+        $row = $tableRapportini->addRow();
+        $row->addCell(null, array_merge(['bgColor' => 'e0e0e0'], $cellVCentered))->addText('Etichetta', ['bold' => true, 'size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+
+        // ciclo rapportini
+        if ($rapportini->count()) {
+            foreach ($rapportini as $r) {
+                // dd($log['log']);
+                $row = $tableRapportini->addRow();
+                $row->addCell(null)->addText($r->titolo, ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+            }
+        }
+        else {
+            // Row blank
+            $row = $tableRapportini->addRow();
+            $row->addCell(null)->addText('-', ['size' => 8], array_merge($paragraphVMargin, $paragraphHMargin));
+        }
+
 
         $table->addRow(800)->addCell(100 * 50)->addText("Impresa", null, ['spaceBefore' => 100, 'indentation' => ['left' => 100, 'right' => 100]]);
 

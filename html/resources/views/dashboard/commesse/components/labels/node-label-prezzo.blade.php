@@ -4,12 +4,12 @@
         $style = 'background: #e5e5e5';
 @endphp
 
-@if (($field == 'costo_previsto' || $field == 'prezzo_cliente') && $node->item_id)
+@if (($field == 'costo_previsto' || $field == 'prezzo_cliente') && ($node->item_id || $node->type == 'extra'))
     {{-- nothing --}}
 @else
     @php
         $prezzo = $node->$field;
-        if ($node->item_id) {
+        if ($node->item_id || $node->type == 'extra') {
             $prezzo = costoConsuntivoLogItem($node);
         }
     @endphp

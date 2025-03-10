@@ -934,7 +934,7 @@ function differenceInDays($from, $to, $hour_per_day = 8) {
 function costoConsuntivoLogItem($commessa) {
     $logs = $commessa->logs;
 
-    if ($commessa->type == 'materiale') {
+    if ($commessa->type == 'materiale' || $commessa->type == 'extra') {
         return $logs->reduce(function($h, $log){
             return $h + $log->item_costo;
         });
@@ -958,15 +958,16 @@ function costoConsuntivoSingoloLogItem($commessa, $log) {
 
 function costoConsuntivoSottofaseLogItem($commessa) {
     $arrCommessaItems = \App\Models\Commessa::where('parent_id', $commessa->id)
-                            ->whereNotNull('item_id')
-                            ->with('logs')
-                            ->get();
+        ->where(function ($query) use ($commessa) {
+            $query->whereNotNull('item_id')->orWhere('type', 'extra');
+        })->with('logs')
+        ->get();
 
     $total = 0;
     foreach ($arrCommessaItems as $ci) {
         $logs = $ci->logs;
 
-        if ($ci->type == 'materiale') {
+        if ($ci->type == 'materiale' || $ci->type == 'extra') {
             $t = $logs->reduce(function($h, $log){
                 return $h + $log->item_costo;
             });

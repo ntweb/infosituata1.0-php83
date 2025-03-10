@@ -1,7 +1,115 @@
 @if($node->logs->count())
-    @if($node->type != 'materiale')
+
+    @if($node->type == 'materiale')
         <div class="table-responsive">
-        <table class="table table-sm table-hover">
+            <table class="table table-sm table-hover">
+                <thead class="bg-heavy-rain">
+                <tr>
+                    <th>Costi</th>
+                    <th>Quantità</th>
+                    <th>Data attr. carico</th>
+                    <th>Note</th>
+                    <th class="text-right">Creato</th>
+                </tr>
+                </thead>
+                <tbody>
+                @php
+                    $_total = 0;
+                    $_total_qty = 0;
+                @endphp
+                @foreach($node->logs as $log)
+                    @php
+                        $_total = $_total + $log->item_costo;
+                        $_total_qty = $_total_qty + $log->item_qty;
+                    @endphp
+                    <tr>
+                        <td>
+                            <small>{{ euro($log->item_costo) }} &euro;</small>
+                        </td>
+                        <td>
+                            <small>{{ $log->item_qty }}</small>
+                        </td>
+                        <td>
+                            <small>{{ $log->data_attribuzione ? data($log->data_attribuzione) : '-' }}</small>
+                        </td>
+                        <td style="font-size: 10px">{{ $log->note }}</td>
+                        <td class="text-right" style="font-size: 10px">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <div>
+                                    {{ $log->username }}
+                                    <br>
+                                    {{ dataOra($log->created_at) }}
+                                </div>
+                                <a href="javascript:void(0)" class="text-danger mx-2 deleteCommessaLog" data-route="{{ route('commessa-log.edit', [$log->id, 'delete' => true, 'commesse_id' => $node->id]) }}">
+                                    <i class='bx bx-trash'></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+                <tr>
+                    <td><small class="font-weight-bold">{{ euro($_total) }} &euro;</small></td>
+                    <td><small class="font-weight-bold">{{ $_total_qty }}</small></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    @elseif($node->type == 'extra')
+        <div class="table-responsive">
+            <table class="table table-sm table-hover">
+                <thead class="bg-heavy-rain">
+                <tr>
+                    <th>Etichetta</th>
+                    <th>Costi</th>
+                    <th>Data attr.</th>
+                    <th class="text-right">Creato</th>
+                </tr>
+                </thead>
+                <tbody>
+                @php
+                    $_total = 0;
+                    $_total_qty = 0;
+                @endphp
+                @foreach($node->logs as $log)
+                    @php
+                        $_total = $_total + $log->item_costo;
+                        $_total_qty = $_total_qty + $log->item_qty;
+                    @endphp
+                    <tr>
+                        <td style="font-size: 10px">{{ $log->note }}</td>
+                        <td>
+                            <small>{{ euro($log->item_costo) }} &euro;</small>
+                        </td>
+                        <td>
+                            <small>{{ $log->data_attribuzione ? data($log->data_attribuzione) : '-' }}</small>
+                        </td>
+                        <td class="text-right" style="font-size: 10px">
+                            <div class="d-flex align-items-center justify-content-end">
+                                <div>
+                                    {{ $log->username }}
+                                    <br>
+                                    {{ dataOra($log->created_at) }}
+                                </div>
+                                <a href="javascript:void(0)" class="text-danger mx-2 deleteCommessaLog" data-route="{{ route('commessa-log.edit', [$log->id, 'delete' => true, 'commesse_id' => $node->id]) }}">
+                                    <i class='bx bx-trash'></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+                <tr>
+                    <td></td>
+                    <td><small class="font-weight-bold">{{ euro($_total) }} &euro;</small></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    @else
+        <div class="table-responsive">
+            <table class="table table-sm table-hover">
             <thead class="bg-heavy-rain">
             <tr>
                 <th></th>
@@ -70,61 +178,6 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-    @else
-        <div class="table-responsive">
-            <table class="table table-sm table-hover">
-                <thead class="bg-heavy-rain">
-                <tr>
-                    <th>Costi</th>
-                    <th>Quantità</th>
-                    <th>Data attr. carico</th>
-                    <th>Note</th>
-                    <th class="text-right">Creato</th>
-                </tr>
-                </thead>
-                <tbody>
-                @php
-                    $_total = 0;
-                    $_total_qty = 0;
-                @endphp
-                @foreach($node->logs as $log)
-                    @php
-                        $_total = $_total + $log->item_costo;
-                        $_total_qty = $_total_qty + $log->item_qty;
-                    @endphp
-                    <tr>
-                        <td>
-                            <small>{{ euro($log->item_costo) }} &euro;</small>
-                        </td>
-                        <td>
-                            <small>{{ $log->item_qty }}</small>
-                        </td>
-                        <td>
-                            <small>{{ $log->data_attribuzione ? data($log->data_attribuzione) : '-' }}</small>
-                        </td>
-                        <td style="font-size: 10px">{{ $log->note }}</td>
-                        <td class="text-right" style="font-size: 10px">
-                            <div class="d-flex align-items-center justify-content-end">
-                                <div>
-                                    {{ $log->username }}
-                                    <br>
-                                    {{ dataOra($log->created_at) }}
-                                </div>
-                                <a href="javascript:void(0)" class="text-danger mx-2 deleteCommessaLog" data-route="{{ route('commessa-log.edit', [$log->id, 'delete' => true, 'commesse_id' => $node->id]) }}">
-                                    <i class='bx bx-trash'></i>
-                                </a>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-                <tr>
-                    <td><small class="font-weight-bold">{{ euro($_total) }} &euro;</small></td>
-                    <td><small class="font-weight-bold">{{ $_total_qty }}</small></td>
-                    <td></td>
-                </tr>
-                </tbody>
-            </table>
         </div>
     @endif
 @else
