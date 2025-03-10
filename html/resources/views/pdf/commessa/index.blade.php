@@ -41,5 +41,10 @@
         @include('pdf.commessa.allegati')
     @endif
 
+    @if(request()->has('costi-ricavi'))
+        <div class="page-break"></div>
+        @include('pdf.commessa.costi-ricavi')
+    @endif
+
 @endsection
 

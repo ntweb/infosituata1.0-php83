@@ -75,7 +75,7 @@
                         </div>
                         <div class="col-4">
                             <div class="form-check">
-                                <input name="allegati" class="form-check-input" type="checkbox" value="costi-ricavi" id="costi-ricavi" checked>
+                                <input name="costi-ricavi" class="form-check-input" type="checkbox" value="costi-ricavi" id="costi-ricavi" checked>
                                 <label class="form-check-label" for="costi-ricavi">
                                     Costi / ricavi
                                 </label>
