@@ -91,6 +91,7 @@
             min-height: 2cm;
         }
 
+
     </style>
     @yield('style')
 </head>

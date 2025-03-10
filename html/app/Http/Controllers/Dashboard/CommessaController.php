@@ -27,6 +27,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -764,12 +765,67 @@ class CommessaController extends Controller
 
         // dd($data['logs']);
 
-        $ids = Commessa::where('id', $id)->orWhere('root_id', $id)->get()->pluck('id');
+        // $ids = Commessa::where('id', $id)->orWhere('root_id', $id)->get()->pluck('id');
         $data['allegati'] = AttachmentCommessa::whereIn('commesse_id', $ids)
             ->orderBy('commesse_id')
             ->with('node')
             ->get();
 
+
+        // Grafico costi
+        $ids = Commessa::where('root_id', $id)
+            ->whereIn('type', ['materiale', 'extra'])
+            ->pluck('id', 'id');
+        $costiLogs = CommessaLog::whereIn('commesse_id', $ids)
+            ->with('item')
+            ->get();
+        $groupedLog = $costiLogs->groupBy(function($log) {
+            return $log->item ? $log->item->controller : 'extra';
+        });
+
+        $costiChart = [];
+        foreach ($groupedLog as $key => $logs) {
+            $costiChart[$key] = 0;
+            foreach ($logs as $log) {
+                $costiChart[$key] = $costiChart[$key] + $log->item_costo;
+            }
+        }
+
+        foreach ($data['flatTree'] as $node) {
+            if (in_array($node->type, ['utente', 'mezzo', 'attrezzatura'])) {
+                if (!isset($costiChart[$node->type])) {
+                    $costiChart[$node->type] = 0;
+                }
+                $costiChart[$node->type] = $costiChart[$node->type] + costoConsuntivoLogItem($node);
+            }
+        }
+
+        // order $costiChart values desc
+        arsort($costiChart);
+
+        // dd($costiChart);
+
+        $labels = [];
+        $values = [];
+        foreach ($costiChart as $k => $v) {
+            $labels[] = $k;
+            $values[] = $v;
+        }
+
+        $chartConfig = [
+            'type' => 'bar',
+            'data' => [
+                'labels' => $labels,
+                'datasets' => [
+                    [
+                        'label' => 'Costi',
+                        'data' => $values
+                    ]
+                ]
+            ]
+        ];
+
+        $data['chartUrl'] = 'https://quickchart.io/chart?w=500&h=500&c='.urlencode(json_encode($chartConfig));
         $pdf = PDF::loadView('pdf.commessa.index', $data);
 
         $pdf->setPaper('A4', 'portrait');

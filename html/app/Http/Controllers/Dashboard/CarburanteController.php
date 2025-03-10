@@ -77,7 +77,7 @@ class CarburanteController extends Controller
         $data['item'] = Item::find($request->input('id', null));
         if (!$data['item']) abort(404);
 
-        $data['cisterne'] = Cisterna::get()->pluck('label', 'id')->toArray();
+        $data['cisterne'] = Cisterna::get();
 
         return view('dashboard.carburante.create', $data);
     }

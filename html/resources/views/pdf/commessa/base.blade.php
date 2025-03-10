@@ -162,6 +162,18 @@
 
         .wireframe { background: rgba(255,10,25,0.5); }
 
+        .danger {
+            color: red !important;
+        }
+
+        .warning {
+            color: orange !important;
+        }
+
+        .success {
+            color: green !important;
+        }
+
     </style>
     @yield('style')
 </head>
