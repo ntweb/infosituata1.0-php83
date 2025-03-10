@@ -145,7 +145,7 @@
                     </td>
                     <td>
                         @if($node->type == 'utente')
-                        <a href="javascript:void(0)" class="text-primary" data-toggle="tooltip" data-placement="top" data-title="Modifica dichiarazione">
+                        <a href="javascript:void(0)" class="text-primary" data-toggle="tooltip" data-placement="top" data-title="Modifica dichiarazione" data-json="{{ json_encode($log) }}">
                             <small>{{ $log->inizio ? dataOra($log->inizio) : '-' }}</small>
                         </a>
                         @else
