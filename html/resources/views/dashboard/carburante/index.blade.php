@@ -47,7 +47,7 @@
                                         <td>{{ data($l->data) }}</td>
                                         <td>{{ $l->createdBy->name }}</td>
                                         <td>{{ $l->km }}</td>
-                                        <td>{{ $l->cisterne_id ? $l->cisterna->label : '-' }}</td>
+                                        <td>{{ $l->cisterna ? $l->cisterna->label : '-' }}</td>
                                         <td>{{ $l->litri }}</td>
                                         <td class="text-right">
                                             {{ $l->costo ? euro($l->costo) : 'nd' }} &euro;
