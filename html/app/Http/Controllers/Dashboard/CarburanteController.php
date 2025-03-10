@@ -35,14 +35,13 @@ class CarburanteController extends Controller
         if (!$request->has('id')) {
             if ($request->has('dates')) {
                 $dates = explode(' - ', $request->input('dates'));
-                $data['list'] = Carburante::with('item')
+                $data['list'] = Carburante::with('item', 'cisterna')
                     ->whereBetween('data', [strToDate($dates[0])->startOfDay()->toDateTimeString(), strToDate($dates[1])->startOfDay()->toDateTimeString()])
                     ->orderBy('items_id')
                     ->orderBy('data', 'desc')
-                    ->with('cisterna')
                     ->get();
 
-                // dump($data['items']);
+                // dump($data['list']);
 
                 $dates['0'] = strToDate($dates[0])->toDateString();
                 $dates['1'] = strToDate($dates[1])->toDateString();
@@ -57,7 +56,7 @@ class CarburanteController extends Controller
         }
 
         // dump($request->all());
-        $data['el'] = Item::with('carburante')->find($request->input('id', null));
+        $data['el'] = Item::with('carburante.cisterna')->find($request->input('id', null));
         if (!$data['el']) abort(404);
 
         $data['back'] = $request->input('back', null);
@@ -172,7 +171,7 @@ class CarburanteController extends Controller
         if (!Gate::allows('can_create_sc_carburante_mezzi'))
             abort(401);
 
-        $data['el'] = Carburante::with(['item'])->find($id);
+        $data['el'] = Carburante::with(['item', 'cisterna'])->find($id);
         if (!$data['el']) abort(404);
 
         $data['item'] = $data['el']->item;
@@ -184,7 +183,7 @@ class CarburanteController extends Controller
 
         $data['nextScheda'] = Carburante::where('km', '>', $data['el']->km)->orderBy('km', 'desc')->first();
 
-        $data['cisterne'] = Cisterna::get()->pluck('label', 'id')->toArray();
+        $data['cisterne'] = Cisterna::get();
 
         return view('dashboard.carburante.edit', $data);
     }

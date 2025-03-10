@@ -1,6 +1,12 @@
 @php
     $action = isset($action) ? $action : route('carburante.store', ['_item_id' => $item->id, '_type' => 'json']);
     $class = isset($el) ? 'ns' : null;
+
+    $elements[0] = '-------------------------';
+    foreach ($cisterne as $cisterna) {
+        $elements[$cisterna->id] = $cisterna->label;
+    }
+
 @endphp
 <form class="{{ $class }}" action="{{ $action }}" autocomplete="none" method="post">
     @csrf
@@ -36,7 +42,7 @@
                 @endcomponent
 
                 @if (count($cisterne))
-                    @component('layouts.components.forms.select', ['name' => 'cisterne_id', 'value' => @$el->cisterne_id, 'class' => 'col-md-12', 'elements' => array_merge([0 => '-------------------------'], $cisterne)])
+                    @component('layouts.components.forms.select', ['name' => 'cisterne_id', 'value' => @$el->cisterne_id, 'class' => 'col-md-12', 'elements' => $elements])
                         Cisterna su cui effettuare lo scarico
                     @endcomponent
                 @endif
