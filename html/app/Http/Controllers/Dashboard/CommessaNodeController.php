@@ -704,6 +704,10 @@ class CommessaNodeController extends Controller
 
 
         $log = new \App\Models\CommessaLog();
+        if ($request->has('id')) {
+            $log = \App\Models\CommessaLog::find($request->input('id'));
+            if (!$log) abort('404');
+        }
 
         $log->id = Str::uuid();
         $log->commesse_id = $id;

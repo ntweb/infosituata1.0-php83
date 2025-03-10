@@ -20,8 +20,10 @@
                 <div class="row">
                     @if($can_create_risorse_log)
                         <div class="col-md-4">
-                            <form class="ns" action="{{ route('commessa-node.store-log', $node->id) }}" autocomplete="none" method="post" data-callback="refreshLogsItemTable('{{ route('commessa-node.logs', [$node->id, '_render_table' => true]) }}'); refreshOverviewTable();">
+                            <form class="ns" id="frmSaveLog" action="{{ route('commessa-node.store-log', $node->id) }}" autocomplete="none" method="post" data-callback="refreshLogsItemTable('{{ route('commessa-node.logs', [$node->id, '_render_table' => true]) }}'); refreshOverviewTable(); btnResetLogTrigger();">
                                 @csrf
+
+                                <input type="hidden" id="id" name="id" value="">
 
                                 <div class="row">
 
@@ -29,8 +31,8 @@
 {{--                                @endcomponent--}}
 
 
-                                @component('layouts.components.forms.datetime-native', ['name' => 'inizio',  'value' => \Carbon\Carbon::now()->toDateString(), 'class' => 'col-md-12'])
-                                        Data/ora inizio
+                                    @component('layouts.components.forms.datetime-native', ['name' => 'inizio',  'value' => \Carbon\Carbon::now()->toDateString(), 'class' => 'col-md-12'])
+                                        Data/ora inizio aaa
                                     @endcomponent
 
                                     @component('layouts.components.forms.datetime-native', ['name' => 'fine',  'value' => \Carbon\Carbon::now()->toDateString(), 'class' => 'col-md-12'])
@@ -43,7 +45,10 @@
 
                                     <div class="col-12">
                                         <hr>
-                                        <button class="btn btn-primary">Salva</button>
+                                        <button id="btnSaveLog" class="btn btn-primary">Salva</button>
+                                        @if($node->type == 'utente')
+                                            <button id="btnResetLog" type="button" class="btn btn-secondary" style="display: none;">Reset</button>
+                                        @endif
                                     </div>
                                 </div>
 

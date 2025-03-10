@@ -2,6 +2,12 @@ var commessaMap = null;
 var commessaMarker = null;
 var commessaMarkers = [];
 
+function btnResetLogTrigger() {
+    if ($('#btnResetLog').length) {
+        $('#btnResetLog').trigger('click');
+    }
+}
+
 function addMarker(latlng) {
     for(var i = 0; i < commessaMarkers.length; i++){
         commessaMap.removeLayer(commessaMarkers[i]);
@@ -770,6 +776,24 @@ $(document).ready(function($) {
     $(document).on('click', '.tr-node-selector', function() {
         $('.tr-node-selector').removeClass('tr-node-selected');
         $(this).addClass('tr-node-selected');
+    });
+
+    $(document).on('click', '.modify-log', function() {
+        var json = JSON.parse($(this).attr('data-json'));
+        $('#frmSaveLog #id').val(json.id);
+        $('#frmSaveLog #inizio').val(json.inizio);
+        $('#frmSaveLog #fine').val(json.fine);
+        $('#frmSaveLog #note').val(json.note);
+        $('#btnSaveLog').html('Modifica');
+        $('.deleteCommessaLog').hide(0);
+        $('#btnResetLog').show(0);
+    });
+
+    $(document).on('click', '#btnResetLog', function() {
+        $('#frmSaveLog')[0].reset();
+        $('#btnSaveLog').html('Salva');
+        $('.deleteCommessaLog').show(0);
+        $(this).hide(0);
     });
 });
 
