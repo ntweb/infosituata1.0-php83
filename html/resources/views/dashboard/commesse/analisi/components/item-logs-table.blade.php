@@ -144,7 +144,13 @@
                         @endif
                     </td>
                     <td>
-                        <small>{{ $log->inizio ? dataOra($log->inizio) : '-' }}</small>
+                        @if($node->type == 'utente')
+                        <a href="javascript:void(0)" class="text-primary" data-toggle="tooltip" data-placement="top" data-title="Modifica dichiarazione">
+                            <small>{{ $log->inizio ? dataOra($log->inizio) : '-' }}</small>
+                        </a>
+                        @else
+                            <small>{{ $log->inizio ? dataOra($log->inizio) : '-' }}</small>
+                        @endif
                     </td>
                     <td>
                         <small>{{ $log->fine ? dataOra($log->fine) : '-' }}</small>
