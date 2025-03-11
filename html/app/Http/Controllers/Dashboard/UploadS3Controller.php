@@ -104,10 +104,17 @@ class UploadS3Controller extends Controller
 
         $validatedData = $request->validate($validationRules);
 
-        $reference = DB::table($request->input('reference_table'))
-            ->where('id', $request->input('reference_id'))
-            ->where('azienda_id', getAziendaId())
-            ->first();
+        if ($request->input('reference_table') == 'commesse_log') {
+            $reference = DB::table($request->input('reference_table'))
+                ->where('id', $request->input('reference_id'))
+                ->first();
+        }
+        else {
+            $reference = DB::table($request->input('reference_table'))
+                ->where('id', $request->input('reference_id'))
+                ->where('azienda_id', getAziendaId())
+                ->first();
+        }
 
         if (!$reference)
             abort(404);
@@ -123,8 +130,15 @@ class UploadS3Controller extends Controller
 
                 $s3Attachment = new AttachmentS3;
                 $s3Attachment->id = Str::uuid();
-                $s3Attachment->azienda_id = $reference->azienda_id;
                 $s3Attachment->reference_id = $reference_id;
+
+                if ($request->input('reference_table') === 'commesse_log') {
+                    $s3Attachment->azienda_id = getAziendaId();
+                }
+                else {
+                    $s3Attachment->azienda_id = $reference->azienda_id;
+                }
+
                 $s3Attachment->reference_table = $reference_table;
                 $s3Attachment->is_public = $is_public;
                 $s3Attachment->is_embedded = $is_embedded;
@@ -224,7 +238,7 @@ class UploadS3Controller extends Controller
             'label' => 'required',
         ];
 
-        Log::info($id);
+        // Log::info($id);
         $validatedData = $request->validate($validationRules);
 
         $reference = AttachmentS3::where('id', $id)
@@ -298,10 +312,17 @@ class UploadS3Controller extends Controller
 
     public function modal(Request $request)
     {
-        $reference = DB::table($request->input('reference_table'))
-            ->where('id', $request->input('reference_id'))
-            ->where('azienda_id', getAziendaId())
-            ->first();
+        if ($request->input('reference_table') === 'commesse_log') {
+            $reference = DB::table($request->input('reference_table'))
+                ->where('id', $request->input('reference_id'))
+                ->first();
+        }
+        else {
+            $reference = DB::table($request->input('reference_table'))
+                ->where('id', $request->input('reference_id'))
+                ->where('azienda_id', getAziendaId())
+                ->first();
+        }
 
         if (!$reference)
             abort(404);
@@ -311,6 +332,12 @@ class UploadS3Controller extends Controller
 
         $data['reference_table'] = $request->input('reference_table');
         $data['reference_id'] = $request->input('reference_id');
+
+        $data['callback'] = $request->input('callback', null);
+
+        $render = $request->input('render', 'modal');
+        if ($render == 'form')
+            return view('dashboard.upload.s3.form-upload', $data);
 
         return view('dashboard.upload.s3.modal-upload', $data);
     }

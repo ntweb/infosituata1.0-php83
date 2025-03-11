@@ -12,6 +12,7 @@ use App\Events\Illuminate\Events\CommessaNodeSottoFaseChangedDatePreviste;
 use App\Events\Illuminate\Events\CommessaRicalculateCosts;
 use App\Exceptions\CommessaNodeException;
 use App\Listeners\DeleteScadenzaCommessa;
+use App\Models\AttachmentS3;
 use App\Models\Commessa;
 use App\Models\CommessaLog;
 use App\Models\Gruppo;
@@ -661,8 +662,17 @@ class CommessaNodeController extends Controller
             if ($request->has('_render_table'))
                 return view('dashboard.commesse.analisi.components.item-logs-table', $data);
 
-            if ($node->type == 'materiale')
+            if ($node->type == 'materiale') {
+                $ids = $node->logs->pluck('id', 'id');
+                $data['attachments'] = AttachmentS3::whereIn('reference_id', $ids)
+                    ->where('reference_table', 'commesse_log')
+                    ->where('to_delete', '0')
+                    ->with('node')
+                    ->get();
+                $data['attachmentsGrouped'] = $data['attachments']->groupBy('reference_id');
+                // Log::info($data['attachmentsGrouped']);
                 return view('dashboard.commesse.modals.get-node-item-materiale-logs', $data);
+            }
 
             if ($node->type == 'extra')
                 return view('dashboard.commesse.modals.get-node-item-extra-logs', $data);

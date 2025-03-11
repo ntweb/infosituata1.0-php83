@@ -23,7 +23,14 @@ class S3
         $uuid = Str::uuid();
         $s3Attachment = new \App\Models\AttachmentS3;
         $s3Attachment->id = $uuid;
-        $s3Attachment->azienda_id = $reference->azienda_id;
+
+        if ($reference_table === 'commesse_log') {
+            $s3Attachment->azienda_id = getAziendaId();
+        }
+        else {
+            $s3Attachment->azienda_id = $reference->azienda_id;
+        }
+
         $s3Attachment->reference_id = $reference_id;
         $s3Attachment->reference_table = $reference_table;
         $s3Attachment->is_public = $is_public ?? '0';
@@ -41,7 +48,7 @@ class S3
 
 
         // Log::info($uuid);
-        $azi = \App\Models\Azienda::find($reference->azienda_id);
+        $azi = \App\Models\Azienda::find($s3Attachment->azienda_id);
         $azi_folder = strtolower($azi->uid);
 
         $file->storeAs($azi_folder, $uuid, 's3');

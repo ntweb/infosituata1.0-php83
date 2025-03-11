@@ -14,7 +14,7 @@
                         @method('PUT')
                     @endif
 
-                    <h5>Ricambio</h5>
+                    <h5 class="my-2">Ricambio</h5>
 
                     <div class="row">
                         @component('layouts.components.forms.text', ['name' => 'label', 'value' => @$el->label, 'class' => 'col-md-12'])

@@ -53,7 +53,7 @@
         tr.bold { background-color: #f7f7f7; }
         tr.bold td { font-weight: bold; }
         .pb-10 { padding-bottom: 120px !important }
-        .app-drawer-wrapper { max-width: 300px; }
+        .app-drawer-wrapper { max-width: 350px; }
 		.note-toolbar.card-header { display: block; height: 8rem !important; }
         /*.select2-container--bootstrap4 .select2-selection { border: none;}*/
         .btn-link:hover { text-decoration: none !important; }
@@ -754,7 +754,7 @@
                                         <i class="metismenu-icon"></i>
                                         Risorse
                                     </a>
-                                </li>                                
+                                </li>
                                 @can('can_create_mezzi')
                                     <li class="{{ isActive('cisterne.*') }}">
                                         <a href="{{ route('cisterne.index') }}">
@@ -762,7 +762,7 @@
                                             Cisterne
                                         </a>
                                     </li>
-                                @endcan                                
+                                @endcan
                                 <li class="{{ isActive('scadenzario.*') }}">
                                     <a href="{{ route('scadenzario.index') }}">
                                         <i class="metismenu-icon pe-7s-diamond"></i>
@@ -1353,21 +1353,19 @@
     {{--    </div>--}}
     <div class="drawer-content-wrapper">
         <div class="scrollbar-container">
-            <h3 class="drawer-heading">Operation</h3>
+            <h3 class="drawer-heading" id="drawer-title">Operation</h3>
             <div class="drawer-section">
                 <div id="drawer">
                     <div class="row">
                         <div class="col-lg-12">
-
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
-<div class="app-drawer-overlay d-none animated fadeIn"></div>
+<div class="app-drawer-overlay d-none animated fadeIn" style="z-index: 1200"></div>
 <!--DRAWER END-->
 
 <!--CORE-->

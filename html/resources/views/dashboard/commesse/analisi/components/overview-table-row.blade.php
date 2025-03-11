@@ -138,7 +138,7 @@
             @endif
 
             @if($can_view_commessa_log && !$node->item_id)
-                <button type="button" tabindex="0" class="dropdown-item openNodeLog" data-route="{{ route('commessa-node.logs', $node->id) }}">Log</button>
+                <button type="button" tabindex="0" class="dropdown-item openNodeLog" data-route="{{ route('commessa-node.logs', $node->id) }}">Logaaaa</button>
             @endif
 
             @if($can_view_risorse_log && $node->item_id)
@@ -179,7 +179,7 @@
     <td class="fit">
         @if($node->item_id || $node->type == 'extra')
             @if($can_view_risorse_log)
-            <a href="javascript:void(0)" class="openNodeLog" style="text-decoration: none;" data-route="{{ route('commessa-node.logs', $node->id) }}">
+            <a href="javascript:void(0)" id="openNodeLog-{{ $node->id }}" class="openNodeLog" style="text-decoration: none;" data-route="{{ route('commessa-node.logs', $node->id) }}">
                 @component('dashboard.commesse.components.labels.node-label-date-eff', ['node' => $node])
                 @endcomponent
             </a>

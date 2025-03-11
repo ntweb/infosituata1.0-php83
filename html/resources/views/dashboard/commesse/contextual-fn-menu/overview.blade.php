@@ -32,6 +32,7 @@
         <button type="button" tabindex="0" class="dropdown-item toggleNode toggleUtenti" data-node="mezzo">Mezzi</button>
         <button type="button" tabindex="0" class="dropdown-item toggleNode toggleUtenti" data-node="attrezzatura">Attrezzature</button>
         <button type="button" tabindex="0" class="dropdown-item toggleNode toggleUtenti" data-node="materiale">Materiali</button>
+        <button type="button" tabindex="0" class="dropdown-item toggleNode toggleUtenti" data-node="extra">Extra</button>
         <button type="button" tabindex="0" class="dropdown-item toggleColumn" data-node="costi">Colonne costi</button>
         <button type="button" tabindex="0" class="dropdown-item toggleColumn" data-node="extras">Colonne extras</button>
         @if($can_create_rapportini)
