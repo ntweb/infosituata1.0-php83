@@ -253,7 +253,17 @@ class UserController extends Controller
             // creo e associo un utente
             $u = User::whereUtenteId($id)->first();
             $u->email = $request->has('email') ?  $request->get('email') : $u->email;
-            $u->password = trim($request->get('password', '')) !== '' ?  Hash::make($request->get('password')) : $u->password;
+            // $u->password = trim($request->get('password', '')) !== '' ?  Hash::make($request->get('password')) : $u->password;
+            $u->password = $u->password;
+
+            if (trim($request->get('password', '')) !== '') {
+                // Log::info($request->input('password'));
+                // Log::info(Hash::make($request->input('password')));
+
+                $hashed = $request->input('password');
+                $u->password = $hashed;
+            }
+
 
             if ($request->has('power_user'))
                 $u->power_user = $request->input('power_user');
