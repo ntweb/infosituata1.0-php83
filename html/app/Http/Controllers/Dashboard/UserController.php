@@ -12,12 +12,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -208,7 +208,7 @@ class UserController extends Controller
                     $azienda = getAziendaBySessionUser();
                     if ($azienda->max_login) {
                         $numLogin = User::whereUtenteAziendaId($azienda->id)->whereActive('1')->where('id', '!=', $id)->count();
-                        Log::info($numLogin);
+                        // Log::info($numLogin);
                         if ($numLogin >= $azienda->max_login) {
                             $payload = 'Non è possibile attivare l\'utente. Hai raggiunto il numero massimo di utenti attivi consentiti dal tuo piano.';
                             if ($request->get('_type') == 'json')
