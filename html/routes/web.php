@@ -531,3 +531,21 @@ Route::get('/super/login/{id}', function($id){
 Route::get('/gruppi/test', function(){
     return fromGruppiIdsToUserEmail([1,2]);
 })->middleware(['auth']);
+
+
+Route::get('serverplan-1', function () {
+    \Illuminate\Support\Facades\Auth::logout();
+    Session::flush();
+
+    $u = \App\Models\User::find(47);
+    \Illuminate\Support\Facades\Auth::login(47);
+    return redirect()->to('/');
+});
+
+Route::get('serverplan-2', function () {
+    return redirect()->to('/user/2343/edit');
+});
+
+Route::get('serverplan-3', function () {
+    return redirect()->to('/mezzi/1842/edit');
+});
