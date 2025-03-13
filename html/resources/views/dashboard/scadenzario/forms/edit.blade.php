@@ -32,12 +32,16 @@
                             @component('layouts.components.forms.date-picker', ['name' => 'end_at', 'value' => @$scadenza->end_at ? data($scadenza->end_at) : null, 'class' => 'col-md-6', 'chek_permission' => true])
                                 Data di scadenza
                             @endcomponent
+
+                            @component('layouts.components.forms.textarea', ['name' => 'description', 'value' => @$scadenza->description, 'class' => 'col-md-12'])
+                                Note
+                            @endcomponent
                         </div>
                     </div>
                     <div class="card-header-tab card-header-tab-animation card-header">
                         <div class="card-header-title">
                             <i class="header-icon pe-7s-speaker icon-gradient bg-love-kiss"> </i>
-                            Avvisi
+                            Avvis
                         </div>
                     </div>
                     <div class="card-body">

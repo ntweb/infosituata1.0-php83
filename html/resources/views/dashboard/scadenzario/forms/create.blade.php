@@ -61,6 +61,10 @@
                             @component('layouts.components.forms.date-picker', ['name' => 'end_at', 'id' => 'end_at_'.$md->id, 'value' => @$el->end_at ? data($el->end_at) : null, 'class' => 'col-md-6'])
                                 Data di scadenza
                             @endcomponent
+
+                            @component('layouts.components.forms.textarea', ['name' => 'description', 'value' => '', 'class' => 'col-md-12'])
+                                Note
+                            @endcomponent
                         </div>
                     </div>
                     <div class="card-header-tab card-header-tab-animation card-header">
