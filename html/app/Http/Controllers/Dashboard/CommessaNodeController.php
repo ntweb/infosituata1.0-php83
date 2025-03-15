@@ -659,8 +659,6 @@ class CommessaNodeController extends Controller
 
         $data['node'] = $node;
         if ($node->item_id || $node->type == 'extra') {
-            if ($request->has('_render_table'))
-                return view('dashboard.commesse.analisi.components.item-logs-table', $data);
 
             if ($node->type == 'materiale') {
                 $ids = $node->logs->pluck('id', 'id');
@@ -671,6 +669,12 @@ class CommessaNodeController extends Controller
                     ->get();
                 $data['attachmentsGrouped'] = $data['attachments']->groupBy('reference_id');
                 // Log::info($data['attachmentsGrouped']);
+            }
+
+            if ($request->has('_render_table'))
+                return view('dashboard.commesse.analisi.components.item-logs-table', $data);
+
+            if ($node->type == 'materiale') {
                 return view('dashboard.commesse.modals.get-node-item-materiale-logs', $data);
             }
 
