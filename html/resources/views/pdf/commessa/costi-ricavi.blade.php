@@ -1,3 +1,11 @@
+@php
+    $tot_costo_previsto = 0;
+    $tot_costo_effettivo = 0;
+    $tot_prezzo_cliente = 0;
+    $tot_ric_pre = 0;
+    $tot_ric_cons = 0;
+@endphp
+
 <main>
 
     <div class="full-width mt-5 text-center">
@@ -80,11 +88,11 @@
         @if(count($flatTree))
             <tr>
                 <td></td>
-                <td class="text-right">{{ euro($tot_costo_previsto) }} <span class="font-size-8">&euro;</span></td>
-                <td class="text-right">{{ euro($tot_costo_effettivo) }} <span class="font-size-8">&euro;</span></td>
-                <td class="text-right">{{ euro($tot_prezzo_cliente) }} <span class="font-size-8">&euro;</span></td>
-                <td class="text-right">{{ euro($tot_ric_pre) }} <span class="font-size-8">&euro;</span></td>
-                <td class="text-right">{{ euro($tot_ric_cons) }} <span class="font-size-8">&euro;</span></td>
+                <td class="text-right"><strong>{{ euro($tot_costo_previsto) }}</strong> <span class="font-size-8">&euro;</span></td>
+                <td class="text-right"><strong>{{ euro($tot_costo_effettivo) }}</strong> <span class="font-size-8">&euro;</span></td>
+                <td class="text-right"><strong>{{ euro($tot_prezzo_cliente) }}</strong> <span class="font-size-8">&euro;</span></td>
+                <td class="text-right"><strong>{{ euro($tot_ric_pre) }}</strong> <span class="font-size-8">&euro;</span></td>
+                <td class="text-right"><strong>{{ euro($tot_ric_cons) }}</strong> <span class="font-size-8">&euro;</span></td>
             </tr>
         @endif
     </table>
