@@ -32,7 +32,7 @@
 
 
                                     @component('layouts.components.forms.datetime-native', ['name' => 'inizio',  'value' => \Carbon\Carbon::now()->toDateString(), 'class' => 'col-md-12'])
-                                        Data/ora inizio aaa
+                                        Data/ora inizio
                                     @endcomponent
 
                                     @component('layouts.components.forms.datetime-native', ['name' => 'fine',  'value' => \Carbon\Carbon::now()->toDateString(), 'class' => 'col-md-12'])

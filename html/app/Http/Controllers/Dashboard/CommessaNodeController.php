@@ -688,6 +688,8 @@ class CommessaNodeController extends Controller
         $node = \App\Models\Commessa::with('parent')->find($id);
         if (!$node) abort('404');
 
+        // Log::info('aaaa '. $id);
+
         switch ($node->type) {
             case 'extra':
                 $validationRules = [
@@ -713,8 +715,10 @@ class CommessaNodeController extends Controller
         $validatedData = $request->validate($validationRules);
 
 
+        // Log::info($request->all());
+
         $log = new \App\Models\CommessaLog();
-        if ($request->has('id')) {
+        if ($request->input('id', null)) {
             $log = \App\Models\CommessaLog::find($request->input('id'));
             if (!$log) abort('404');
         }
