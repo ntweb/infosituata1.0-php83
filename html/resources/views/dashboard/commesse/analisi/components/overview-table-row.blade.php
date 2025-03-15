@@ -137,10 +137,6 @@
                 </a>
             @endif
 
-            @if($can_view_commessa_log && !$node->item_id)
-                <button type="button" tabindex="0" class="dropdown-item openNodeLog" data-route="{{ route('commessa-node.logs', $node->id) }}">Logaaaa</button>
-            @endif
-
             @if($can_view_risorse_log && $node->item_id)
                 <div tabindex="-1" class="dropdown-divider"></div>
                 <button type="button" tabindex="0" class="dropdown-item openNodeLog" data-route="{{ route('commessa-node.logs', $node->id) }}">Log</button>

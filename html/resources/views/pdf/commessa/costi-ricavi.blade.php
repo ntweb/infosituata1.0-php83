@@ -60,6 +60,12 @@
 
                     $ric_cons = $el->prezzo_cliente - $el->costo_effettivo;
                     $color_ric_cons = $ric_cons < 0 ? 'danger' : 'success';
+
+                    $tot_costo_previsto += $el->costo_previsto;
+                    $tot_costo_effettivo += $el->costo_effettivo;
+                    $tot_prezzo_cliente += $el->prezzo_cliente;
+                    $tot_ric_pre += $el->prezzo_cliente - $el->costo_previsto;
+                    $tot_ric_cons += $el->prezzo_cliente - $el->$tot_costo_effettivo;
                 @endphp
                 <tr>
                     <td>{{ $el->label }}</td>
@@ -71,6 +77,16 @@
                 </tr>
             @endif
         @endforeach
+        @if(count($flatTree))
+            <tr>
+                <td></td>
+                <td class="text-right">{{ euro($tot_costo_previsto) }} <span class="font-size-8">&euro;</span></td>
+                <td class="text-right">{{ euro($tot_costo_effettivo) }} <span class="font-size-8">&euro;</span></td>
+                <td class="text-right">{{ euro($tot_prezzo_cliente) }} <span class="font-size-8">&euro;</span></td>
+                <td class="text-right">{{ euro($tot_ric_pre) }} <span class="font-size-8">&euro;</span></td>
+                <td class="text-right">{{ euro($tot_ric_cons) }} <span class="font-size-8">&euro;</span></td>
+            </tr>
+        @endif
     </table>
 
     <div class="text-center fullwidth mt-5">
