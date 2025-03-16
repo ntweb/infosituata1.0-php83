@@ -396,7 +396,7 @@ class CommessaController extends Controller
             if (!$el) abort('404');
 
             $nodes = Commessa::where('root_id', $root_id)
-                ->whereIn('type', ['utente', 'mezzo', 'attrezzatura', 'materiale'])
+                ->whereIn('type', ['utente', 'mezzo', 'attrezzatura', 'materiale', 'extra'])
                 ->get();
 
             $nodes = $nodes->groupBy('parent_id');
