@@ -370,6 +370,9 @@ Route::resource('carburante', CarburanteController::class)->middleware(['auth','
 
 // Cisterne
 Route::resource('cisterne', CisterneController::class)->middleware(['auth']);
+Route::get('cisterne/{id}/carico/export', [CisterneController::class, 'caricoExport'])->middleware(['auth'])->name('cisterne.carico-export');
+Route::post('cisterne/{id}/carico', [CisterneController::class, 'carico'])->middleware(['auth'])->name('cisterne.carico');
+Route::delete('cisterne/{id}/carico/{id_carico}', [CisterneController::class, 'caricoDestroy'])->middleware(['auth'])->name('cisterne.carico-destroy');
 
 // Ricambi
 Route::resource('ricambi', RicambiController::class)->middleware(['auth']);

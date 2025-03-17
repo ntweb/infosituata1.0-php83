@@ -1,6 +1,4 @@
-<div class="main-card card">
-    <div class="card-body">
-        <h5 class="card-title">Log schede carburante</h5>
+
         @if(count($schedeCarburante))
         <div class="table-responsive">
             <table class="mb-0 table table-hover">
@@ -29,5 +27,3 @@
                 Nessun log schede carburante presente
             </p>
         @endif
-    </div>
-</div>

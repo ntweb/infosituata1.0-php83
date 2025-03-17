@@ -2,7 +2,7 @@
     Etichetta
 @endcomponent
 
-@component('layouts.components.forms.number', ['name' => 'livello_attuale', 'value' => @$el->livello_attuale ? $el->livello_attuale : 0.00, 'class' => 'col-md-4', 'min' => 0, 'step' => 0.01])
+@component('layouts.components.forms.number', ['name' => 'livello_attuale', 'value' => @$el->livello_attuale ? $el->livello_attuale : 0.00, 'class' => 'col-md-4', 'min' => 0, 'step' => 0.01, '_read_only' => true])
     Livello attuale
 @endcomponent
 
