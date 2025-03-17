@@ -78,12 +78,10 @@
                        data-route="{{ route('commessa-node.create', ['node' => $node->id, '_callback' => 'refreshOverviewTable()', '_module' => 'squadra']) }}">
                         <i class="bx bxs-user-plus mr-2"></i> Squadra
                     </a>
-                    @can('testing')
                     <a href="javascript:void(0)" tabindex="0" class="dropdown-item addNode"
                        data-route="{{ route('commessa-node.create', ['node' => $node->id, '_callback' => 'refreshOverviewTable()', '_module' => 'extra']) }}">
                         <i class="bx bx-extension mr-2"></i> Extra
                     </a>
-                    @endcan
                     <div class="dropdown-divider"></div>
                 @endif
 
