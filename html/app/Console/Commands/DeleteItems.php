@@ -39,16 +39,25 @@ class DeleteItems extends Command
      */
     public function handle()
     {
-        DB::beginTransaction();
-        try {
 
-            $now = \Carbon\Carbon::now();
-            $items = DB::table('items')->where('deleted_at', '<=', $now)->get();
+        $now = \Carbon\Carbon::now();
+        $start = $now->startOfDay()->toDateTimeString();
+        $end = $now->endOfDay()->toDateTimeString();
 
-            foreach ($items as $item) {
-                // $this->info('deleting... ' .$item->id);
-                $controller = $item->controller;
+        $items = DB::table('items')
+            ->whereBetween('deleted_at', [$start, $end])
+            ->get();
 
+        if (!$items->count()) {
+            $this->info('Nessun item da cancellare');
+            return null;
+        }
+
+        foreach ($items as $item) {
+            // $this->info('deleting... ' .$item->id);
+            $controller = $item->controller;
+
+            try {
                 if ($controller == 'utente') {
                     $user = DB::table('users')->where('utente_id', $item->id)->first();
                     // $this->info('1');
@@ -96,12 +105,13 @@ class DeleteItems extends Command
                 DB::table('attachments')->where('item_id', $item->id)->delete();
 
                 DB::table('items')->whereId($item->id)->delete();
-                // $this->info('13');
+            }
+            catch (\Exception $e) {
+                $this->error('Errore: ' . $e->getMessage());
             }
 
-        }catch (\Exception $e) {
-            DB::rollBack();
-             $this->info($e->getMessage());
         }
+
+        return null;
     }
 }
