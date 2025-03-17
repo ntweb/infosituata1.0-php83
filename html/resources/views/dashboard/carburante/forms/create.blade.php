@@ -41,11 +41,13 @@
                     Costo rifornimento
                 @endcomponent
 
-                @if (count($cisterne))
-                    @component('layouts.components.forms.select', ['name' => 'cisterne_id', 'value' => @$el->cisterne_id, 'class' => 'col-md-12', 'elements' => $elements])
-                        Cisterna su cui effettuare lo scarico
-                    @endcomponent
-                @endif
+                @can('testing')
+                    @if (count($cisterne))
+                        @component('layouts.components.forms.select', ['name' => 'cisterne_id', 'value' => @$el->cisterne_id, 'class' => 'col-md-12', 'elements' => $elements])
+                            Cisterna su cui effettuare lo scarico
+                        @endcomponent
+                    @endif
+                @endcan
 
             </div>
         </div>
