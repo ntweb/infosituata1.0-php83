@@ -41,11 +41,13 @@ class DeleteItems extends Command
     {
 
         $now = \Carbon\Carbon::now();
-        $start = $now->startOfDay()->toDateTimeString();
-        $end = $now->endOfDay()->toDateTimeString();
+        $start = \Carbon\Carbon::now()->subHours(2)->toDateTimeString();
+        // $this->info($start);
+        // $this->info($now);
+
 
         $items = DB::table('items')
-            ->whereBetween('deleted_at', [$start, $end])
+            ->whereBetween('deleted_at', [$start, $now])
             ->get();
 
         if (!$items->count()) {
