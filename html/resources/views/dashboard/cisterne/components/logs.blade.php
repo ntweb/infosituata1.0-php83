@@ -4,7 +4,7 @@
             <table class="mb-0 table table-hover">
                 <thead>
                 <tr>
-                    <th>Mezzo</th>
+                    <th>Mezzo / Attr.</th>
                     <th>Carburante</th>
                     <th>Data</th>
                 </tr>

@@ -190,7 +190,7 @@ class CarburanteController extends Controller
 
         $data['back'] = route('carburante.index', ['id' => $data['item']->id]);
 
-        $data['action'] = route('carburante.update', $id);
+        $data['action'] = route('carburante.update', [$id, '_type' => 'json']);
 
         $data['nextScheda'] = Carburante::where('km', '>', $data['el']->km)->orderBy('km', 'desc')->first();
 
