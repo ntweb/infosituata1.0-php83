@@ -28,7 +28,9 @@
                                 <tr>
                                     <th>Data</th>
                                     <th>Eseguito da</th>
-                                    <th>KM</th>
+                                    @if($el->controller == 'mezzo')
+                                        <th>KM</th>
+                                    @endif
                                     <th>Cisterna</th>
                                     <th>Litri</th>
                                     <th class="text-right" style="min-width: 150px;">Costo</th>
@@ -46,7 +48,9 @@
                                     <tr>
                                         <td>{{ data($l->data) }}</td>
                                         <td>{{ $l->createdBy->name }}</td>
-                                        <td>{{ $l->km }}</td>
+                                        @if($el->controller == 'mezzo')
+                                            <td>{{ $l->km }}</td>
+                                        @endif
                                         <td>{{ $l->cisterne_id ? $l->cisterna->label : '-' }}</td>
                                         <td>{{ $l->litri }}</td>
                                         <td class="text-right">
@@ -64,7 +68,9 @@
                                 <tr>
                                     <td></td>
                                     <td></td>
+                                    @if($el->controller == 'mezzo')
                                     <td></td>
+                                    @endif
                                     <td></td>
                                     <td></td>
                                     <td class="text-right"><b>{{ euro($_tot_costi) }}</b> &euro;</td>

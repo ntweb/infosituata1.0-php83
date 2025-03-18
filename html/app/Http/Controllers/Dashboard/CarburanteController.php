@@ -26,8 +26,9 @@ class CarburanteController extends Controller
      */
     public function index(Request $request)
     {
+        $can_enter = Gate::allows('can_create_sc_carburante_mezzi') || Gate::allows('can_create_sc_carburante_attrezzature');
 
-        if (!Gate::allows('can_create_sc_carburante_mezzi'))
+        if (!$can_enter)
             abort(401);
 
         /** tutte le schede **/
@@ -71,7 +72,9 @@ class CarburanteController extends Controller
      */
     public function create(Request $request)
     {
-        if (!Gate::allows('can_create_sc_carburante_mezzi'))
+        $can_enter = Gate::allows('can_create_sc_carburante_mezzi') || Gate::allows('can_create_sc_carburante_attrezzature');
+
+        if (!$can_enter)
             abort(401);
 
         $data['item'] = Item::find($request->input('id', null));
@@ -104,6 +107,10 @@ class CarburanteController extends Controller
             'costo' => 'required|min:1',
             'data' => 'required|date_format:d/m/Y',
         ];
+
+        if ($data['item']->controller == 'attrezzatura') {
+            unset($validationRules['km']);
+        }
 
         if ($minDate) {
             $validationRules['data'] = 'required|date_format:d/m/Y|after_or_equal:'.$minDate;
@@ -168,8 +175,12 @@ class CarburanteController extends Controller
      */
     public function edit($id)
     {
-        if (!Gate::allows('can_create_sc_carburante_mezzi'))
+
+        $can_enter = Gate::allows('can_create_sc_carburante_mezzi') || Gate::allows('can_create_sc_carburante_attrezzature');
+
+        if (!$can_enter)
             abort(401);
+
 
         $data['el'] = Carburante::with(['item', 'cisterna'])->find($id);
         if (!$data['el']) abort(404);

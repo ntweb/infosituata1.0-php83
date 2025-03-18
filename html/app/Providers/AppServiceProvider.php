@@ -118,6 +118,10 @@ class AppServiceProvider extends ServiceProvider
             return $this->permissions('can_create_controllo_attrezzature', $user);
         });
 
+        Gate::define('can_create_sc_carburante_attrezzature', function ($user) {
+            return $this->permissions('can_create_sc_carburante_attrezzature', $user);
+        });
+
         Gate::define('can_create_materiali', function ($user) {
             return $this->permissions('can_create_materiali', $user);
         });

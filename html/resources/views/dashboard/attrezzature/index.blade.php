@@ -70,6 +70,11 @@
                                                     @can('can_create_controllo_attrezzature')
                                                         <a href="{{ route('controllo.index', ['id' => $el->id, '_back' => urlencode(url()->current())]) }}" tabindex="0" class="dropdown-item"><i class="fas fa-fw fa-check mr-2"></i> Controllo</a>
                                                     @endcan
+                                                    @can('testing')
+                                                        @can('can_create_sc_carburante_attrezzature')
+                                                            <a href="{{ route('carburante.index', ['id' => $el->id, '_back' => urlencode(url()->current()) ]) }}" tabindex="0" class="dropdown-item"><i class="fas fa-fw fa-gas-pump mr-2"></i> Scheda carburante</a>
+                                                        @endcan
+                                                    @endcan
                                                     @can('can_create_attrezzature')
                                                         <div tabindex="-1" class="dropdown-divider"></div>
                                                         <a href="{{ route('attrezzature.edit', [$el->id]) }}" tabindex="0" class="dropdown-item"><i class="fas fa-fw fa-edit mr-2"></i> Edit</a>

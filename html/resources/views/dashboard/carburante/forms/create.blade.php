@@ -29,9 +29,11 @@
                     Data rifornimento
                 @endcomponent
 
-                @component('layouts.components.forms.number', ['name' => 'km', 'value' => @$el->km ? $el->km : 0, 'class' => 'col-md-6', 'min' => 0, 'step' => 1])
-                    Km mezzo
-                @endcomponent
+                @if(@$item->controller == 'mezzo')
+                    @component('layouts.components.forms.number', ['name' => 'km', 'value' => @$el->km ? $el->km : 0, 'class' => 'col-md-6', 'min' => 0, 'step' => 1])
+                        Km mezzo
+                    @endcomponent
+                @endif
 
                 @component('layouts.components.forms.number', ['name' => 'litri', 'value' => @$el->litri ? $el->litri : 0.00, 'class' => 'col-md-6', 'min' => 0, 'step' => 0.01])
                     Litri

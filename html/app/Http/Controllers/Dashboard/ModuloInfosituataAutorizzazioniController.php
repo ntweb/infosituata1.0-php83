@@ -61,6 +61,12 @@ class ModuloInfosituataAutorizzazioniController extends Controller
             'description' => 'Creazione e modifica schede controllo attrezzature',
             'permission' => 'can_create_controllo_attrezzature'
         ],
+        'infosituata_attrezzature_sc_carburante' => [
+            'key' => 'infosituata_attrezzature_sc_carburante',
+            'label' => 'Amministrazione attrezzature - schede carburante',
+            'description' => 'Creazione e modifica schede carburante attrezzature',
+            'permission' => 'can_create_sc_carburante_attrezzature'
+        ],
         'infosituata_materiali' => [
             'key' => 'infosituata_materiali',
             'label' => 'Amministrazione materiali',
