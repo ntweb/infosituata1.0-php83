@@ -15,7 +15,10 @@
         <div class="col-md-12 col-lg-7">
             @include('layouts.components.alerts.alert')
             @include('dashboard.cisterne.forms.create')
-            @include('dashboard.cisterne.forms.create-carico')
+
+            @if(isset($el))
+                @include('dashboard.cisterne.forms.create-carico')
+            @endif
         </div>
         @if(isset($schedeCarburante))
         <div class="col-md-12 col-lg-5">
