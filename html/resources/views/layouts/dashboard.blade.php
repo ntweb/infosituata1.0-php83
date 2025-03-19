@@ -761,16 +761,16 @@
                                         Risorse
                                     </a>
                                 </li>
-                                @can('testing')
-                                    @can('can_create_mezzi')
-                                        <li class="{{ isActive('cisterne.*') }}">
-                                            <a href="{{ route('cisterne.index') }}">
-                                                <i class="metismenu-icon pe-7s-diamond"></i>
-                                                Cisterne
-                                            </a>
-                                        </li>
-                                    @endcan
+
+                                @can('can_create_mezzi')
+                                    <li class="{{ isActive('cisterne.*') }}">
+                                        <a href="{{ route('cisterne.index') }}">
+                                            <i class="metismenu-icon pe-7s-diamond"></i>
+                                            Cisterne
+                                        </a>
+                                    </li>
                                 @endcan
+
                                 <li class="{{ isActive('scadenzario.*') }}">
                                     <a href="{{ route('scadenzario.index') }}">
                                         <i class="metismenu-icon pe-7s-diamond"></i>
