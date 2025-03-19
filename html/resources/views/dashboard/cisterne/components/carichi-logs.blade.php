@@ -13,7 +13,15 @@
                 <tbody>
                 @foreach($carichi as $el)
                     <tr>
-                        <td>{{ $el->litri }}</td>
+                        <td>
+                            @if($el->note)
+                            <a tabindex="0" class="note" role="button" data-toggle="popover" data-trigger="focus" title="Note" data-content="{{ $el->note }}">
+                                {{ $el->litri }}
+                            </a>
+                            @else
+                                {{ $el->litri }}
+                            @endif
+                        </td>
                         <td class="text-right">{{ euro($el->prezzo) }} &euro;</td>
                         <td class="text-right">{{ data($el->created_at) }}</td>
                         <td class="text-right">

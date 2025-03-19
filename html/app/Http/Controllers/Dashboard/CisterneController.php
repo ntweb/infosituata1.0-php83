@@ -277,7 +277,8 @@ class CisterneController extends Controller
             "A"=>"Cisterna",
             "B"=>"Carico/Litri",
             "C"=> "Prezzo/Litro",
-            "D"=> "Data carico"
+            "D"=> "Data carico",
+            "E"=> "Note"
         );
 
         foreach ($celle as $k=>$v){
@@ -342,6 +343,11 @@ class CisterneController extends Controller
             $cell = $spreadsheet->getActiveSheet()->getCell("D$i");
             $cell->getStyle()->applyFromArray($styleAlignLeftString);
             $cell->setValueExplicit(data($l->created_at), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING2);
+
+            /** Note **/
+            $cell = $spreadsheet->getActiveSheet()->getCell("E$i");
+            $cell->getStyle()->applyFromArray($styleAlignLeftString);
+            $cell->setValueExplicit($l->note, \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING2);
 
 
             $i++;

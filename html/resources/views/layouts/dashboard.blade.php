@@ -58,6 +58,12 @@
         /*.select2-container--bootstrap4 .select2-selection { border: none;}*/
         .btn-link:hover { text-decoration: none !important; }
         .has-error-checkboxes { border: solid 1px #d92550; border-radius: 4px; }
+        a.note {
+            cursor: pointer;
+            /* dotted underline */
+            text-decoration: none;
+            border-bottom: 1px dashed;
+        }
     </style>
 
     <style type="text/css">
