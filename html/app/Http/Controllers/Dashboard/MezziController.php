@@ -295,7 +295,7 @@ class MezziController extends Controller
 
             /** Sede **/
             $sede = $l->sedi ? $l->sedi->pluck('label')->implode(', ') : '-';
-            $cell = $spreadsheet->getActiveSheet()->getCell("F$i");
+            $cell = $spreadsheet->getActiveSheet()->getCell("E$i");
             $cell->getStyle()->applyFromArray($styleAlignLeftString);
             $cell->setValueExplicit(strtolower($sede), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING2);
 
