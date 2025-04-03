@@ -312,7 +312,7 @@ class CarburanteController extends Controller
 
         $i=1;
         //descrivo i criteri selezionati
-        $spreadsheet->getActiveSheet()->SetCellValue("A$i", "ITEM: " . Str::title($el->extras1));
+        $spreadsheet->getActiveSheet()->SetCellValue("A$i", "ITEM: " . Str::title($el->extras1) . ' [' . $el->extras3 . ']');
         $i++;
 
         $celle = array(
@@ -389,6 +389,7 @@ class CarburanteController extends Controller
             "D"=>"Km",
             "E"=>"litri",
             "F"=>"Costo",
+            "G"=>"Cisterna",
         );
 
         foreach ($celle as $k=>$v){
@@ -426,6 +427,7 @@ class CarburanteController extends Controller
             $spreadsheet->getActiveSheet()->SetCellValue("D$i", $l->km);
             $spreadsheet->getActiveSheet()->SetCellValue("E$i", $l->litri);
             $spreadsheet->getActiveSheet()->SetCellValue("F$i", $l->costo);
+            $spreadsheet->getActiveSheet()->SetCellValue("G$i", $l->cisterna ? $l->cisterna->label : '-');
             $i++;
         }
 

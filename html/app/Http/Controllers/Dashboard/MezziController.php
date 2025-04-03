@@ -222,7 +222,8 @@ class MezziController extends Controller
             "A"=>"Etichetta",
             "B"=>"Targa",
             "C"=> "Attivo",
-            "D"=> "Scadenze non gestite (ultimi 6 mesi)"
+            "D"=> "Scadenze non gestite (ultimi 6 mesi)",
+            "E"=> "Sede"
         );
 
         foreach ($celle as $k=>$v){
@@ -252,7 +253,7 @@ class MezziController extends Controller
         /**
          * query lista
          **/
-        $list = Mezzo::with(['azienda', 'scadenzeNonGestite'])
+        $list = Mezzo::with(['azienda', 'scadenzeNonGestite', 'sedi'])
             ->orderBy('extras1')
             ->orderBy('extras3')
             ->get();
@@ -291,6 +292,12 @@ class MezziController extends Controller
                     ->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_RED);
                 $cell->getStyle()->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
             }
+
+            /** Sede **/
+            $sede = $l->sedi ? $l->sedi->pluck('label')->implode(', ') : '-';
+            $cell = $spreadsheet->getActiveSheet()->getCell("F$i");
+            $cell->getStyle()->applyFromArray($styleAlignLeftString);
+            $cell->setValueExplicit(strtolower($sede), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING2);
 
 
             $i++;
