@@ -224,7 +224,8 @@ class AttrezzatureController extends Controller
             "A"=>"Etichetta",
             "B"=>"Codice/Matricola",
             "C"=> "Attivo",
-            "D"=> "Scadenze non gestite (ultimi 6 mesi)"
+            "D"=> "Scadenze non gestite (ultimi 6 mesi)",
+            "E"=> "Sede"
         );
 
         foreach ($celle as $k=>$v){
@@ -254,7 +255,7 @@ class AttrezzatureController extends Controller
         /**
          * query lista
          **/
-        $list = Attrezzatura::with(['azienda', 'scadenzeNonGestite'])
+        $list = Attrezzatura::with(['azienda', 'scadenzeNonGestite', 'sedi'])
             ->orderBy('extras1')
             ->orderBy('extras3')
             ->get();
@@ -293,6 +294,12 @@ class AttrezzatureController extends Controller
                     ->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_RED);
                 $cell->getStyle()->getFont()->getColor()->setARGB(\PhpOffice\PhpSpreadsheet\Style\Color::COLOR_WHITE);
             }
+
+            /** Sede **/
+            $sede = $l->sedi ? $l->sedi->pluck('label')->implode(', ') : '-';
+            $cell = $spreadsheet->getActiveSheet()->getCell("E$i");
+            $cell->getStyle()->applyFromArray($styleAlignLeftString);
+            $cell->setValueExplicit(strtolower($sede), \PhpOffice\PhpSpreadsheet\Cell\DataType::TYPE_STRING2);
 
 
             $i++;
